@@ -33,11 +33,11 @@ public class ReadConfig {
 	}
 	
 	//get Login credentials
-		public  String getUSername(){
+		public  String getUsername(){
 			String username= pro.getProperty("LMSUserName");
 			return username;
 		}
-		public String getpassword(){
+		public String getPassword(){
 			String pwd= pro.getProperty("LMSPassword");
 			return pwd;
 		}

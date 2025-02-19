@@ -9,10 +9,11 @@ Feature: Login Page
   Scenario: Verify Admin is able to land on login page
     Then Admin lands on login page
 
-  #Scenario: Validate login with valid data in all field
-    #Given Admin lands on login page
-    #When Admin enter valid data in all field and clicks login button
-    #Then Admin should land on home page
+	@TTLPH2-12 @sanity
+  Scenario: Validate login with valid data in all field
+    Given Admin lands on login page
+    When Admin enter valid data in all field and clicks login button
+    Then Admin should land on home page
    
   #Scenario: Verify login button action through keyboard
     #Given Admin lands on login page
