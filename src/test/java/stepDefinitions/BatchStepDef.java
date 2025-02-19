@@ -52,4 +52,61 @@ public class BatchStepDef  {
 		 Assert.assertEquals(batchPage.getBatchPageTitle(), batchTitle);
 	}
 	
+	@Then("Admin should see the {string} Heading")
+	public void admin_should_see_the_heading(String batchPageTitle) {
+		 Assert.assertEquals(batchPage.getManageBatchText(), batchPageTitle);
+	}
+	
+	@Then("Admin should see the disabled {string} under the header")
+	public void admin_should_see_the_disabled_under_the_header(String string) {
+	    Assert.assertEquals(batchPage.deleteBatchHeaderButton(), false);
+	}
+	
+	@Then("Admin should see the enabled pagination controls under the data table")
+	public void admin_should_see_the_enabled_pagination_controls_under_the_data_table() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("Admin should see the edit icon in each row")
+	public void admin_should_see_the_edit_icon_in_each_row() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("Admin should see the sort icon next to all Datatable headers")
+	public void admin_should_see_the_sort_icon_next_to_all_datatable_headers() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("Admin should see the delete icon in each row")
+	public void admin_should_see_the_delete_icon_in_each_row() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("Admin should see the checkbox in each row")
+	public void admin_should_see_the_checkbox_in_each_row() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("Admin should see the checkbox  in the datatable header row")
+	public void admin_should_see_the_checkbox_in_the_datatable_header_row() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	
+	@Then("Admin should see the datatable headers Batch name, Batch Description,Batch Status, No Of classes, Program Name, Edit\\/Delete")
+	public void admin_should_see_the_datatable_headers_batch_name_batch_description_batch_status_no_of_classes_program_name_edit_delete() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	
+	
+	
+	
+	
 }

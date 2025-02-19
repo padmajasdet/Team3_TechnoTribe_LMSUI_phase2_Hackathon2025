@@ -15,6 +15,7 @@ public class BatchPage {
 	private By batchMenu = By.xpath("//span[contains(text(),'Batch')]");
 	private By batchTitle = By.xpath("//*[contains(text(),'Manage Batch')]");
 	private By batchPageTitle = By.xpath("//*[contains(text(),'LMS - Learning Management System')]");
+	private By deleteBatchHeader = By.xpath("//div[@class='box']//button[@icon=\"pi pi-trash\"]");
 	
 	public BatchPage(WebDriver driver) {
 		this.driver = driver;
@@ -40,6 +41,11 @@ public class BatchPage {
 	public void batchMenuClick() {
 		util.doClick(batchMenu);
 	}
+	
+	public Boolean deleteBatchHeaderButton() {
+		return util.isElementEnabled(deleteBatchHeader);
+	}
+	
 	
 	
 	
