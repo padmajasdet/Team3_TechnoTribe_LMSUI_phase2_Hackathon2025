@@ -47,37 +47,65 @@ public class CommonPage {
 		logout.click();
 	}
 	
-	public void selectOptionNavigationMenuBar(String menuOption) {
-		
-		WebElement menuElement;
-
-		switch (menuOption.toLowerCase()) {
-	        case "dashboard":
-	            menuElement = menu_Home;
-	            break;
-	        case "program":
-	            menuElement = menu_Program;
-	            break;
-	        case "batch":
-	            menuElement = menu_Batch;
-	            break;
-	        case "class":
-	            menuElement = menu_Class;
-	            break;
-	        case "logout":
-	            menuElement = logout;
-	            break;
-	        default:
-	            throw new IllegalArgumentException("Invalid menu option: " + menuOption);
-	    }
-		
-		  
-		  try {
-			    menuElement.click();  // Regular click
-			} catch (Exception e) {
-			    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuElement);
-			}
-	}
+//	public void selectOptionNavigationMenuBar(String menuOption) {
+//		
+//		WebElement menuElement;
+//
+//		switch (menuOption.toLowerCase()) {
+//	        case "dashboard":
+//	            menuElement = menu_Home;
+//	            util.doClick(menuElement);
+//	             break;
+//	           // return new HomePage(driver);
+//	          
+//	        case "program":
+//	            menuElement = menu_Program;
+//	            break;
+//	        case "batch":
+//	            menuElement = menu_Batch;
+//	            break;
+//	        case "class":
+//	            menuElement = menu_Class;
+//	            break;
+//	        case "logout":
+//	            menuElement = logout;
+//	            break;
+//	        default:
+//	            throw new IllegalArgumentException("Invalid menu option: " + menuOption);
+//	    }
+//		
+//		  
+//		  try {
+//			    //menuElement.click();  // Regular click
+//			  util.doClick(menuElement);
+//			} catch (Exception e) {
+//			    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuElement);
+//			}
+//	}
 	
+	
+	public Object selectOptionNavigationMenuBar(String menuName) throws Exception {
+
+		switch (menuName.toLowerCase().trim()) {
+		case "program":
+			util.doClick(menu_Program);
+			return new ProgramPage(driver);
+			
+		case "batch":
+			util.doClick(menu_Batch);
+			return new BatchPage(driver);
+
+//		case "class":
+//			//gotoClassMenuThroughTABBING();
+//			return new ClassPage(driver);
+
+		case "logout":
+			util.doClick(logout);
+			return new LoginPage(driver);
+		default:
+			throw new Exception("Something went wrong!");
+		}
+	
+	}
 
 }

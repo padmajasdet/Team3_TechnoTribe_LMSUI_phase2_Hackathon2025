@@ -30,13 +30,6 @@ public class ProgramStepDef {
 	}
 
 
-@Given("Admin clicks {string} on the navigation bar")
-public void admin_clicks_on_the_navigation_bar(String menuOption) {
-	
-	commonPage = new CommonPage(driver);
-	commonPage.selectOptionNavigationMenuBar(menuOption);
-	
-}
 
 @Then("Admin should be navigated to Program page")
 public void admin_should_be_navigated_to_program_page() {

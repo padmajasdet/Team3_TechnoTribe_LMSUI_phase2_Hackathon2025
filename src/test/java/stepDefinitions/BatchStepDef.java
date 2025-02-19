@@ -28,7 +28,7 @@ public class BatchStepDef  {
 	@Given("Admin successfully Logged on to the LMS Portal")
 	public void admin_successfully_logged_on_to_the_lms_portal() {
 		loginPage = new LoginPage(driver);
-		loginPage.doLoginWithValidCredentials(readConfig.getUSername(), readConfig.getpassword(), "Admin");
+		loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
 	}
 	
 	@Given("Admin is on the home Page")

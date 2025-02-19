@@ -14,8 +14,6 @@ public class ProgramPage extends CommonPage {
 	private ElementUtil util;
 	
 	
-	private By programMenu = By.xpath("//span[contains(text(),'Program')]");
-	
 	@FindBy(xpath="//button[@id='program']") 
 	 WebElement menu_Program;
 	
@@ -30,11 +28,6 @@ public class ProgramPage extends CommonPage {
 		util = new ElementUtil(this.driver);
 	}
 
-	
-
-	public void programMenuClick() {
-		util.doClick(programMenu);
-	}
 	
 	public String getProgramPageTitle() {
 		return util.getElementText(programPageTitle);
