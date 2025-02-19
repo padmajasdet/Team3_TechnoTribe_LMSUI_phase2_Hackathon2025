@@ -1,19 +1,23 @@
 package stepDefinitions;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
+import static org.testng.Assert.assertEquals;
 
 import hooks.TestContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjects.LoginPage;
+import pageObjects.HomePage;
 import utilities.ReadConfig;
+import org.openqa.selenium.Point;
 
 public class HomePageStepDef {
 	WebDriver driver;
 	TestContext context;
 	ReadConfig readConfig;
 	LoginPage loginPage;
+	HomePage homePage;
 	
 	
 	public HomePageStepDef(TestContext Context) {
@@ -35,7 +39,22 @@ public class HomePageStepDef {
 		String homePage_title = loginPage.getPageTitle();
 		Assert.assertTrue(homePage_title.contains("LMS"));
 		
-	}	
+	}
+	@Then("LMS title should be on the top left corner of page")
+	public void lms_title_should_be_on_the_top_left_corner_of_page() {
+		homePage = new HomePage(driver);
+		Point locationCordinates = homePage.lmsTitleLocation();
+		int titleX = locationCordinates.getX();
+        int titleY = locationCordinates.getY();
+        int actualX = 0;
+        int actualY = 0;
+		assertEquals(titleX,actualX,"Title is not in the left corner x coordinate is not zero)");
+		assertEquals(titleY, actualY, "Title is not at the top y coordinate is not zero)");
+    
+		
+		
+	
+	}
 	
 
 }
