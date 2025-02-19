@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import hooks.TestContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import utilities.ReadConfig;
 
@@ -15,13 +17,14 @@ public class LoginStepDef {
 	TestContext context;
 	ReadConfig readConfig;
 	LoginPage loginPage;
+	HomePage homePage;
 	
 	public LoginStepDef(TestContext Context) {
 		this.context = Context;
 		this.readConfig = new ReadConfig();
 	}
 	
-	
+	//@TTLPH2-16 Verify Admin is able to land on login page
 	@Given("The browser is open")
 	public void the_browser_is_open() {
 		String browserName = readConfig.getbrowser();
@@ -32,25 +35,29 @@ public class LoginStepDef {
 	public void admin_gives_the_correct_lms_portal_url() {
 		context.setDriver(driver);
 		context.getDriver().get(readConfig.getApplicationURL());
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	@Then("Admin lands on login page")
 	public void admin_lands_on_login_page() {
 		loginPage = new LoginPage(driver);
 		Assert.assertTrue(loginPage.getPageURL().contains("login"));
+	}
+	
+	//@TTLPH2-12 Validate login with valid data in all field
+	@When("Admin enter valid data in all field and clicks login button")
+	public void admin_enter_valid_data_in_all_field_and_clicks_login_button() {
 		
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String username = readConfig.getUsername();
+		String password = readConfig.getPassword();
+		
+		homePage = loginPage.doLoginWithValidCredentials(username, password, "Admin");
+
+	}
+	
+	@Then("Admin should land on home page")
+	public void admin_should_land_on_home_page() {
+
+		Assert.assertTrue(homePage.isDashboardHeaderVisible());
 	}
 
 }
