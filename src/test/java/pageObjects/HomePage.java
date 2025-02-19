@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 
 import utilities.ElementUtil;
 
-public class HomePage {
+public class HomePage extends CommonPage {
 
 	private WebDriver driver;
 	private ElementUtil util;
@@ -16,6 +16,7 @@ public class HomePage {
 	private By lmsTitleBar = By.xpath("//mat-toolbar[@class='mat-toolbar mat-primary mat-toolbar-single-row ng-star-inserted']");
 	
 	public HomePage(WebDriver driver) {
+		super(driver);
 		this.driver = driver;
 		util = new ElementUtil(this.driver);
 	}
@@ -29,4 +30,5 @@ public class HomePage {
 		
 
 	}
+
 }

@@ -5,10 +5,10 @@ import org.testng.annotations.DataProvider;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
-@CucumberOptions(features = { "src/test/resources/Features" }, 
+@CucumberOptions(features = { "src/test/resources/features/Program.feature" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-				tags="@login",
+				tags="@TC1",
 				dryRun = false, 
 				plugin = { "pretty",
 
