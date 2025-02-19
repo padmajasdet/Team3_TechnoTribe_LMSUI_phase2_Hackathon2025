@@ -21,6 +21,7 @@ public class LoginStepDef {
 	
 	public LoginStepDef(TestContext Context) {
 		this.context = Context;
+		this.driver = context.getDriver();
 		this.readConfig = new ReadConfig();
 	}
 	
@@ -33,8 +34,10 @@ public class LoginStepDef {
 	
 	@Given("Admin gives the correct LMS portal URL")
 	public void admin_gives_the_correct_lms_portal_url() {
+	
 		context.setDriver(driver);
 		context.getDriver().get(readConfig.getApplicationURL());
+
 	}
 	
 	@Then("Admin lands on login page")
