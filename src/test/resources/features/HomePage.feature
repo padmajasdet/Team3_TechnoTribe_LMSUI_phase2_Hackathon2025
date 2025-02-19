@@ -11,3 +11,10 @@ Feature: Home Page
     Given Admin lands on login page
     When Admin enter valid data in all field and  clicks login button
     Then Admin should see LMS -Learning management system as title
+    
+  @TTLPH2-93
+  Scenario: Verify LMS title alignment
+    Given Admin lands on login page
+    When Admin enter valid data in all field and  clicks login button
+    Then LMS title should be on the top left corner of page
+    
