@@ -24,8 +24,8 @@ public class HomePageStepDef {
 	@When("Admin enter valid data in all field and  clicks login button")
 	public void admin_enter_valid_data_in_all_field_and_clicks_login_button() throws InterruptedException {
 		loginPage = new LoginPage(driver);
-		String username = readConfig.getUSername();
-		String password = readConfig.getpassword();
+		String username = readConfig.getUsername();
+		String password = readConfig.getPassword();
 		loginPage.doLoginWithValidCredentials(username, password, "Admin");
 		
 	}
