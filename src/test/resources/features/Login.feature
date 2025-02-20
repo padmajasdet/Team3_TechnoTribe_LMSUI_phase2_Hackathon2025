@@ -14,16 +14,18 @@ Feature: Login Page
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should land on home page
-   
-  #Scenario: Verify login button action through keyboard
-    #Given Admin lands on login page
-    #When Admin enter valid data in all field and clicks login button
-    #Then Admin should land on home page
+  
+  @TTLPH2-2 
+  Scenario: Verify login button action through keyboard
+    Given Admin lands on login page
+    When Admin enter valid credentials  and clicks login button through keyboard
+    Then Admin should land on home page
 
-  #Scenario: Verify login button action through mouse
-    #Given Admin lands on login page
-    #When Admin enter valid credentials and clicks login button through mouse
-    #Then Admin should land on home page
+	@TTLPH2-9
+  Scenario: Verify login button action through mouse
+    Given Admin lands on login page
+    When Admin enter valid credentials and clicks login button through mouse
+    Then Admin should land on home page
     
   #Scenario Outline: Validate login with invalid data
     #Given Admin lands on login page
