@@ -106,7 +106,7 @@ public class ElementUtil {
 	}
 
 	public String getElementText(By locator) {
-		elementWithFluentWaitLocated(locator, 10, 100);
+		elementWithFluentWaitLocated(locator, 20, 100);
 		return getElement(locator).getText();
 	}
 
