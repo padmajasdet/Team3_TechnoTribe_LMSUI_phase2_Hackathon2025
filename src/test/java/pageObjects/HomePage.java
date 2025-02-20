@@ -8,10 +8,6 @@ import org.openqa.selenium.WebElement;
 import java.io.IOException;
 import java.util.List;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.rules.RuleMatch;
-
 import utilities.ElementUtil;
 
 
@@ -60,27 +56,6 @@ public class HomePage extends CommonPage {
 		
 
 	}
-	public void textSpellings() {
-		  
-		  String userText = driver.findElement(userLabel).getText();			  
-		JLanguageTool languageTool = new JLanguageTool (new AmericanEnglish());
-		  
-		  try {
-			  
-			  List<RuleMatch> errors = languageTool.check(userText);  //perform spell check on the page text
-			   if(errors.isEmpty()) {
-				   System.out.println("No spelling mistake");
-			   }else {
-				   System.out.println("Spelling mistake found");
-				   for (RuleMatch error : errors) {
-					  
-					   System.out.println("error on word:" + error.getLine() +", column" + error.getColumn() + ": " + error.getMessage());  
-				   }
-			   }
-		  }catch (IOException e) {
-			  
-			  e.printStackTrace();
-		  }		  
-	  }
+	
 	
 }
