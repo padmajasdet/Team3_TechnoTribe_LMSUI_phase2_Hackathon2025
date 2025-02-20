@@ -7,12 +7,14 @@ import org.openqa.selenium.WebElement;
 
 import utilities.ElementUtil;
 
+
 public class HomePage extends CommonPage {
 
 	private WebDriver driver;
 	private ElementUtil util;
 	
 	private By dashboardHeader = By.xpath("//div[normalize-space()='Dashboard']");
+	private By dashboardTitile = By.xpath("//*[contains(text(),' Dashboard')]");
 	private By lmsTitleBar = By.xpath("//mat-toolbar[@class='mat-toolbar mat-primary mat-toolbar-single-row ng-star-inserted']");
 	
 	public HomePage(WebDriver driver) {
@@ -30,5 +32,8 @@ public class HomePage extends CommonPage {
 		
 
 	}
-
+	public String getDashboardText() {
+		return util.getElementText(dashboardTitile);
+		
+		}
 }
