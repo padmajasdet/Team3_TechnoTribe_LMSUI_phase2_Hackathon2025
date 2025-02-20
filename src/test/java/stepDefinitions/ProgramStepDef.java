@@ -90,7 +90,7 @@ public class ProgramStepDef {
 
 	@Then("Admin gets message {string}")
 	public void admin_gets_message(String string) {
-		
+		programPage.validateAddNewProgramSuccessMsg();
 		
 	}
 
