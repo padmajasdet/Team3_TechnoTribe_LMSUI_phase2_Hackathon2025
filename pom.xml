@@ -48,13 +48,20 @@
 
 
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
+		<!--<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.13.0</version>
-		</dependency>
+			<version>2.11.0</version>
+		</dependency>-->
 
 
+   <!--  Explicitly Exclude Old Versions 
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.11.0</version>
+        <scope>runtime</scope>
+    </dependency>-->
 		<!--
 		https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber5-jvm -->
 		<dependency>
@@ -99,7 +106,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>5.4.0</version>
+			<version>5.2.3</version>
 		</dependency>
 
 		<dependency>
