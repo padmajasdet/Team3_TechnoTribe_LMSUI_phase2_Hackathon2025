@@ -34,7 +34,7 @@ public class ElementUtil {
 
 		try {
 
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 			wait.until(ExpectedConditions.visibilityOf(ele));
 
 			if (ele.isDisplayed()) {
