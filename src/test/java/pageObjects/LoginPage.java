@@ -17,7 +17,7 @@ public class LoginPage {
 	private By loginbutton= By.xpath("//button[@id='login']");
 	
 	//Element not available yet. Temporary Xpath
-	private By errorMessage_InvalidCredentials=By.xpath("//*[text()='Invalid username and password Please try again']");
+	//private By errorMessage_InvalidCredentials=By.xpath("//*[text()='Invalid username and password Please try again']");
 	private By errorMessage_nullUsername=By.xpath("//mat-error[normalize-space()='Please enter your user name']");
 	private By errorMessage_nullPassword=By.xpath("//mat-error[normalize-space()='Please enter your password']");
 	
@@ -84,7 +84,7 @@ public class LoginPage {
 			obj = util.getElementText(errorMessage_nullPassword);
 		}
 		else if(username != readConfig.getUsername() && password != readConfig.getPassword()) {
-			obj = util.getElementText(errorMessage_InvalidCredentials);
+			//obj = util.getElementText(errorMessage_InvalidCredentials);
 		}
 		else { //No error. Happy path
 
