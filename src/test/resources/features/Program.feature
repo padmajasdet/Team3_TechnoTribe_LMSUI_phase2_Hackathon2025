@@ -20,8 +20,8 @@ Feature: Program Module
     Then Admin should see Logout in menu bar
     
      @TC3 @MenuBar
-  Scenario: Verify Logout displayed in menu bar
+  Scenario: Verify heading in menu bar
   
     Given Admin is on home page after Login
     And Admin clicks "Program" on the navigation bar
-    Then Admin should see Logout in menu bar
+    Then Admin should see the heading "LMS - Learning Management System"

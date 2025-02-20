@@ -43,4 +43,10 @@ public void admin_should_be_see_Logout_on_MenuBar() {
 	programPage.isLogoutDisplayedMenuBar();
 }
 
+@Then("Admin should see the heading {string}")
+public void admin_should_be_see_heading_LMS(String LMSHeader) {
+	programPage = new ProgramPage(driver);
+	Assert.assertEquals(programPage.getLMSHeaderMenuBar(), LMSHeader);
+}
+
 }

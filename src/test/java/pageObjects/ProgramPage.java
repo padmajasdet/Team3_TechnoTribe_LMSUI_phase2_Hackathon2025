@@ -13,12 +13,14 @@ public class ProgramPage extends CommonPage {
 	private WebDriver driver;
 	private ElementUtil util;
 	
-	
+	//To be removed FindBys
 	@FindBy(xpath="//button[@id='program']") 
 	 WebElement menu_Program;
 	
 	@FindBy (xpath="//*[contains(text(),'Manage Program')]")
 	WebElement programPageTitle ;
+	
+	private By programPageLMSHeading = By.xpath("//*[contains(text(),'LMS - Learning Management System')]");
 	
 	
 	public ProgramPage(WebDriver driver) {
@@ -35,6 +37,12 @@ public class ProgramPage extends CommonPage {
 	
 	public void isLogoutDisplayedMenuBar() {
 		logout.isDisplayed();
+	}
+	
+	public String getLMSHeaderMenuBar() {
+		
+			return util.getElementText(programPageLMSHeading);
+		
 	}
 	
 	
