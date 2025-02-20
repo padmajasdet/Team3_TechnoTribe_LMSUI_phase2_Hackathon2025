@@ -16,25 +16,24 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.ElementUtil;
 
 public class ProgramPage extends CommonPage {
-	
+
 	private WebDriver driver;
 	private ElementUtil util;
 	Map<String, String> programdata;
-	
-	//To be removed FindBys
-	@FindBy(xpath="//button[@id='program']") 
-	 WebElement menu_Program;
-	
-	@FindBy (xpath="//*[contains(text(),'Manage Program')]")
-	WebElement programPageTitle ;
-	
+
+	// To be removed FindBys
+	@FindBy(xpath = "//button[@id='program']")
+	WebElement menu_Program;
+
+	@FindBy(xpath = "//*[contains(text(),'Manage Program')]")
+	WebElement programPageTitle;
+
 	/*
 	 * @FindBy (id ="Active") WebElement statusActiveRadioBtn;
 	 * 
 	 * @FindBy (id ="Inactive") WebElement statusInactiveRadioBtn;
 	 */
-	
-	 
+
 	public ProgramPage(WebDriver driver) {
 		super(driver);
 		this.driver = driver;
@@ -47,31 +46,33 @@ public class ProgramPage extends CommonPage {
 	private By programNameInput = By.id("programName");
 	private By programDescInput = By.id("programDescription");
 	private By saveButton = By.id("saveProgram");
-	
-	
-	
+	By addNewProgramSuccessMsg = By.xpath("//div[@class='p-toast-message-content ng-tns-c20-13']");
+	By toastMessage = By.xpath("//div[@role='alert']");
+
 	public String getProgramPageTitle() {
 		return util.getElementText(programPageTitle);
 	}
-	
+
 	public void isLogoutDisplayedMenuBar() {
 		logout.isDisplayed();
 	}
-	
+
 	public String getLMSHeaderMenuBar() {
-		
-			return util.getElementText(programPageLMSHeading);
-		
+
+		return util.getElementText(programPageLMSHeading);
+
 	}
+
 	public void clickAddNewProgramBtn() {
-	    WebElement addNewProgramButton = driver.findElement(btn_AddNewProgram);
-	    try {
-	        addNewProgramButton.click(); // Try regular click
-	    } catch (Exception e) {
-	        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", addNewProgramButton); // Fallback JS click
-	    }
+		WebElement addNewProgramButton = driver.findElement(btn_AddNewProgram);
+		try {
+			addNewProgramButton.click(); // Try regular click
+		} catch (Exception e) {
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", addNewProgramButton); // Fallback JS
+																										// click
+		}
 	}
-	
+
 	/*
 	 * public void fillProgramForm(String programName, String description, String
 	 * status) { driver.findElement(programNameField).sendKeys(programName);
@@ -79,46 +80,45 @@ public class ProgramPage extends CommonPage {
 	 * driver.findElement(statusActiveRadioBtn).sendKeys(status); }
 	 */
 	public void fillProgramForm(Map<String, String> programData) {
-	    String programName = programData.get("ProgramName");
-	    String programDesc = programData.get("ProgramDescription");
-	    String status = programData.get("ProgramStatus");
-	   	    
-	    //WebElement programNameField = driver.findElement(programNameInput);
-	    //WebElement programDescField = driver.findElement(programDescInput);
-	   // WebElement activeStatusRadioBtn = driver.findElement(statusActiveRadioBtn);
-	    //WebElement inactiveStatusRadioBtn = driver.findElement(statusInactiveRadioBtn);
+		String programName = programData.get("ProgramName");
+		String programDesc = programData.get("ProgramDescription");
+		String status = programData.get("ProgramStatus");
 
-	    if (programName != null && !programName.isEmpty()) {
-	    	util.doSendKeys(programNameInput, programName);
-	    	//programNameField.sendKeys(programName);
-	    } else {
-	        System.out.println("Program Name is missing or empty");
-	    }
 
-	    if (programDesc != null && !programDesc.isEmpty()) {
-	    	util.doSendKeys(programDescInput, programDesc);
+		if (programName != null && !programName.isEmpty()) {
+			util.doSendKeys(programNameInput, programName);
+		} else {
+			System.out.println("Program Name is missing or empty");
+		}
 
-	    	//programDescField.sendKeys(programDesc);
-	    } else {
-	        System.out.println("Program Description is missing or empty");
-	    }
+		if (programDesc != null && !programDesc.isEmpty()) {
+			util.doSendKeys(programDescInput, programDesc);
 
-		By statusRadioBtn = By.xpath("//input[@id='"+status+"']");
+		} else {
+			System.out.println("Program Description is missing or empty");
+		}
+
+		By statusRadioBtn = By.xpath("//input[@id='" + status + "']");
 		util.clickElementByJS(statusRadioBtn, driver);
-		
+
 		util.doClick(saveButton);
 
 	}
 
+	public String validateAddNewProgramSuccessMsg() {
 		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//		String alertmsg = util.getAlertMsg();
+//		System.out.println("Alert>>>> "+alertmsg);
+		
+		String poptitle = util.getElementText(addNewProgramSuccessMsg);
+		System.out.println("Msg -" +poptitle);
+		return poptitle;
+		
+		/*
+		 * if (util.isElementDisplayed(addNewProgramSuccessMsg)) { String poptitle =
+		 * util.getElementText(addNewProgramSuccessMsg); System.out.println("Msg -"
+		 * +poptitle); return poptitle; } else { return ""; }
+		 */
+	}
+
 }
