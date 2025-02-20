@@ -1,5 +1,8 @@
 package stepDefinitions;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -8,6 +11,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjects.BatchPage;
+import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import utilities.ReadConfig;
 
@@ -18,6 +22,7 @@ public class BatchStepDef  {
 	ReadConfig readConfig;
 	LoginPage loginPage;
 	BatchPage batchPage;
+	HomePage homePage;
 	
 	public BatchStepDef(TestContext context) {
 		this.context = context;
@@ -28,7 +33,10 @@ public class BatchStepDef  {
 	@Given("Admin successfully Logged on to the LMS Portal")
 	public void admin_successfully_logged_on_to_the_lms_portal() {
 		loginPage = new LoginPage(driver);
-		loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
+		String username = readConfig.getUsername();
+		String password = readConfig.getPassword();
+		homePage = (HomePage) loginPage.doLoginWithValidCredentials(username, password, "Admin");
+		
 	}
 	
 	@Given("Admin is on the home Page")
@@ -64,44 +72,40 @@ public class BatchStepDef  {
 	
 	@Then("Admin should see the enabled pagination controls under the data table")
 	public void admin_should_see_the_enabled_pagination_controls_under_the_data_table() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    Assert.assertEquals(batchPage.isPaginationAvailable(), true);
 	}
 	
 	@Then("Admin should see the edit icon in each row")
 	public void admin_should_see_the_edit_icon_in_each_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    Assert.assertEquals(batchPage.isElementPresent("edit-icon", "row"), true);
+		
 	}
 	
 	@Then("Admin should see the sort icon next to all Datatable headers")
 	public void admin_should_see_the_sort_icon_next_to_all_datatable_headers() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		  Assert.assertEquals(batchPage.isElementPresent("sort-icon", "header"), true);
 	}
 	
 	@Then("Admin should see the delete icon in each row")
 	public void admin_should_see_the_delete_icon_in_each_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		Assert.assertEquals(batchPage.isElementPresent("delete-icon", "row"), true);
 	}
 	
 	@Then("Admin should see the checkbox in each row")
 	public void admin_should_see_the_checkbox_in_each_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		Assert.assertEquals(batchPage.isElementPresent("checkbox", "row"), true);
 	}
 	
 	@Then("Admin should see the checkbox  in the datatable header row")
 	public void admin_should_see_the_checkbox_in_the_datatable_header_row() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		Assert.assertEquals(batchPage.isElementPresent("checkbox", "header"), true);
 	}
 	
 	@Then("Admin should see the datatable headers Batch name, Batch Description,Batch Status, No Of classes, Program Name, Edit\\/Delete")
 	public void admin_should_see_the_datatable_headers_batch_name_batch_description_batch_status_no_of_classes_program_name_edit_delete() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		 List<String> expectedHeaders = Arrays.asList("Batch Name","Batch Description","Batch Status","No Of Classes","Program Name","Edit/Delete"  
+	        );
+	        Assert.assertEquals(batchPage.verifyTableHeaders(expectedHeaders), true);    
 	}
 
 	@Given("Admin is on the Batch Details Pop Up WIndow")
@@ -159,13 +163,13 @@ public class BatchStepDef  {
 	
 	@When("Admin clicks on {string} under the {string} menu bar")
 	public void admin_clicks_on_under_the_menu_bar(String string, String string2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.batchMenuClick();
+		batchPage.addBatchClick();
 	}
 	@Then("Admin should see the Batch Details pop up window")
 	public void admin_should_see_the_batch_details_pop_up_window() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		   Assert.assertEquals(batchPage.getAddNewPageTitle(), "Batch Details");
+		
 	}
 	
 	
@@ -203,24 +207,9 @@ public class BatchStepDef  {
 	}
 
 	
-	
-	@Given("Admin is on batch page")
-	public void admin_is_on_batch_page() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-	
-	@When("Admin clicks {string} on the navigation bar")
-	public void admin_clicks_on_the_navigation_bar(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
-
-	
 	@Then("Admin should see sub menu in menu bar as {string}")
 	public void admin_should_see_sub_menu_in_menu_bar_as(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		 Assert.assertEquals(batchPage.getAddNewPageText(), "Add New Batch");
 	}
 
 	
@@ -238,8 +227,7 @@ public class BatchStepDef  {
 	
 	@When("Admin enters the valid data to all the mandatory fields and click save button")
 	public void admin_enters_the_valid_data_to_all_the_mandatory_fields_and_click_save_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	  
 	}
 
 	

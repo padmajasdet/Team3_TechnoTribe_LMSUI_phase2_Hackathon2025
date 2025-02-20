@@ -6,7 +6,6 @@ import org.testng.Assert;
 import hooks.TestContext;
 import io.cucumber.java.en.Given;
 import pageObjects.BatchPage;
-import pageObjects.CommonPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.ProgramPage;
@@ -46,7 +45,9 @@ public class CommonStepDef {
 	
 	@Given("Admin clicks {string} on the navigation bar")
 	public void admin_clicks_on_the_navigation_bar(String menuOption) throws Exception {
-		
+		  if (homePage == null) {
+	            throw new IllegalStateException("HomePage is not initialized. Ensure that the Admin is logged in.");
+	        }
 		switch (menuOption.trim().toLowerCase()) {
 		case "program":
 			programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar(menuOption);
@@ -57,10 +58,12 @@ public class CommonStepDef {
 			break;
 
 		default:
-			break;
+			 throw new IllegalArgumentException("Invalid menu option: " + menuOption);
 		}
 		
 		
 	}
+	
+	
 
 }
