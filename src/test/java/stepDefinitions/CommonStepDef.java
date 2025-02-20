@@ -32,7 +32,7 @@ public class CommonStepDef {
 	public void admin_is_logged_in_to_lms_portal() {
 		loginPage = new LoginPage(driver);
 
-		homePage =  loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
+		homePage =  (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
 	}
 
 	@Given("Admin is on home page after Login")
