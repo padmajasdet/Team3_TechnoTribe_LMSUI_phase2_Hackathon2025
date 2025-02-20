@@ -8,9 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.io.IOException;
 import java.util.List;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.rules.RuleMatch;
+
 
 import utilities.ElementUtil;
 
