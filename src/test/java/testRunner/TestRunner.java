@@ -5,10 +5,11 @@ import org.testng.annotations.DataProvider;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
-@CucumberOptions(features = { "src/test/resources/features/" }, 
+@CucumberOptions(features = { "src/test/resources/features/Program.feature" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-				tags="@TTLPH2-13",
+
+				tags="@TC4",
 				dryRun = false, 
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",
