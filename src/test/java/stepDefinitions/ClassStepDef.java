@@ -12,6 +12,7 @@ import utilities.Log;
 
 import hooks.TestContext;
 import pageObjects.ClassPage;
+import pageObjects.LoginPage;
 import utilities.ReadConfig;
 import io.cucumber.java.en.*;
 
@@ -20,6 +21,7 @@ public class ClassStepDef {
 	private TestContext context;
 	private ClassPage cp;
 	private ReadConfig readConfig;
+	LoginPage loginPage;
 
 	public ClassStepDef(TestContext context) {
 		this.context = context;
@@ -28,21 +30,23 @@ public class ClassStepDef {
 		this.readConfig = new ReadConfig();
 
 	}
+	/*@Given("Admin successfully Logged on to the LMS Portal")
+	public void admin_successfully_logged_on_to_the_lms_portal() {
+		loginPage = new LoginPage(driver);
+		String url = readConfig.getApplicationURL();
+		driver.get(url);
+		
+		loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
+	}*/
 
 	@Given("Admin is on the dashboard page after login")
 	public void admin_is_on_the_dashboard_page_after_login() {
 
-		Log.logInfo("Launching Browser");
-
+		loginPage = new LoginPage(driver);
 		String url = readConfig.getApplicationURL();
-		String UName = readConfig.getUSername();
-		String Pword = readConfig.getpassword();
 		driver.get(url);
-		cp.addUsername(UName);
-		cp.addPassword(Pword);
-		cp.selectRole();
-		cp.role();
-		cp.clickLogin();
+		
+		loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
 		System.out.println("DashBoard Url is " + driver.getCurrentUrl());
 
 	}
