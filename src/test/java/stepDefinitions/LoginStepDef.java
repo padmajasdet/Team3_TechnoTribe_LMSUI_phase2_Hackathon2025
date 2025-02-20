@@ -62,5 +62,20 @@ public class LoginStepDef {
 
 		Assert.assertTrue(homePage.isDashboardHeaderVisible());
 	}
+	
+	//@TTLPH2-2 Verify login button action through keyboard
+	@When("Admin enter valid credentials  and clicks login button through keyboard")
+	public void admin_enter_valid_credentials_and_clicks_login_button_through_keyboard() {
+
+		homePage = loginPage.doLoginWithKeyboardOrMouseClick(readConfig.getUsername(), readConfig.getPassword(), "Admin", "KEYBOARD");
+	}
+	
+	//@TTLPH2-9 Verify login button action through mouse
+	@When("Admin enter valid credentials and clicks login button through mouse")
+	public void admin_enter_valid_credentials_and_clicks_login_button_through_mouse() {
+		homePage = loginPage.doLoginWithKeyboardOrMouseClick(readConfig.getUsername(), readConfig.getPassword(), "Admin", "Mouse");
+
+	}
+
 
 }

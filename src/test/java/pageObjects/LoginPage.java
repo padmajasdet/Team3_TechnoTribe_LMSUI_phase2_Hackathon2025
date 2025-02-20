@@ -56,6 +56,30 @@ public class LoginPage {
 		return new HomePage(driver);
 	}
 	
+	/**
+	 * This method performs valid login through using mouse or keyboard click on Login button
+	 * @param username
+	 * @param password
+	 * @param role
+	 * @param keyboardOrMouseClick
+	 * @return HomePage
+	 */
+	public HomePage doLoginWithKeyboardOrMouseClick(String username, String password, String role, String keyboardOrMouseClick) {
+		
+		util.doSendKeys(this.username, username);
+		util.doSendKeys(this.password, password);
+
+		util.doClick(dropDownArraow);
+		By roleOption= By.xpath("//span[normalize-space()='"+role+"']");
+		util.doClick(roleOption);
+
+		if(keyboardOrMouseClick.trim().toLowerCase().equals("mouse")) {
+			util.mouseclickUsingAction(loginbutton);
+		}else { util.pressdownButtonUsingAction(loginbutton);}
+
+		return new HomePage(driver);
+	}
+	
 	
 	
 	
