@@ -11,6 +11,8 @@ import pageObjects.LoginPage;
 import pageObjects.HomePage;
 import utilities.ReadConfig;
 import org.openqa.selenium.Point;
+import utilities.Log;
+
 
 public class HomePageStepDef {
 	WebDriver driver;
@@ -27,6 +29,7 @@ public class HomePageStepDef {
 	}
 	@When("Admin enter valid data in all field and  clicks login button")
 	public void admin_enter_valid_data_in_all_field_and_clicks_login_button() throws InterruptedException {
+		Log.logInfo("Entering valid data and clicking login");
 		loginPage = new LoginPage(driver);
 		String username = readConfig.getUsername();
 		String password = readConfig.getPassword();
@@ -37,6 +40,7 @@ public class HomePageStepDef {
 	@Then("Admin should see LMS -Learning management system as title")
 	public void admin_should_see_lms_learning_management_system_as_title() {
 		String homePage_title = loginPage.getPageTitle();
+		Log.logInfo("The LMS page title is "+homePage_title);
 		Assert.assertTrue(homePage_title.contains("LMS"));
 		
 	}
@@ -44,16 +48,22 @@ public class HomePageStepDef {
 	public void lms_title_should_be_on_the_top_left_corner_of_page() {
 		homePage = new HomePage(driver);
 		Point locationCordinates = homePage.lmsTitleLocation();
+		Log.logInfo("The coordinates of LMS title are "+locationCordinates);
 		int titleX = locationCordinates.getX();
         int titleY = locationCordinates.getY();
         int actualX = 0;
         int actualY = 0;
 		assertEquals(titleX,actualX,"Title is not in the left corner x coordinate is not zero)");
 		assertEquals(titleY, actualY, "Title is not at the top y coordinate is not zero)");
-    
-		
-		
+    	
 	
+	}
+	@Then("Admin should see correct spelling in navigation bar text")
+	public void admin_should_see_correct_spelling_in_navigation_bar_text() {
+		homePage = new HomePage(driver);
+		String dashBoardTitle = homePage.getDashboardText();
+		Log.logInfo("The Dasboard page title is "+dashBoardTitle);
+		Assert.assertTrue(dashBoardTitle.contains("Dashboard"));
 	}
 	
 
