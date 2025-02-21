@@ -46,43 +46,7 @@ public class CommonPage {
 	public void logout() {
 		logout.click();
 	}
-	
-//	public void selectOptionNavigationMenuBar(String menuOption) {
-//		
-//		WebElement menuElement;
-//
-//		switch (menuOption.toLowerCase()) {
-//	        case "dashboard":
-//	            menuElement = menu_Home;
-//	            util.doClick(menuElement);
-//	             break;
-//	           // return new HomePage(driver);
-//	          
-//	        case "program":
-//	            menuElement = menu_Program;
-//	            break;
-//	        case "batch":
-//	            menuElement = menu_Batch;
-//	            break;
-//	        case "class":
-//	            menuElement = menu_Class;
-//	            break;
-//	        case "logout":
-//	            menuElement = logout;
-//	            break;
-//	        default:
-//	            throw new IllegalArgumentException("Invalid menu option: " + menuOption);
-//	    }
-//		
-//		  
-//		  try {
-//			    //menuElement.click();  // Regular click
-//			  util.doClick(menuElement);
-//			} catch (Exception e) {
-//			    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", menuElement);
-//			}
-//	}
-	
+
 	
 	public Object selectOptionNavigationMenuBar(String menuName) throws Exception {
 
