@@ -44,6 +44,7 @@ public class BaseClass {
 		}
 		Log.logInfo("Closing WebDriver");
 		context.closeDriver();
+
 	}
 
 	// to attach screeshots in allure

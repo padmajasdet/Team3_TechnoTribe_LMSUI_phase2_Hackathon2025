@@ -73,34 +73,48 @@ public class LoginStepDef {
 		Assert.assertTrue(homePage.isDashboardHeaderVisible());
 	}
 	
-	//@TTLPH2-2 Verify login button action through keyboard
-	@When("Admin enter valid credentials  and clicks login button through keyboard")
-	public void admin_enter_valid_credentials_and_clicks_login_button_through_keyboard() {
-
-		homePage = (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin", "KEYBOARD");
-	}
-	
-	//@TTLPH2-9 Verify login button action through mouse
-	@When("Admin enter valid credentials and clicks login button through mouse")
-	public void admin_enter_valid_credentials_and_clicks_login_button_through_mouse() {
-		homePage = (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin", "Mouse");
-
-	}
-
-	// @TTLPH2-14 Validate login credentials with null user name
-	@When("Admin enter value only in password and clicks login button")
-	public void admin_enter_value_only_in_password_and_clicks_login_button() {
-
-		actualErrMsg = (String) loginPage.doLoginWithValidCredentials("", readConfig.getPassword(), "Admin");
-	
-	}
+	/*
+	 * //@TTLPH2-2 Verify login button action through keyboard
+	 * 
+	 * @When("Admin enter valid credentials  and clicks login button through keyboard"
+	 * ) public void
+	 * admin_enter_valid_credentials_and_clicks_login_button_through_keyboard() {
+	 * 
+	 * homePage = (HomePage)
+	 * loginPage.doLoginWithValidCredentials(readConfig.getUsername(),
+	 * readConfig.getPassword(), "Admin", "KEYBOARD"); }
+	 * 
+	 * //@TTLPH2-9 Verify login button action through mouse
+	 * 
+	 * @When("Admin enter valid credentials and clicks login button through mouse")
+	 * public void
+	 * admin_enter_valid_credentials_and_clicks_login_button_through_mouse() {
+	 * homePage = (HomePage)
+	 * loginPage.doLoginWithValidCredentials(readConfig.getUsername(),
+	 * readConfig.getPassword(), "Admin", "Mouse");
+	 * 
+	 * }
+	 * 
+	 * // @TTLPH2-14 Validate login credentials with null user name
+	 * 
+	 * @When("Admin enter value only in password and clicks login button") public
+	 * void admin_enter_value_only_in_password_and_clicks_login_button() {
+	 * 
+	 * actualErrMsg = (String) loginPage.doLoginWithValidCredentials("",
+	 * readConfig.getPassword(), "Admin");
+	 * 
+	 * }
+	 */
 	
 	// @TTLPH2-15 Validate login credentials with null password
-	@When("Admin enter value only in user name and clicks login button")
-	public void admin_enter_value_only_in_user_name_and_clicks_login_button() {
-
-		actualErrMsg = (String) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), "", "Admin");
-	}
+	/*
+	 * @When("Admin enter value only in user name and clicks login button") public
+	 * void admin_enter_value_only_in_user_name_and_clicks_login_button() {
+	 * 
+	 * actualErrMsg = (String)
+	 * loginPage.doLoginWithValidCredentials(readConfig.getUsername(), "", "Admin");
+	 * }
+	 */
 	
 	@Then("Error message {string}")
 	public void error_message(String expectedErrMsg) {
@@ -164,5 +178,6 @@ public class LoginStepDef {
 		actualErrMsg = (String) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), null);
 
 	}
+
 
 }

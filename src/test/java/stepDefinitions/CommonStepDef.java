@@ -27,35 +27,38 @@ public class CommonStepDef {
 		this.context = context;
 	      this.driver = context.getDriver();
 		this.readConfig = new ReadConfig();
+		
 	}
 	
 	@Given("Admin is logged in to LMS Portal")
 	public void admin_is_logged_in_to_lms_portal() {
 		loginPage = new LoginPage(driver);
 		homePage =  (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
+		
+		System.out.println("Home Page Title >>>>"+this.homePage.getPageTitle());
 	}
 
 	@Given("Admin is on home page after Login")
 	public void admin_is_on_home_page_after_login() {
-		String homePageTitle = driver.getTitle();
+		String homePageTitle = this.homePage.getPageTitle();
 		Assert.assertEquals(homePageTitle, "LMS");
 		System.out.println("Page Title :" +homePageTitle);
 
 
 	}
 	
-	@Given("Admin clicks {string} on the navigation bar")
+	@When("Admin clicks {string} on the navigation bar")
 	public void admin_clicks_on_the_navigation_bar(String menuOption) throws Exception {
 		  if (homePage == null) {
 	            throw new IllegalStateException("HomePage is not initialized. Ensure that the Admin is logged in.");
 	        }
 		switch (menuOption.trim().toLowerCase()) {
 		case "program":
-			programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar(menuOption);
+			programPage = (ProgramPage) this.homePage.selectOptionNavigationMenuBar(menuOption);
 			break;
 			
 		case "batch":
-			batchPage = (BatchPage) homePage.selectOptionNavigationMenuBar(menuOption);
+			batchPage = (BatchPage) this.homePage.selectOptionNavigationMenuBar(menuOption);
 			break;
 		
 		case "logout":

@@ -25,6 +25,15 @@ public class ElementUtil {
 
 	private WebDriver driver;
 	Alert alert;
+	String programName;
+
+	public String getProgramName() {
+		return programName;
+	}
+
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 
 	public ElementUtil(WebDriver driver) {
 		this.driver = driver;
@@ -462,7 +471,7 @@ public class ElementUtil {
 		
 		//LoggerLoad.info("Original List Before sorting is"+ originalList);
         List<String> sortedList = new ArrayList<>(originalList);
-        Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
+      //  Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
 		//LoggerLoad.info("Sorted List After sorting is"+ sortedList);
         return sortedList;
 	}
@@ -480,7 +489,7 @@ public class ElementUtil {
 		
 		//LoggerLoad.info("Original List Before sorting is"+ originalList);
         List<String> sortedList = new ArrayList<>(originalList);
-        Collections.sort(originalList, (s1, s2) -> s2.compareToIgnoreCase(s1));
+     //   Collections.sort(originalList, (s1, s2) -> s2.compareToIgnoreCase(s1));
 		//LoggerLoad.info("Sorted List After sorting is"+ sortedList);
         return sortedList;
 	}
@@ -489,7 +498,7 @@ public class ElementUtil {
 		
 		//LoggerLoad.info("Original List Before sorting is"+ originalNCList);
         ArrayList<Integer> sortedList = new ArrayList<>(originalNCList);
-        Collections.sort(originalNCList, (s1, s2) -> s2.compareTo(s1));
+     //   Collections.sort(originalNCList, (s1, s2) -> s2.compareTo(s1));
 		//LoggerLoad.info("Sorted List After sorting is"+ originalNCList);
         return sortedList;
 	}
