@@ -5,6 +5,8 @@ import org.testng.Assert;
 
 import hooks.TestContext;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import pageObjects.BatchPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
@@ -30,7 +32,6 @@ public class CommonStepDef {
 	@Given("Admin is logged in to LMS Portal")
 	public void admin_is_logged_in_to_lms_portal() {
 		loginPage = new LoginPage(driver);
-
 		homePage =  (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
 	}
 
@@ -56,6 +57,10 @@ public class CommonStepDef {
 		case "batch":
 			batchPage = (BatchPage) homePage.selectOptionNavigationMenuBar(menuOption);
 			break;
+		
+		case "logout":
+			loginPage = (LoginPage)homePage.selectOptionNavigationMenuBar(menuOption);
+			break;
 
 		default:
 			 throw new IllegalArgumentException("Invalid menu option: " + menuOption);
@@ -64,6 +69,28 @@ public class CommonStepDef {
 		
 	}
 	
+	/*********************** LOGOUT STEPS  ***********************/
+
+	//@TTLPH2-112 Verify logout function
+	@Then("Admin should be redirected to login page")
+	public void admin_should_be_redirected_to_login_page() {
+		
+		Assert.assertTrue(loginPage.getPageURL().contains("login"));
+	}
 	
+	//@TTLPH2-114 Verify back button function
+	@When("Admin clicks browser back button")
+	public void admin_clicks_browser_back_button() {
+
+		homePage.navigateBack();
+		
+	}
+	
+	@Then("Admin should receive error message")
+	public void admin_should_receive_error_message() {
+
+		Assert.assertFalse(new LoginPage(driver).getPageURL().contains("login"));
+	}
+
 
 }

@@ -43,7 +43,7 @@ public class BaseClass {
 			Screenshot.takeScreenshot(context.getDriver(), scenario.getName());
 		}
 		Log.logInfo("Closing WebDriver");
-		//context.closeDriver();
+		context.closeDriver();
 	}
 
 	// to attach screeshots in allure

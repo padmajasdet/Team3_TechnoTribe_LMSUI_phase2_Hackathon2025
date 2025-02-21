@@ -121,5 +121,76 @@ public class HomePageStepDef {
 		String expectedElement = elements.get(4).getText();
 		Assert.assertEquals(actualElement, expectedElement);
 	}
+	
+	@Then("Admin should see piechart")
+	public void admin_should_see_piechart() {
+	    boolean pieChartPresence = homePage.isPieChartDisplayed();
+	    Assert.assertTrue(pieChartPresence);
+	}
+	
+	@Then("Admin should see welcome message with user name and role")
+	public void admin_should_see_welcome_message_with_user_name_and_role() {
+	    String actualWelcomeMessage = homePage.welcomeMessage();
+	    String expectedWelcomeMessage = "Welcome sdetnumpyninja@gmail.com";
+	    Assert.assertEquals(actualWelcomeMessage, expectedWelcomeMessage);
+	}
+	
+	@Then("Admin should see bar chart for Active and inactive user")
+	public void admin_should_see_bar_chart_for_active_and_inactive_user() {
+		boolean barChartMembersPresence = homePage.isBarChartMembersDisplayed();
+	    Assert.assertTrue(barChartMembersPresence);
+	}
+	
+	@Then("Admin should see user count")
+	public void admin_should_see_user_count() {
+		String expectedUserCount = homePage.userCount();
+		String actualUserCount = "49";
+		 Assert.assertEquals(expectedUserCount, actualUserCount);
+	}
+	
+	@Then("Admin should see staff count")
+	public void admin_should_see_staff_count() {
+		String expectedStaffCount = homePage.staffCount();
+		String actualStaffCount = "21";
+		 Assert.assertEquals(actualStaffCount, expectedStaffCount);
+	}
+	
+	@Then("Admin should see Program count")
+	public void admin_should_see_program_count() {
+		String expectedProgramCount = homePage.programCount();
+		String actualProgramCount = "73";
+		 Assert.assertEquals(actualProgramCount, expectedProgramCount);
+	}
 
+	@Then("Admin should see batch count")
+	public void admin_should_see_batch_count() {
+		String expectedBatchCount = homePage.batchCount();
+		String actualBatchCount = "59";
+		 Assert.assertEquals(expectedBatchCount, actualBatchCount);
+		 
+	}
+	
+	@Then("Admin should see staff table with pagination icons")
+	public void admin_should_see_staff_table_with_pagination_icons() {
+		boolean staffBarPresence = homePage.isStaffTableDisplayed();
+		boolean staffTablePagination = homePage.isStaffTablePaginationDisplayed();
+	    Assert.assertTrue(staffBarPresence);
+	    Assert.assertTrue(staffTablePagination);
+	}
+	@Then("admin should see previous page icon disabled")
+	public void admin_should_see_previous_page_icon_disabled() {
+		boolean previousPagePaginationDisabled = homePage.isPreviousPagePaginationDisabled();
+		System.out.println(previousPagePaginationDisabled);
+		Assert.assertTrue(previousPagePaginationDisabled);
+	}
+	
+	@Then("admin should see first page icon disabled")
+	public void admin_should_see_first_page_icon_disabled() {
+		boolean firstPagePaginationDisabled = homePage.isFirstPagePaginationDisabled();
+		System.out.println(firstPagePaginationDisabled);
+		Assert.assertTrue(firstPagePaginationDisabled);
+	}
+
+
+	
 }

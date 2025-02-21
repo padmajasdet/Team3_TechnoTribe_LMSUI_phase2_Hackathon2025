@@ -400,15 +400,9 @@ public class ElementUtil {
 		js.executeScript("arguments[0].click();", getElement(locator));
 	}
 
-	public void goToProgramMenu() {
-		driver.findElement(By.id("batch")).click();
-		//clickElementByJS(By.id("batch"),driver);
-		Actions action = new Actions(driver);
-		action.keyDown(Keys.SHIFT).keyDown(Keys.TAB) // the focus has come to program menu
-				.keyUp(Keys.TAB).keyUp(Keys.SHIFT).keyDown(Keys.ENTER).build().perform();
-	}
 
 	public boolean isElementEnabled(By locator) {
+		elementWithFluentWaitLocated(locator, 20, 100);
 		return getElement(locator).isEnabled();
 	}
 	
@@ -511,5 +505,41 @@ public class ElementUtil {
 	        return result.toString();
 	    
     }
+	
+	 public void pressKey(WebDriver driver, Keys key) {
+	        // Initialize Actions class
+	        Actions actions = new Actions(driver);
 
+	        // Perform the key press action
+	        actions.sendKeys(key).perform();
+	        
+	        System.out.println("Pressed: " + key);
+	    }
+
+	 public void getPageLoadStatus() {
+		 
+			JavascriptExecutor js = ((JavascriptExecutor) driver);
+			
+			String loadingStatus = js.executeScript("return document.readyState;").toString();
+			
+			//if page is loaded
+			if(loadingStatus.equals("complete")) {
+				System.out.println("page is fully loaded");
+			}
+			else {
+				
+				int i=15;
+				while (!(loadingStatus.equals("complete"))) {
+					
+					i++;
+					loadingStatus = js.executeScript("return document.readyState;").toString();
+					
+					if(loadingStatus.equals("complete")) {
+						break;
+					}
+				}
+			}
+
+
+	 }
 }
