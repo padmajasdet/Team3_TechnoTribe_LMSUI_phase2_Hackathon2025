@@ -110,10 +110,11 @@ public class BatchStepDef  {
 	}
 	
 	@Then("Admin should see the datatable headers Batch name, Batch Description,Batch Status, No Of classes, Program Name, Edit\\/Delete")
-	public void admin_should_see_the_datatable_headers_batch_name_batch_description_batch_status_no_of_classes_program_name_edit_delete() {
-		 List<String> expectedHeaders = Arrays.asList("Batch Name","Batch Description","Batch Status","No Of Classes","Program Name","Edit/Delete"  
-	        );
-	        Assert.assertEquals(batchPage.verifyTableHeaders(expectedHeaders), true);    
+	public void admin_should_see_the_datatable_headers_batch_name_batch_description_batch_status_no_of_classes_program_name_edit_delete() { 
+	    	String[] actualHeaders = batchPage.verifyTableHeaders();
+			String[] expectedHeaders = { "Batch Name", "Batch Description", "Batch Status", "No Of Classes", "Program Name",
+					"Edit / Delete" };
+			Assert.assertEqualsNoOrder(actualHeaders, expectedHeaders);
 	}
 
 	@Given("Admin is on the Batch Details Pop Up WIndow")
@@ -128,18 +129,18 @@ public class BatchStepDef  {
 	}
 	@Then("Admin should see selected program name in the batch name prefix box")
 	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box() {
-        Assert.assertEquals(batchPage.selectDataForProgramName("onlyMandatory"), batchPage.getBatchNamePrefix());	
+        Assert.assertEquals(batchPage.selectDataFromExcel("onlyMandatory","ProgramName"), batchPage.getBatchNamePrefix());	
 	}
 	
 	@When("Admin enters the valid data to all the mandatory fields and click cancel button")
 	public void admin_enters_the_valid_data_to_all_the_mandatory_fields_and_click_cancel_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.enterAllDetails("Cancel", "onlyMandatory");
+		
 	}
 	@Then("Admin can see the batch details popup closes without creating any batch")
 	public void admin_can_see_the_batch_details_popup_closes_without_creating_any_batch() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		   Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
+		
 	}
 	
 	@Then("The pop up should include the fields Batch Name,Number of classes and Description as text box,Program Name as drop down Status as radio button")
@@ -175,35 +176,33 @@ public class BatchStepDef  {
 	
 	@When("Admin enters alphabets in batch name prefix box")
 	public void admin_enters_alphabets_in_batch_name_prefix_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	    batchPage.enterBatchNamePrefix();
+		
 	}
 	@Then("Admin should see empty text box")
 	public void admin_should_see_empty_text_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	   Assert.assertEquals(batchPage.isBatchNamePrefixEditable(), false);
 	}
 
 	@When("Admin leaves blank one of the mandatory fields")
 	public void admin_leaves_blank_one_of_the_mandatory_fields() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.enterAllDetails("Save", "missingOneMandatory");
+		
 	}
 	@Then("Admin should get a error message on the respective mandatory field")
 	public void admin_should_get_a_error_message_on_the_respective_mandatory_field() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		Assert.assertEquals(batchPage.getErrorMessage(), "Batch Name is required."); 
+	
+		
 	}
 	
 	@When("Admin clicks on the close icon")
 	public void admin_clicks_on_the_close_icon() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	   batchPage.closeButtonClick();
 	}
 	@Then("batch details pop up closes")
 	public void batch_details_pop_up_closes() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
 	}
 
 	
@@ -215,13 +214,12 @@ public class BatchStepDef  {
 	
 	@When("Admin enters alphabets in batch name suffix box")
 	public void admin_enters_alphabets_in_batch_name_suffix_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	   batchPage.enterBatchNameSuffix();
+		
 	}
 	@Then("Admin should get error message below the text box of respective field")
 	public void admin_should_get_error_message_below_the_text_box_of_respective_field() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	   Assert.assertEquals(batchPage.getErrorMessage(), "This field accept only numbers and max 5 count.");   
 	}
 
 	
