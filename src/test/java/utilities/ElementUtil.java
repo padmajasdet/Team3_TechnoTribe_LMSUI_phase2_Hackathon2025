@@ -402,6 +402,7 @@ public class ElementUtil {
 
 
 	public boolean isElementEnabled(By locator) {
+		elementWithFluentWaitLocated(locator, 20, 100);
 		return getElement(locator).isEnabled();
 	}
 	
