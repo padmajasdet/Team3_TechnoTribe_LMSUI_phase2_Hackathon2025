@@ -47,7 +47,7 @@ Feature: Home Page
     Then Admin should see program in the 2nd place
 
   @Scenario8_homePage
-  Scenario:Validate navigation bar order 3rd  batch
+  Scenario: Validate navigation bar order 3rd  batch
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see batch in the  3rd place
@@ -64,61 +64,68 @@ Feature: Home Page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see class in the 5th place
 
-    
-     @Scenario11_homePage
+  @Scenario11_homePage
   Scenario: verify pie-chart presence
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see piechart
-    
-        @Scenario12_homePage
+
+  @Scenario12_homePage
   Scenario: Verify user details
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see welcome message with user name and role
-           @Scenario13_homePage
+
+  @Scenario13_homePage
   Scenario: Verify bar chart
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see bar chart for Active and inactive user
-    
-             @Scenario14_homePage
+
+  @Scenario14_homePage
   Scenario: Verify user count
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
-    Then Admin should see user count 
-    
-    
-             @Scenario15_homePage
+    Then Admin should see user count
+
+  @Scenario15_homePage
   Scenario: Verify staff count
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
-    Then Admin should see staff count 
-                @Scenario16_homePage
+    Then Admin should see staff count
+
+  @Scenario16_homePage
   Scenario: verify program count
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
-    Then Admin should see Program count  
-                @Scenario17_homePage
-  Scenario: Verify batch count 
+    Then Admin should see Program count
+
+  @Scenario17_homePage
+  Scenario: Verify batch count
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
-    Then Admin should see batch count 
-    
-               @Scenario18_homePage
-  Scenario: Verify staff table pagination 
+    Then Admin should see batch count
+
+  @Scenario18_homePage
+  Scenario: Verify staff table pagination
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see staff table with pagination icons
-    
-                  @Scenario19_homePage
+
+  @Scenario19_homePage
   Scenario: verify previous page icon disable
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then admin should see previous page icon disabled
-    
-                     @Scenario20_homePage
+
+  @Scenario20_homePage
   Scenario: verify first page icon disabled
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then admin should see first page icon disabled
+    
+     @Scenario21_homePage
+  Scenario: Verify staff data page split
+    Given Admin lands on login page
+    When Admin enter valid data in all field and clicks login button
+    Then Admin should see 5 staff data in a page
