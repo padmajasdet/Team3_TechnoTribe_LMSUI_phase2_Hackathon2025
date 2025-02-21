@@ -515,4 +515,30 @@ public class ElementUtil {
 	        System.out.println("Pressed: " + key);
 	    }
 
+	 public void getPageLoadStatus() {
+		 
+			JavascriptExecutor js = ((JavascriptExecutor) driver);
+			
+			String loadingStatus = js.executeScript("return document.readyState;").toString();
+			
+			//if page is loaded
+			if(loadingStatus.equals("complete")) {
+				System.out.println("page is fully loaded");
+			}
+			else {
+				
+				int i=15;
+				while (!(loadingStatus.equals("complete"))) {
+					
+					i++;
+					loadingStatus = js.executeScript("return document.readyState;").toString();
+					
+					if(loadingStatus.equals("complete")) {
+						break;
+					}
+				}
+			}
+
+
+	 }
 }

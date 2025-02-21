@@ -10,7 +10,7 @@ Feature: LogOut
 	When Admin clicks "Logout" on the navigation bar
 	Then Admin should be redirected to login page
 	
-#	Scenario: Verify back button function 
-#	Given Admin is in home page
-#	When Admin clicks browser back button
-#	Then Admin should receive error message
+	@US-TTLPH2-10 @TTLPH2-114
+	Scenario: Verify back button function 
+	When Admin clicks browser back button
+	Then Admin should receive error message

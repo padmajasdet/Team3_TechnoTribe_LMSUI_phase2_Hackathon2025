@@ -8,7 +8,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(features = { "src/test/resources/features/" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-				tags="@US-TTLPH2-10",
+				tags="@TTLPH2-114",
 				dryRun = false, 
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",

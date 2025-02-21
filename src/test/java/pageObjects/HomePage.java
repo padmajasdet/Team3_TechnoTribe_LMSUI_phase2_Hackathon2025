@@ -66,5 +66,11 @@ public class HomePage extends CommonPage {
 		return elements;
 
 	}
+	
+	public void navigateBack() {
+		
+		driver.navigate().back();
+		util.getPageLoadStatus();
+	}
 
 }

@@ -8,7 +8,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjects.BatchPage;
-import pageObjects.CommonPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.ProgramPage;
@@ -75,6 +74,20 @@ public class CommonStepDef {
 	public void admin_should_be_redirected_to_login_page() {
 		
 		Assert.assertTrue(loginPage.getPageURL().contains("login"));
+	}
+	
+	//@TTLPH2-114 Verify back button function
+	@When("Admin clicks browser back button")
+	public void admin_clicks_browser_back_button() {
+
+		homePage.navigateBack();
+		
+	}
+	
+	@Then("Admin should receive error message")
+	public void admin_should_receive_error_message() {
+
+		Assert.assertFalse(new LoginPage(driver).getPageURL().contains("login"));
 	}
 
 }
