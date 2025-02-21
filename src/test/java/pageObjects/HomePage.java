@@ -32,17 +32,7 @@ public class HomePage extends CommonPage {
 	private By staffTablePagination = By.xpath("//div[@class='mat-paginator-range-actions']");
 	private By previousPageIcon = By.xpath("//button[@aria-label='First page']//span[@class='mat-button-wrapper']//*[name()='svg']");
 	private By firstPageIcon = By.xpath("//*[name()='path' and contains(@d,'M15.41 7.4')]");
-	//mat-table[@class='mat-table cdk-table table-container mat-elevation-z8']
-	//mat-table[@class='mat-table cdk-table table-container mat-elevation-z8']
-	//mat-table[@role='grid']
 	
-	
-	
-	////*[contains(text(),' Welcome sdetnumpyninja@gmail.com')]   Admin should see welcome message with user name and role
-	
-	//mat-card-content[@class='mat-card-content']  Admin should see bar chart for Active and inactive user
-////button[@aria-label='Last page']//span[@class='mat-button-wrapper']//*[name()='svg']
-
 	public HomePage(WebDriver driver) {
 		super(driver);
 		this.driver = driver;
