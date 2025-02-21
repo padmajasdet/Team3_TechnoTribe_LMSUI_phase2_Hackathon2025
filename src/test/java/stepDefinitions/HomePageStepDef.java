@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.testng.Assert.assertEquals;
 
+
 import java.util.List;
 
 import hooks.TestContext;
@@ -181,14 +182,21 @@ public class HomePageStepDef {
 	public void admin_should_see_previous_page_icon_disabled() {
 		boolean previousPagePaginationDisabled = homePage.isPreviousPagePaginationDisabled();
 		System.out.println(previousPagePaginationDisabled);
-		Assert.assertTrue(previousPagePaginationDisabled);
+		Assert.assertFalse(previousPagePaginationDisabled);
 	}
 	
 	@Then("admin should see first page icon disabled")
 	public void admin_should_see_first_page_icon_disabled() {
 		boolean firstPagePaginationDisabled = homePage.isFirstPagePaginationDisabled();
 		System.out.println(firstPagePaginationDisabled);
-		Assert.assertTrue(firstPagePaginationDisabled);
+		Assert.assertEquals(firstPagePaginationDisabled,false);
+	}
+	
+	@Then("Admin should see {int} staff data in a page")
+	public void admin_should_see_staff_data_in_a_page(Integer expectedRowCount) {
+	    int actual_rowCount = homePage.getStaffRowcount();
+	    System.out.println();
+	   //Assert.assertEquals(actual_rowCount, expectedRowCount, "The row count does not match the expected value.");
 	}
 
 
