@@ -28,7 +28,7 @@ Feature: Program Module
     When Admin clicks "Program" on the navigation bar
     Then Admin should see the page names as in order on menu bar
 
-  @TC5 @AddNewProgram
+  @TC5 @AddNewProgram @sanity
   Scenario Outline: Verify Admin is able to save the new program details and search validation
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar

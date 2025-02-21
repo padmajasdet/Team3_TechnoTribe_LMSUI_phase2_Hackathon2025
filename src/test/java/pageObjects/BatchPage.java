@@ -21,8 +21,7 @@ import utilities.ReadConfig;
 public class BatchPage{
 
 	
-	  public static String BatchName; //apiChaining	
-	  
+	 
 	private WebDriver driver;
 	private ElementUtil util;
 	ReadConfig readConfig;
@@ -43,8 +42,7 @@ public class BatchPage{
 	private String checkboxLocator = ".//span[@class='p-checkbox-icon']"; 
 	private String sortIconLocator = ".//*[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']";
 
-	
-	//Batch Page - Add new batch popup locators
+	//Batch Page - Add new batch locators
 	private By addNewBatch = By.xpath("//button[normalize-space()='Add New Batch']");
 	private By addNewBatchTitle = By.xpath("//*[contains(text(),'Batch Details')]");
 	private By addBatchProgramNameDD = By.xpath("//div[@role='button']");
@@ -60,10 +58,9 @@ public class BatchPage{
 	private By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
 	private By invalidError = By.xpath("//small[@id='text-danger']");
 	private By closeButton = By.xpath("//*[@header='Batch Details']//button[@type='button']");
-	
-
-	 private String filePath ; // Excel file location
-     private String sheetName = "Batch"; // Sheet name"; 
+	public static String BatchName;  
+	private String filePath ; 
+    private String sheetName = "Batch";
      
 	public BatchPage(WebDriver driver) {
 		this.driver = driver;
@@ -91,10 +88,10 @@ public class BatchPage{
 	public String getAddNewPageTitle() {
 		return util.getElementText(addNewBatchTitle);
 	}
+	
 	public void addBatchClick() {
 		util.doClick(addNewBatch);
 	}
-	
 	
 	public void homeMenuClick() {
 		 util.doClick(homeMenu);
@@ -147,7 +144,6 @@ public class BatchPage{
 	    }
 	
 	 public boolean isElementPresent(String elementType, String locationType) {
-	        // Select the locator based on element type (edit, delete, checkbox, or sort icon)
 	        String elementLocator;
 	        switch (elementType.toLowerCase()) {
 	            case "edit-icon":
@@ -170,7 +166,8 @@ public class BatchPage{
 	        if (locationType.equalsIgnoreCase("header")) {
 	            WebElement headerRow = driver.findElement(tableHeaderLocator);
 	            return !headerRow.findElements(By.xpath(elementLocator)).isEmpty();
-	        } else if (locationType.equalsIgnoreCase("row")) { // If the location is row, validate in the table rows
+	        } else if (locationType.equalsIgnoreCase("row")) { 
+	        	// If the location is row, validate in the table rows
 	            WebElement table = driver.findElement(tableLocator);
 	            List<WebElement> rows = table.findElements(By.xpath(".//tbody/tr"));
 
@@ -200,33 +197,32 @@ public class BatchPage{
 			}
 	        return headers;
 	    }
-	
-	
 		
 	 public void verifyBatchPopupFieldsAreEnabled() {
-	    
 	       Assert.assertEquals(driver.findElement(addNewBatch).isDisplayed(), true);  
 	       Assert.assertEquals(driver.findElement(addBatchName).isEnabled(), true);  
 	       Assert.assertEquals(driver.findElement(addBatchDesc).isEnabled(), true);  
 	       Assert.assertEquals(driver.findElement(addBatchNoOfClasses).isEnabled(), true);  
 	       Assert.assertEquals(driver.findElement(addBatchProgramNameDD).isEnabled(), true);  
-	    
 	        List<WebElement> statusRadioButtons = driver.findElements(addBatchStatus);
 	        Assert.assertEquals(statusRadioButtons.isEmpty(), false);  
-
 	        for (WebElement radio : statusRadioButtons) {
 	        	   Assert.assertEquals(radio.isEnabled(), true);
 	               }
 	    }
-	 
 	 
 	 public void selectProgramNameDD() {
 		 util.doClick(addBatchProgramNameDD);
 		}
 
 		public void selectProgramNameListBox(String testcaseName) {
+			String excelProgramName = selectDataFromExcel(testcaseName, "ProgramName");
+			 // Check if it should be replaced with the chain variable
+		    if (excelProgramName.equalsIgnoreCase("chaining")) {
+		        excelProgramName = ProgramPage.getProgramName(); // Use chain variable
+		    }
 			WebElement programNameListBox = driver.findElement(
-					By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='" + selectDataFromExcel(testcaseName, "ProgramName") + "']"));
+					By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='" + excelProgramName + "']"));
 			programNameListBox.click();
 		}
 		
@@ -248,7 +244,6 @@ public class BatchPage{
 			util.doSendKeys(addBatchName, selectDataFromExcel("invalidBatchNameSuffix", "BatchName"));
 		}
 		
-	    // Get Batch Name Prefix Value
 	    public String getBatchNamePrefix() {
 	        return driver.findElement(addBatchFirstName).getDomProperty("value");
 	    }
@@ -276,23 +271,10 @@ public class BatchPage{
 			selectProgramNameDD();
 			selectProgramNameListBox(testcaseName);
 			String finalBatchNamePrefix = selectDataFromExcel(testcaseName, "ProgramName");
-			 // Get the ProgramName value from Excel
-		  //  String excelProgramName = testData.get("ProgramName");
-
-//		    // Check if the program name in Excel is "apichainin" and replace it with the variable from ProgramData
-//		    if (excelProgramName.equalsIgnoreCase("apichainin")) {
-//		        excelProgramName = ProgramPage.getProgramName();  // Replace with the global variable
-//		    }
-
-		    // Now use the modified program name in the UI
-		//    util.doSendKeys(addBatchName, excelProgramName);
-		    
 			// Get the current BatchName value and increment it
 			String batchNameStr = testData.get("BatchName");
-			// Declare newBatchName but don't initialize with "0" by default
 			String newBatchName = "";
-
-			if (batchNameStr != null && !batchNameStr.trim().isEmpty()) { // Check if BatchName is not empty
+			if (batchNameStr != null && !batchNameStr.trim().isEmpty()) { 
 			    try {
 			        int batchNumber = Integer.parseInt(batchNameStr.split("\\.")[0]); // Convert to integer
 			        batchNumber++; // Increment only if it's not empty
@@ -301,11 +283,9 @@ public class BatchPage{
 			        newBatchName = batchNameStr; // If parsing fails, retain the original value
 			    }
 			}
-
 			// Only enter a value if newBatchName is not empty
 			if (!newBatchName.isEmpty()) {
-			    util.doSendKeys(addBatchName, newBatchName);
-			    
+			    util.doSendKeys(addBatchName, newBatchName);  
 			  // Update the BatchName in Excel for the next run
 		    ExcelReader.updateTestData(filePath, sheetName, testcaseName, "BatchName", newBatchName);
 			}
@@ -315,11 +295,9 @@ public class BatchPage{
 			int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]); 
 			String newnoOfClasses= String.valueOf(noOfClasses);
 			util.doSendKeys(addBatchNoOfClasses, newnoOfClasses);
-			
 			if (saveCancel.equalsIgnoreCase("Save")) {
 				saveButtonClick();
-				String toastMessage = getToast(); // Fetch toast message safely
-
+				String toastMessage = getToast(); 
 			    if (!toastMessage.isEmpty()) { // If toast appears, process it
 			        if (toastMessage.equalsIgnoreCase("Successful")) {
 			            if (testcaseName.equalsIgnoreCase("validAll")) {
@@ -346,8 +324,8 @@ public class BatchPage{
 			} else {
 				cancelButtonClick();
 			}
-
 		}
+		
 		 // Setter method to set the batch name
 	    public static void setBatchName(String batchName) {
 	        BatchPage.BatchName = batchName;  // Store the batch name in the static variable
@@ -362,28 +340,22 @@ public class BatchPage{
 			try {
 		        List<WebElement> toastElements = driver.findElements(toastMessage);
 
-		        if (!toastElements.isEmpty()) { // If toast is present, return its text
+		        if (!toastElements.isEmpty()) { 
 		            return toastElements.get(0).getText();
 		        } else {
-		            return ""; // No toast found
+		            return ""; 
 		        }
 		    } catch (Exception e) { 
-		        return ""; // Catch unexpected errors and return empty
-		    }
-			
-			
+		        return ""; 
+		    }	
 		}
 		
 		
 		public String getErrorMessage() {
-		// return util.getElementText(invalidError);
 		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
 		 wait.until(ExpectedConditions.visibilityOf(driver.findElement(invalidError)));
 			String err = driver.findElement(invalidError).getText();
 			return err;
-		
-		
 		}
 	
 }
