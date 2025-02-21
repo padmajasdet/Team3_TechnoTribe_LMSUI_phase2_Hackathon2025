@@ -6,7 +6,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 
-@CucumberOptions(features = { "src/test/resources/features/Batch.feature" }, 
+@CucumberOptions(features = { "src/test/resources/features" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
 				tags="@doing",

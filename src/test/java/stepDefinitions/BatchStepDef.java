@@ -1,9 +1,15 @@
 package stepDefinitions;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import hooks.TestContext;
@@ -13,6 +19,7 @@ import io.cucumber.java.en.When;
 import pageObjects.BatchPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
+import utilities.ExcelReader;
 import utilities.ReadConfig;
 
 public class BatchStepDef  {
@@ -23,6 +30,8 @@ public class BatchStepDef  {
 	LoginPage loginPage;
 	BatchPage batchPage;
 	HomePage homePage;
+	 
+	
 	
 	public BatchStepDef(TestContext context) {
 		this.context = context;
@@ -36,12 +45,11 @@ public class BatchStepDef  {
 		String username = readConfig.getUsername();
 		String password = readConfig.getPassword();
 		homePage = (HomePage) loginPage.doLoginWithValidCredentials(username, password, "Admin");
-		
+		batchPage = new BatchPage(driver); // Initialize batchPage here
 	}
 	
 	@Given("Admin is on the home Page")
 	public void admin_is_on_the_home_page() {
-		batchPage = new BatchPage(driver);
 		batchPage.homeMenuClick();	
 	}
 	
@@ -110,20 +118,17 @@ public class BatchStepDef  {
 
 	@Given("Admin is on the Batch Details Pop Up WIndow")
 	public void admin_is_on_the_batch_details_pop_up_w_indow() {
-	    
-		
-		
-		
+		batchPage.batchMenuClick();
+		batchPage.addBatchClick();	
 	}
 	@When("Admin selects program name present in the dropdown")
 	public void admin_selects_program_name_present_in_the_dropdown() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		batchPage.selectProgramNameDD();
+		batchPage.selectProgramNameListBox("onlyMandatory");       
 	}
 	@Then("Admin should see selected program name in the batch name prefix box")
 	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+        Assert.assertEquals(batchPage.selectDataForProgramName("onlyMandatory"), batchPage.getBatchNamePrefix());	
 	}
 	
 	@When("Admin enters the valid data to all the mandatory fields and click cancel button")
@@ -137,28 +142,23 @@ public class BatchStepDef  {
 	    throw new io.cucumber.java.PendingException();
 	}
 	
-
-	@When("Admin checks all the fields are enabled")
-	public void admin_checks_all_the_fields_are_enabled() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
 	@Then("The pop up should include the fields Batch Name,Number of classes and Description as text box,Program Name as drop down Status as radio button")
 	public void the_pop_up_should_include_the_fields_batch_name_number_of_classes_and_description_as_text_box_program_name_as_drop_down_status_as_radio_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		  Assert.assertEquals(batchPage.isAddBatchDescEnabled(), true);   
+	        Assert.assertEquals(batchPage.isAddBatchNameEnabled(), true);
+	        Assert.assertEquals(batchPage.isAddBatchNoOfClassesEnabled(), true);
+	        Assert.assertEquals(batchPage.isAddBatchProgramNameEnabled(), true);
+	        Assert.assertEquals(batchPage.isStatusRadioButtonsPresentAndEnabled(),true);        
 	}
 	
 
 	@When("Admin enters the data only to the mandatory fields and clicks save button")
 	public void admin_enters_the_data_only_to_the_mandatory_fields_and_clicks_save_button() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+	           batchPage.enterAllDetails("Save", "onlyMandatory");
 	}
 	@Then("Admin should get a successful message")
 	public void admin_should_get_a_successful_message() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
+		Assert.assertEquals(batchPage.getToast(), "Successful");
 	}
 	
 	@When("Admin clicks on {string} under the {string} menu bar")
@@ -225,9 +225,9 @@ public class BatchStepDef  {
 	}
 
 	
-	@When("Admin enters the valid data to all the mandatory fields and click save button")
-	public void admin_enters_the_valid_data_to_all_the_mandatory_fields_and_click_save_button() {
-	  
+	@When("Admin enters the valid data to all the fields and click save button")
+	public void admin_enters_the_valid_data_to_all_the_fields_and_click_save_button() {
+		 batchPage.enterAllDetails("Save", "validAll");
 	}
 
 	

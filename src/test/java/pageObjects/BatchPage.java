@@ -1,19 +1,31 @@
 package pageObjects;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import utilities.ElementUtil;
+import utilities.ExcelReader;
+import utilities.ReadConfig;
 
 public class BatchPage{
 
 	
-
+	  public static String BatchName; //apiChaining	
+	  
 	private WebDriver driver;
 	private ElementUtil util;
+	ReadConfig readConfig;
+	Map<String, String> testData;
+	ExcelReader excelReader = new ExcelReader();
 	private By homeMenu = By.xpath("//span[normalize-space()='Home']");
 	private By batchMenu = By.xpath("//span[contains(text(),'Batch')]");
 	private By batchTitle = By.xpath("//*[contains(text(),'Manage Batch')]");
@@ -33,15 +45,27 @@ public class BatchPage{
 	//Batch Page - Add new batch popup locators
 	private By addNewBatch = By.xpath("//button[normalize-space()='Add New Batch']");
 	private By addNewBatchTitle = By.xpath("//*[contains(text(),'Batch Details')]");
-	private By batchAddName = By.id("batchName");
-	private By batchAddDesc = By.id("batchDescription");
-	private By batchAddNoOfClasses = By.id("batchNoOfClasses");
-	private By batchAddSuccess = By.cssSelector(".p-toast-detail");
+	private By addBatchProgramNameDD = By.xpath("//div[@role='button']");
+	private By addBatchFirstName = By.xpath("//input[@id=\"batchProg\"]");
+	private By addBatchName = By.id("batchName");
+	private By addBatchDesc = By.id("batchDescription");
+	private By addBatchStatus = By.xpath("//*[@class=\"radio ng-star-inserted\"]");
+	private By activeStatus = By.xpath("(//p-radiobutton[@name='category']//div[@class='p-radiobutton-box'])[1]");
+	private By inactiveStatus = By.xpath("(//p-radiobutton[@name='category']//div[@class='p-radiobutton-box'])[2]");
+	private By addBatchNoOfClasses = By.id("batchNoOfClasses");
+	private By saveButton = By.xpath("//button[@label='Save']");
+	private By cancelButton = By.xpath("//button[@label='Cancel']");
+	private By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
 	
 
+	 private String filePath ; // Excel file location
+     private String sheetName = "Batch"; // Sheet name"; 
+     
 	public BatchPage(WebDriver driver) {
 		this.driver = driver;
 		util = new ElementUtil(this.driver);
+		this.readConfig = new ReadConfig();
+		this.filePath = readConfig.getExcelPath();
 	}
 	
 	/**
@@ -84,8 +108,36 @@ public class BatchPage{
 		return util.isElementDisplayed(paginationBotton);
 	}
 	
-	
+	 
+	 public boolean isAddBatchNameEnabled() {
+	        return util.isElementEnabled(addBatchName);
+	    }
+	 
+	public Boolean isAddBatchDescEnabled() {
+		return util.isElementEnabled(addBatchDesc);
+	}
 
+	public boolean isAddBatchNoOfClassesEnabled() {
+        return util.isElementEnabled(addBatchNoOfClasses); 
+    }
+	
+	public boolean isAddBatchProgramNameEnabled() {
+        return util.isElementEnabled(addBatchProgramNameDD); 
+    }
+	
+	 public boolean isStatusRadioButtonsPresentAndEnabled() {
+	        List<WebElement> statusRadioButtons = driver.findElements(addBatchStatus);
+	        if (statusRadioButtons.isEmpty()) {
+	            return false;
+	        }
+	        for (WebElement radio : statusRadioButtons) {
+	            if (!radio.isEnabled()) {
+	                return false;
+	            }
+	        }
+	        return true;
+	    }
+	
 	 public boolean isElementPresent(String elementType, String locationType) {
 	        // Select the locator based on element type (edit, delete, checkbox, or sort icon)
 	        String elementLocator;
@@ -150,5 +202,138 @@ public class BatchPage{
 	        return true;
 	    }
 	
+	 public void verifyBatchPopupFieldsAreEnabled() {
+	    
+	       Assert.assertEquals(driver.findElement(addNewBatch).isDisplayed(), true);  
+	       Assert.assertEquals(driver.findElement(addBatchName).isEnabled(), true);  
+	       Assert.assertEquals(driver.findElement(addBatchDesc).isEnabled(), true);  
+	       Assert.assertEquals(driver.findElement(addBatchNoOfClasses).isEnabled(), true);  
+	       Assert.assertEquals(driver.findElement(addBatchProgramNameDD).isEnabled(), true);  
+	    
+	        List<WebElement> statusRadioButtons = driver.findElements(addBatchStatus);
+	        Assert.assertEquals(statusRadioButtons.isEmpty(), false);  
+
+	        for (WebElement radio : statusRadioButtons) {
+	        	   Assert.assertEquals(radio.isEnabled(), true);
+	               }
+	    }
 	 
+	 
+	 public void selectProgramNameDD() {
+		 util.doClick(addBatchProgramNameDD);
+		}
+
+		public void selectProgramNameListBox(String testcaseName) {
+			WebElement programNameListBox = driver.findElement(
+					By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='" + selectDataForProgramName(testcaseName) + "']"));
+			programNameListBox.click();
+		}
+		
+		public String selectDataForProgramName(String testcaseName) {
+			
+			testData = ExcelReader.getTestData(filePath, sheetName, testcaseName);
+		      
+			return  testData.get("ProgramName");
+		} 
+
+	    // Get Batch Name Prefix Value
+	    public String getBatchNamePrefix() {
+	        return driver.findElement(addBatchFirstName).getDomProperty("value");
+	    }
+	    
+	    public void getActiveStatusRadioButton() { 
+	    	WebElement activeStatusElement = driver.findElement(activeStatus);
+	    	((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", activeStatusElement);
+	    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	    	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
+	    	((JavascriptExecutor) driver).executeScript("arguments[0].click();", activeStatusElement); }
+
+		public WebElement getInActiveStatusRadioButton() {
+			return driver.findElement(inactiveStatus);
+		}
+		
+		public void saveButtonClick() {
+			util.doClick(saveButton);
+		}
+
+		public void cancelButtonClick() {
+			util.doClick(cancelButton);
+		}
+		public void enterAllDetails(String saveCancel, String testcaseName) {
+			testData = ExcelReader.getTestData(filePath, sheetName,testcaseName);
+			selectProgramNameDD();
+			selectProgramNameListBox(testcaseName);
+			String finalBatchNamePrefix = selectDataForProgramName(testcaseName);
+			 // Get the ProgramName value from Excel
+		  //  String excelProgramName = testData.get("ProgramName");
+
+//		    // Check if the program name in Excel is "apichainin" and replace it with the variable from ProgramData
+//		    if (excelProgramName.equalsIgnoreCase("apichainin")) {
+//		        excelProgramName = ProgramPage.getProgramName();  // Replace with the global variable
+//		    }
+
+		    // Now use the modified program name in the UI
+		//    util.doSendKeys(addBatchName, excelProgramName);
+		    
+			// Get the current BatchName value and increment it
+			String batchNameStr = testData.get("BatchName");
+			int batchNumber;
+			try {
+			    batchNumber = Integer.parseInt(batchNameStr.split("\\.")[0]); // Convert to integer
+			} catch (NumberFormatException e) {
+			    batchNumber = 0; // Default value if parsing fails
+			}
+			batchNumber++; // Increment the value by 1
+		    
+		    // Convert it back to a string to use in the UI and Excel
+		    String newBatchName = String.valueOf(batchNumber);
+			util.doSendKeys(addBatchName, newBatchName);
+			  // Update the BatchName in Excel for the next run
+		    ExcelReader.updateTestData(filePath, sheetName, testcaseName, "BatchName", newBatchName);
+
+			util.doSendKeys(addBatchDesc, testData.get("Description"));
+			getActiveStatusRadioButton();
+			String noOfClassesStr = testData.get("NoOfClasses");
+			int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]); 
+			String newnoOfClasses= String.valueOf(noOfClasses);
+			util.doSendKeys(addBatchNoOfClasses, newnoOfClasses);
+			
+			if (saveCancel.equalsIgnoreCase("Save")) {
+				saveButtonClick();
+				if (getToast().equalsIgnoreCase("Successful") && testcaseName.equalsIgnoreCase("validAll")) {
+					System.out.println("Batch created successfully");
+					String finalBatchName = finalBatchNamePrefix+ newBatchName;
+					System.out.println("Batch Name: " + finalBatchName);
+					/// Set the batch name after creation
+	                setBatchName(finalBatchName);
+	                
+					
+				} else {
+					System.out.println("Batch creation failed");
+				}
+				
+			} else {
+				cancelButtonClick();
+			}
+
+		}
+		 // Setter method to set the batch name
+	    public static void setBatchName(String batchName) {
+	        BatchPage.BatchName = batchName;  // Store the batch name in the static variable
+	    }
+
+	    // Getter method to get the batch name
+	    public static String getBatchName() {
+	        return BatchName;  // Return the stored batch name
+	    }
+		
+		public String getToast() {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+			wait.until(ExpectedConditions.visibilityOf(driver.findElement(toastMessage)));
+			String toastMessageValue = driver.findElement(toastMessage).getText();
+			return toastMessageValue;
+		}
+		
+		
+	
 }
