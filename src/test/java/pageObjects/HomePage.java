@@ -83,6 +83,13 @@ public class HomePage extends CommonPage {
 		return elements;
 
 	}
+	
+	public void navigateBack() {
+		
+		driver.navigate().back();
+		util.getPageLoadStatus();
+	}
+
 	public boolean isPieChartDisplayed() {
 		return util.isElementDisplayed(pie_chart);
 	}
