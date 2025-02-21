@@ -107,11 +107,14 @@ public class LoginPage {
 		else if(role == null || role.isBlank()) {
 			obj = util.getElementText(errorMessage_nullRole);
 		} 
-		else if (!(username == readConfig.getUsername() && password == readConfig.getPassword())) {
-			
-			By errorMessage_InvalidCredentials = By.xpath("//*[text()='Invalid username and password Please try again']");
-			obj = util.getElementText(errorMessage_InvalidCredentials);
-		} 
+		/*//HAVE TO CREATE A COMPLETELY DIFFERENT  METHOD FOR THIS LOGIC BLOCK
+		 * else if (!(username == readConfig.getUsername() && password ==
+		 * readConfig.getPassword())) {
+		 * 
+		 * //By errorMessage_InvalidCredentials =
+		 * By.xpath("//*[text()='Invalid username and password Please try again']");
+		 * //obj = util.getElementText(errorMessage_InvalidCredentials); }
+		 */ 
 		else { // No error. Happy path
 
 			obj = new HomePage(driver);
