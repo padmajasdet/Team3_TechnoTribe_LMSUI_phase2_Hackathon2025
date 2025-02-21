@@ -56,5 +56,28 @@ Feature: Login Page
     When Admin enter value only in user name and clicks login button
     Then Error message "Please enter your password"   
     
+
+################## ADDITIONAL SCENARIOS ################################
+		@TTLPH2-103
+		Scenario: Additional_Validate login with Empty credentials and No Role selected
+		Given Admin lands on login page
+		When Admin enters no credentials, selects no role and clicks on login button
+		Then Admin sees 3 error messages "Please enter your user name", "Please enter your password" and  "Please select your Role"
+    
+    @TTLPH2-104
+    Scenario: Additional_Validate login with Empty Credentials only
+    Given Admin lands on login page
+		When Admin only selects role as Admin and clicks on login button
+		Then Admin sees 2 error messages "Please enter your user name" and "Please enter your password"
+    
+    
+    @TTLPH2-105
+    Scenario: Additional_Validate login with valid Credentials but No role selected
+    Given Admin lands on login page
+    When Admin enters valid credentials but selects no role
+		Then Error message "Please select your Role"
+    
+    
+    
     
                  
