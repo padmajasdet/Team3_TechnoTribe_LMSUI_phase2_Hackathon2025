@@ -400,13 +400,6 @@ public class ElementUtil {
 		js.executeScript("arguments[0].click();", getElement(locator));
 	}
 
-	public void goToProgramMenu() {
-		driver.findElement(By.id("batch")).click();
-		//clickElementByJS(By.id("batch"),driver);
-		Actions action = new Actions(driver);
-		action.keyDown(Keys.SHIFT).keyDown(Keys.TAB) // the focus has come to program menu
-				.keyUp(Keys.TAB).keyUp(Keys.SHIFT).keyDown(Keys.ENTER).build().perform();
-	}
 
 	public boolean isElementEnabled(By locator) {
 		return getElement(locator).isEnabled();
@@ -511,5 +504,15 @@ public class ElementUtil {
 	        return result.toString();
 	    
     }
+	
+	 public void pressKey(WebDriver driver, Keys key) {
+	        // Initialize Actions class
+	        Actions actions = new Actions(driver);
+
+	        // Perform the key press action
+	        actions.sendKeys(key).perform();
+	        
+	        System.out.println("Pressed: " + key);
+	    }
 
 }

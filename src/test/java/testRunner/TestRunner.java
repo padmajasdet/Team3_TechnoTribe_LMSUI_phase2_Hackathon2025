@@ -8,14 +8,14 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(features = { "src/test/resources/features/Program.feature" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-
-				tags="@TC4",
+				tags="@TTLPH2-105",
 				dryRun = false, 
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",
 						"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
 				//"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
-				 "com.aventstack.chaintest.plugins.ChainTestCucumberListener:",
+				/*Commenting out report for now*/		
+				 //"com.aventstack.chaintest.plugins.ChainTestCucumberListener:",
 				"rerun:target/rerun.txt" // to record the failures
 		// features={"@target/rerun.txt" } //to rerun only failed tests
 		})
