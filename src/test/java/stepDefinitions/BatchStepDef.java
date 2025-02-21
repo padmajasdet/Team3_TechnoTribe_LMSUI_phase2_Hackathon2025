@@ -1,17 +1,7 @@
 package stepDefinitions;
 
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
 import hooks.TestContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -19,7 +9,6 @@ import io.cucumber.java.en.When;
 import pageObjects.BatchPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
-import utilities.ExcelReader;
 import utilities.ReadConfig;
 
 public class BatchStepDef  {
@@ -157,6 +146,7 @@ public class BatchStepDef  {
 	public void admin_enters_the_data_only_to_the_mandatory_fields_and_clicks_save_button() {
 	           batchPage.enterAllDetails("Save", "onlyMandatory");
 	}
+	
 	@Then("Admin should get a successful message")
 	public void admin_should_get_a_successful_message() {
 		Assert.assertEquals(batchPage.getToast(), "Successful");
@@ -167,10 +157,10 @@ public class BatchStepDef  {
 		batchPage.batchMenuClick();
 		batchPage.addBatchClick();
 	}
+	
 	@Then("Admin should see the Batch Details pop up window")
 	public void admin_should_see_the_batch_details_pop_up_window() {
-		   Assert.assertEquals(batchPage.getAddNewPageTitle(), "Batch Details");
-		
+		   Assert.assertEquals(batchPage.getAddNewPageTitle(), "Batch Details");	
 	}
 	
 	
@@ -186,43 +176,34 @@ public class BatchStepDef  {
 
 	@When("Admin leaves blank one of the mandatory fields")
 	public void admin_leaves_blank_one_of_the_mandatory_fields() {
-		batchPage.enterAllDetails("Save", "missingOneMandatory");
-		
+		batchPage.enterAllDetails("Save", "missingOneMandatory");	
 	}
+	
 	@Then("Admin should get a error message on the respective mandatory field")
 	public void admin_should_get_a_error_message_on_the_respective_mandatory_field() {
-		Assert.assertEquals(batchPage.getErrorMessage(), "Batch Name is required."); 
-	
-		
+		Assert.assertEquals(batchPage.getErrorMessage(), "Batch Name is required."); 	
 	}
 	
 	@When("Admin clicks on the close icon")
 	public void admin_clicks_on_the_close_icon() {
 	   batchPage.closeButtonClick();
 	}
+	
 	@Then("batch details pop up closes")
 	public void batch_details_pop_up_closes() {
 		Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
 	}
 
-	
-	@Then("Admin should see sub menu in menu bar as {string}")
-	public void admin_should_see_sub_menu_in_menu_bar_as(String string) {
-		 Assert.assertEquals(batchPage.getAddNewPageText(), "Add New Batch");
-	}
-
-	
 	@When("Admin enters alphabets in batch name suffix box")
 	public void admin_enters_alphabets_in_batch_name_suffix_box() {
-	   batchPage.enterBatchNameSuffix();
-		
+	   batchPage.enterBatchNameSuffix();	
 	}
+	
 	@Then("Admin should get error message below the text box of respective field")
 	public void admin_should_get_error_message_below_the_text_box_of_respective_field() {
 	   Assert.assertEquals(batchPage.getErrorMessage(), "This field accept only numbers and max 5 count.");   
 	}
 
-	
 	@When("Admin enters the valid data to all the fields and click save button")
 	public void admin_enters_the_valid_data_to_all_the_fields_and_click_save_button() {
 		 batchPage.enterAllDetails("Save", "validAll");
