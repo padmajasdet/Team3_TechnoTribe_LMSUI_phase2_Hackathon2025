@@ -4,7 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
 import java.util.List;
 
 import utilities.ElementUtil;
@@ -131,4 +135,51 @@ public class HomePage extends CommonPage {
 		return row_count.size();
 
 	}
+	public void textDashBooardSpellings() {
+		
+		String dashBoardText = util.getElementText(dashboardTitile);
+		  	  
+		JLanguageTool languageTool = new JLanguageTool (new AmericanEnglish());
+		  
+		  try {
+			  
+			  List<RuleMatch> errors = languageTool.check(dashBoardText);  //perform spell check  in navigation bar text
+			   if(errors.isEmpty()) {
+				   System.out.println("No spelling mistake");
+			   }else {
+				   System.out.println("Spelling mistake found");
+				   for (RuleMatch error : errors) {
+					  
+					   System.out.println("error on word:" + error.getLine() +", column" + error.getColumn() + ": " + error.getMessage());  
+				   }
+			   }
+		  }catch (IOException e) {
+			  
+			  e.printStackTrace();
+		  }		  
+	  }
+	
+public void textLMSSpellings() {
+		
+		String lmsTitleText = util.getElementText(lmsTitile);
+		  	  
+		JLanguageTool languageTool = new JLanguageTool (new AmericanEnglish());
+		  
+		  try {
+			  
+			  List<RuleMatch> errors = languageTool.check(lmsTitleText);  //perform spell check  in navigation bar text
+			   if(errors.isEmpty()) {
+				   System.out.println("No spelling mistake");
+			   }else {
+				   System.out.println("Spelling mistake found");
+				   for (RuleMatch error : errors) {
+					  
+					   System.out.println("error on word:" + error.getLine() +", column" + error.getColumn() + ": " + error.getMessage());  
+				   }
+			   }
+		  }catch (IOException e) {
+			  
+			  e.printStackTrace();
+		  }		  
+	  }
 }
