@@ -35,12 +35,19 @@ public class ExcelReader {
                     String header = headerCell.getStringCellValue();
                     String value = (valueCell == null) ? "" : valueCell.toString();
                     dataMap.put(header, value);
+                    
                 }
                 dataList.add(dataMap);
+               
+                
             }
+            workbook.close();
+            file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        
         return dataList;
     }
 
