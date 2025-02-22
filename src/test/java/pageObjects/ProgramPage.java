@@ -398,5 +398,16 @@ public class ProgramPage extends CommonPage {
 		return util.isElementEnabled(nextPaginatorBtn);
 
 	}
+	public void clickOnLastPage() {
+		util.clickElementByJS(lastPaginatorBtn, driver);
+
+	}
+	public boolean verifyNextPageBtnDisabled() {
+
+		if (!util.isElementEnabled(nextPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
 
 }
