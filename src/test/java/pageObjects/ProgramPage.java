@@ -91,9 +91,6 @@ public class ProgramPage extends CommonPage {
 	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
 	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
 	
-	//button[contains(@class,'p-paginator-next')]"
-	//span[@class='p-paginator-icon pi pi-angle-right']
-
 	public String getProgramPageTitle() {
 		return util.getElementText(programPageTitle);
 	}
