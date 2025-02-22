@@ -117,11 +117,11 @@ public class HomePage extends CommonPage {
 		return util.isElementDisplayed(staffTablePagination);
 	}
 	public boolean isPreviousPagePaginationDisabled() {
-		return util.isElementEnabled(previousPageIcon);
+		return (!util.isElementEnabled(previousPageIcon));
 	}
 	
 	public boolean isFirstPagePaginationDisabled() {
-		return util.isElementEnabled(firstPageIcon);
+		return (!util.isElementEnabled(firstPageIcon));
 	}
 	public int getStaffRowcount() {
 	

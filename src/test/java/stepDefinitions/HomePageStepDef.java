@@ -181,21 +181,20 @@ public class HomePageStepDef {
 	@Then("admin should see previous page icon disabled")
 	public void admin_should_see_previous_page_icon_disabled() {
 		boolean previousPagePaginationDisabled = homePage.isPreviousPagePaginationDisabled();
-		System.out.println(previousPagePaginationDisabled);
-		Assert.assertFalse(previousPagePaginationDisabled);
+		
+		Assert.assertEquals(previousPagePaginationDisabled,true);
+		
 	}
 	
 	@Then("admin should see first page icon disabled")
 	public void admin_should_see_first_page_icon_disabled() {
 		boolean firstPagePaginationDisabled = homePage.isFirstPagePaginationDisabled();
-		System.out.println(firstPagePaginationDisabled);
-		Assert.assertEquals(firstPagePaginationDisabled,false);
+		Assert.assertEquals(firstPagePaginationDisabled,true);
 	}
 	
 	@Then("Admin should see {int} staff data in a page")
 	public void admin_should_see_staff_data_in_a_page(Integer expectedRowCount) {
 	    int actual_rowCount = homePage.getStaffRowcount();
-	    System.out.println();
 	   //Assert.assertEquals(actual_rowCount, expectedRowCount, "The row count does not match the expected value.");
 	}
 
