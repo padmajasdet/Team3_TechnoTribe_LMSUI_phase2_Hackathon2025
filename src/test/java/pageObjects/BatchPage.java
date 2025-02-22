@@ -6,10 +6,12 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -41,6 +43,11 @@ public class BatchPage{
 	private String deleteIconLocator = ".//span[@class='p-button-icon pi pi-trash']";
 	private String checkboxLocator = ".//span[@class='p-checkbox-icon']"; 
 	private String sortIconLocator = ".//*[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']";
+	private By deleteTitle = By.xpath("//span[normalize-space()='Confirm']");
+	private By deleteNoButton = By.xpath("//span[normalize-space()='No']");
+	private By deleteYesButton = By.xpath("//span[normalize-space()='Yes']");
+	private By deleteCloseButton = By.xpath("//*[@class='p-dialog-header-icons ng-tns-c118-11']//span");
+	private By deleteAllButton = By.xpath("//button[@class='p-button-danger p-button p-component p-button-icon-only']//span[@class='p-button-icon pi pi-trash']");
 
 	//Batch Page - Add new batch locators
 	private By addNewBatch = By.xpath("//button[normalize-space()='Add New Batch']");
@@ -63,6 +70,9 @@ public class BatchPage{
 	public static String BatchName;  
 	private String filePath ; 
     private String sheetName = "Batch";
+    private int beforeCount;
+	private int afterCount;
+	private int selectedRows;
      
 	public BatchPage(WebDriver driver) {
 		this.driver = driver;
@@ -432,7 +442,114 @@ public class BatchPage{
 		        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", CancelBtn);
 			}
 		}
-	
+		
+		public void clickDelete() {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop")));
+			WebElement deleteIcon = wait.until(ExpectedConditions
+					.elementToBeClickable(By.xpath("//div[@class='action']//button[@icon='pi pi-trash']")));
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", deleteIcon);
+			((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteIcon);
+
+		}
+		public String getDeleteTitle() {
+			return util.getElementText(deleteTitle);
+		}
+
+		public String getDeleteNoButton() {
+			return util.getElementText(deleteNoButton);
+		}
+
+		public String getDeleteYesButton() {
+			return util.getElementText(deleteYesButton);
+		}
+		public void clickDeleteButtons(String buttonName) {
+			WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
+			overlay.click();
+			if (buttonName.equalsIgnoreCase("yes")) {
+				util.doClick(deleteYesButton);
+			} else if (buttonName.equalsIgnoreCase("no")) {
+				util.doClick(deleteNoButton);
+			} else {
+				util.doClick(deleteCloseButton);
+			}
+		}
+		
+		public void clickdeleteAllButton() {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
+			WebElement deleteButton = driver
+					.findElement(By.xpath("//*[@class='mat-card-title']//button[contains(@class, 'p-button-danger')]"));
+			wait.until(ExpectedConditions.visibilityOf(deleteButton));
+			wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
+
+			try {
+				deleteButton.click();
+			} catch (ElementClickInterceptedException e) {
+				((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteButton);
+			}
+
+		}
+		
+		public void storeBeforeCount() {
+			String countText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+					.getText();
+			String[] parts = countText.split("of ");
+			this.beforeCount = Integer.parseInt(parts[1].trim().split(" ")[0]);
+		}
+
+		public void selectCheckboxes(int rows) {
+
+			List<WebElement> checkboxes = driver
+					.findElements(By.xpath("//tbody[@class='p-datatable-tbody']//div[@role='checkbox']"));
+
+			if (rows > checkboxes.size()) {
+				throw new IllegalArgumentException("Count exceeds the number of available checkboxes");
+			}
+			this.selectedRows = rows;
+			for (int i = 0; i < rows; i++) {
+				WebElement checkbox = checkboxes.get(i);
+				if (!checkbox.isSelected()) {
+
+					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
+
+					((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkbox);
+					try {
+
+						wait.until(ExpectedConditions.elementToBeClickable(checkbox)).click();
+					} catch (ElementClickInterceptedException e) {
+
+						((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkbox);
+					}
+				}
+			}
+			clickdeleteAllButton();
+			clickDeleteButtons("yes");
+
+		}
+
+		public void storeAfterCount() {
+			String countText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+					.getText();
+
+			String[] parts = countText.split("of ");
+			this.afterCount = Integer.parseInt(parts[1].trim().split(" ")[0]);
+		}
+
+		public boolean validateCount() {
+			boolean flag = false;
+			int expectedCount = beforeCount - selectedRows;
+			storeAfterCount(); 
+			if (afterCount != expectedCount) {
+				throw new AssertionError(
+						"Count validation failed: Expected " + expectedCount + ", but found " + afterCount);
+			} else {
+				flag=true;
+			}
+			return flag;
+		}
+
 		
 		
 		
