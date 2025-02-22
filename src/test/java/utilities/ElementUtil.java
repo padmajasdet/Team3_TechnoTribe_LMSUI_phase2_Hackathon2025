@@ -521,9 +521,7 @@ public class ElementUtil {
 
 	        // Perform the key press action
 	        actions.sendKeys(key).perform();
-	        
-	        System.out.println("Pressed: " + key);
-	    }
+	 }
 
 	 public void getPageLoadStatus() {
 		 
