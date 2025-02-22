@@ -25,6 +25,15 @@ public class ElementUtil {
 
 	private WebDriver driver;
 	Alert alert;
+	String programName;
+
+	public String getProgramName() {
+		return programName;
+	}
+
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 
 	public ElementUtil(WebDriver driver) {
 		this.driver = driver;
@@ -106,7 +115,7 @@ public class ElementUtil {
 	}
 
 	public String getElementText(By locator) {
-		elementWithFluentWaitLocated(locator, 10, 100);
+		elementWithFluentWaitLocated(locator, 20, 100);
 		return getElement(locator).getText();
 	}
 
@@ -145,6 +154,7 @@ public class ElementUtil {
 	}
 
 	public List<WebElement> getElements(By locator) {
+		elementWithFluentWaitLocated(locator, 10, 100);
 		return driver.findElements(locator);
 	}
 		
@@ -399,15 +409,9 @@ public class ElementUtil {
 		js.executeScript("arguments[0].click();", getElement(locator));
 	}
 
-	public void goToProgramMenu() {
-		driver.findElement(By.id("batch")).click();
-		//clickElementByJS(By.id("batch"),driver);
-		Actions action = new Actions(driver);
-		action.keyDown(Keys.SHIFT).keyDown(Keys.TAB) // the focus has come to program menu
-				.keyUp(Keys.TAB).keyUp(Keys.SHIFT).keyDown(Keys.ENTER).build().perform();
-	}
 
 	public boolean isElementEnabled(By locator) {
+		elementWithFluentWaitLocated(locator, 20, 100);
 		return getElement(locator).isEnabled();
 	}
 	
@@ -467,7 +471,7 @@ public class ElementUtil {
 		
 		//LoggerLoad.info("Original List Before sorting is"+ originalList);
         List<String> sortedList = new ArrayList<>(originalList);
-        Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
+      //  Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
 		//LoggerLoad.info("Sorted List After sorting is"+ sortedList);
         return sortedList;
 	}
@@ -485,7 +489,7 @@ public class ElementUtil {
 		
 		//LoggerLoad.info("Original List Before sorting is"+ originalList);
         List<String> sortedList = new ArrayList<>(originalList);
-        Collections.sort(originalList, (s1, s2) -> s2.compareToIgnoreCase(s1));
+     //   Collections.sort(originalList, (s1, s2) -> s2.compareToIgnoreCase(s1));
 		//LoggerLoad.info("Sorted List After sorting is"+ sortedList);
         return sortedList;
 	}
@@ -494,7 +498,7 @@ public class ElementUtil {
 		
 		//LoggerLoad.info("Original List Before sorting is"+ originalNCList);
         ArrayList<Integer> sortedList = new ArrayList<>(originalNCList);
-        Collections.sort(originalNCList, (s1, s2) -> s2.compareTo(s1));
+     //   Collections.sort(originalNCList, (s1, s2) -> s2.compareTo(s1));
 		//LoggerLoad.info("Sorted List After sorting is"+ originalNCList);
         return sortedList;
 	}
@@ -510,5 +514,41 @@ public class ElementUtil {
 	        return result.toString();
 	    
     }
+	
+	 public void pressKey(WebDriver driver, Keys key) {
+	        // Initialize Actions class
+	        Actions actions = new Actions(driver);
 
+	        // Perform the key press action
+	        actions.sendKeys(key).perform();
+	        
+	        System.out.println("Pressed: " + key);
+	    }
+
+	 public void getPageLoadStatus() {
+		 
+			JavascriptExecutor js = ((JavascriptExecutor) driver);
+			
+			String loadingStatus = js.executeScript("return document.readyState;").toString();
+			
+			//if page is loaded
+			if(loadingStatus.equals("complete")) {
+				System.out.println("page is fully loaded");
+			}
+			else {
+				
+				int i=15;
+				while (!(loadingStatus.equals("complete"))) {
+					
+					i++;
+					loadingStatus = js.executeScript("return document.readyState;").toString();
+					
+					if(loadingStatus.equals("complete")) {
+						break;
+					}
+				}
+			}
+
+
+	 }
 }
