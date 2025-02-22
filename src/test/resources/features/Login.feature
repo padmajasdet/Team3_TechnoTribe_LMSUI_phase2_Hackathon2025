@@ -29,7 +29,7 @@ Feature: Login Page
     Then Admin should land on home page
   
   
-  @TTLPH2-13  @defectToBeRaised
+  @TTLPH2-13  @defectToBeRaised-5
   Scenario Outline: Validate login with invalid data - "<TestCase>"
     Given Admin lands on login page
     When Admin enter invalid "<Username>" and/or "<Password>", and clicks login button
@@ -94,7 +94,7 @@ Feature: Login Page
 		Then If HTTP response >= 400, then the link is broken
 		
 		
-		@TTLPH2-17 @TTLPH2-138
+		@TTLPH2-17 @TTLPH2-138 @defectToBeRaised-3
 		Scenario Outline: Verify Admin is not able to land on home page with invalid URL - "<TestCase>"
 		When Admin gives the invalid LMS portal URL for test case "<TestCase>"
 		Then Admin should receive application error 
