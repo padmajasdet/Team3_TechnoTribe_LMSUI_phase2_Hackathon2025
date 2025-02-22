@@ -83,6 +83,16 @@ public class ProgramPage extends CommonPage {
 	By deleteBtnManageProgram = By.xpath("//button[@class='p-button-danger p-button p-component p-button-icon-only']");
 	// By programTable = By.xpath("//table/tbody");
 	By footerPrograms = By.xpath("//div[@class='p-d-flex p-ai-center p-jc-between ng-star-inserted']");
+	
+	//Pagination
+	
+	By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
+	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
+	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
+	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
+	
+	//button[contains(@class,'p-paginator-next')]"
+	//span[@class='p-paginator-icon pi pi-angle-right']
 
 	public String getProgramPageTitle() {
 		return util.getElementText(programPageTitle);
@@ -382,6 +392,14 @@ public class ProgramPage extends CommonPage {
 		Assert.assertEquals(actualFooterText, expectedText);
 		
 		
+	}
+	public void clickOnNextPage() {
+		util.clickElementByJS(nextPaginatorBtn, driver);
+
+	}
+	public boolean nextPageEnabled() {
+		return util.isElementEnabled(nextPaginatorBtn);
+
 	}
 
 }
