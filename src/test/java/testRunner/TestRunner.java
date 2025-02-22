@@ -7,7 +7,7 @@ import io.cucumber.testng.CucumberOptions;
 
 
 
-@CucumberOptions(features = { "src/test/resources/features/" }, 
+@CucumberOptions(features = { "src/test/resources/features/Program.feature" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
 			//	tags="@doing",
