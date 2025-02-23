@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,7 +49,9 @@ public class BatchPage{
 	private By deleteYesButton = By.xpath("//span[normalize-space()='Yes']");
 	private By deleteCloseButton = By.xpath("//*[@class='p-dialog-header-icons ng-tns-c118-11']//span");
 	private By deleteAllButton = By.xpath("//button[@class='p-button-danger p-button p-component p-button-icon-only']//span[@class='p-button-icon pi pi-trash']");
+	private By searchTextBox = By.xpath("//input[@id='filterGlobal']");
 
+	
 	//Batch Page - Add new batch locators
 	private By addNewBatch = By.xpath("//button[normalize-space()='Add New Batch']");
 	private By addNewBatchTitle = By.xpath("//*[contains(text(),'Batch Details')]");
@@ -68,8 +71,10 @@ public class BatchPage{
 	private By invalidError = By.xpath("//small[@id='text-danger']");
 	private By closeButton = By.xpath("//*[@header='Batch Details']//button[@type='button']");
 	public static String BatchName;  
+	public static String BatchName1;
 	private String filePath ; 
     private String sheetName = "Batch";
+    private WebDriverWait wait;
     private int beforeCount;
 	private int afterCount;
 	private int selectedRows;
@@ -325,7 +330,12 @@ public class BatchPage{
 			                System.out.println("Batch Name: " + finalBatchName);
 			                setBatchName(finalBatchName);
 			            } else {
+			 
 			                System.out.println("Batch created successfully - " +toastMessage);
+			                String finalBatchName1 = finalBatchNamePrefix + newBatchName;
+			                System.out.println("Batch Name: " + finalBatchName1);
+			                setBatchName1(finalBatchName1);
+			              
 			            }
 			        } else {
 			            System.out.println("Unexpected Toast Message: " + toastMessage);
@@ -475,9 +485,12 @@ public class BatchPage{
 			}
 		}
 		
-		public void clickdeleteAllButton() {
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		public void isElementIntercepted() {
+			 wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
+		}
+		public void clickdeleteAllButton() {
+			isElementIntercepted();
 			WebElement deleteButton = driver
 					.findElement(By.xpath("//*[@class='mat-card-title']//button[contains(@class, 'p-button-danger')]"));
 			wait.until(ExpectedConditions.visibilityOf(deleteButton));
@@ -510,13 +523,9 @@ public class BatchPage{
 			for (int i = 0; i < rows; i++) {
 				WebElement checkbox = checkboxes.get(i);
 				if (!checkbox.isSelected()) {
-
-					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-					wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
-
+					isElementIntercepted();
 					((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkbox);
 					try {
-
 						wait.until(ExpectedConditions.elementToBeClickable(checkbox)).click();
 					} catch (ElementClickInterceptedException e) {
 
@@ -549,8 +558,63 @@ public class BatchPage{
 			return flag;
 		}
 
-		
-		
+		  public static void setBatchName1(String batchName1) {
+		        BatchPage.BatchName1 = batchName1;  // Store the batch name in the static variable
+		    }
+
+		    // Getter method to get the batch name
+		    public static String getBatchName1() {
+		        return BatchName1;  // Return the stored batch name
+		    }
+		    
+		public void enterSearch() {
+			 wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+			    // Wait for any overlay to disappear before interacting
+			   wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
+
+			    // Ensure the search box is clickable before interaction
+			    wait.until(ExpectedConditions.elementToBeClickable(searchTextBox));
+
+			    // Clear and interact using By locator
+			    util.clearField(searchTextBox);  // Assuming searchTextBox is located by ID
+			    util.doClick(searchTextBox);
+			    
+			    System.out.println("Batch name is: " + getBatchName1());
+			    util.doSendKeys(searchTextBox, getBatchName1());
+		}
+		public boolean validateSearch() {
+			boolean flag = false;
+			WebElement dataTable = driver
+					.findElement(By.xpath("//div[@class='p-d-flex p-ai-center p-jc-between ng-star-inserted']"));
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until(ExpectedConditions.visibilityOf(dataTable));
+			int retryCount = 0;
+		    while (retryCount < 3) { 
+		        try {
+			List<WebElement> batchRows = driver.findElements(By.xpath("//tbody[@class='p-datatable-tbody']/tr/td[2]"));
+			 if (batchRows.size() > 0) {
+			for (WebElement row : batchRows) {
+				String rowText = row.getText();
+				if (rowText.contains(getBatchName1())) {
+					flag = true;
+					break;
+				 }
+	        }
+	    } else {
+	        System.out.println("No results found in the data table.");
+	    }
+			 break; 
+		        } catch (StaleElementReferenceException e) {
+		            retryCount++;
+		            System.out.println("StaleElementReferenceException encountered. Retrying... " + retryCount);
+		        }
+		    }
+		    if (retryCount >= 3) {
+		        System.out.println("Failed to validate search due to stale elements after multiple retries.");
+		    }
+			return flag;
+		}
 		
 		
 		

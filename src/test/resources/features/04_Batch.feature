@@ -88,7 +88,7 @@ Scenario: Validate batch name prefix box is not editable
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin enters alphabets in batch name prefix box
 	Then Admin should see empty text box
-
+@doing
 Scenario: Validate input data only for mandatory fields
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin enters the data only to the mandatory fields and clicks save button
@@ -168,18 +168,42 @@ Scenario: validate close Icon on the alert box
 	Then Admin should see the alert box closed 
 
 #Delete multiple batches with checkbox
-
 Scenario: Validate single row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon under the Manage batch header
 	Then The respective row in the table should be deleted
-@doing
+
 Scenario: Validate multiple row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon for multiple row under the Manage batch header
 	Then The respective row in the table should be deleted
 	
+#Search Text box validation
+@doing
+Scenario: validate search box functionality
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box
+	Then Admin should see the filtered batches in the data table
+
+Scenario: Validate edit icon functionality by search
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box and edit the valid data and click save button 
+	Then Admin should get a successful message for editing the batch
 	
+Scenario: Validate delete icon functionality by search
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box and click on delete icon
+	Then The respective row in the table should be deleted
+
+#LogOut of the application from the batch page
+
+Scenario: Validate logout option in the header is visible and enabled from the batch page
+	Given Admin is on the Batch page
+	When Admin clicks on the logout button
+	Then Admin should see the Login screen Page
+	
+
+
 	
 
 	

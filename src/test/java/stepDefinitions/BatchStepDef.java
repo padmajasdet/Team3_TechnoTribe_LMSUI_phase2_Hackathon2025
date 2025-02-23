@@ -314,6 +314,38 @@ public class BatchStepDef  {
 		batchPage.selectCheckboxes(3);
 	}
 
+	@When("Admin enters the batch name in the search text box and edit the valid data and click save button")
+	public void admin_enters_the_batch_name_in_the_search_text_box_and_edit_the_valid_data_and_click_save_button() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	@When("Admin enters the batch name in the search text box")
+	public void admin_enters_the_batch_name_in_the_search_text_box() {
+	    batchPage.enterSearch();
+	}
+	@Then("Admin should see the filtered batches in the data table")
+	public void admin_should_see_the_filtered_batches_in_the_data_table() {
+		Assert.assertFalse(batchPage.validateSearch());
+	}
+	@When("Admin clicks on the logout button")
+	public void admin_clicks_on_the_logout_button() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	@Then("Admin should see the Login screen Page")
+	public void admin_should_see_the_login_screen_page() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	@When("Admin enters the batch name in the search text box and click on delete icon")
+	public void admin_enters_the_batch_name_in_the_search_text_box_and_click_on_delete_icon() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+
+	
+	
+	
 	
 
 
