@@ -19,10 +19,9 @@ public class ProgramPaginationDef {
 	WebDriver driver;
 	TestContext context;
 	ReadConfig readConfig;
-	LoginPage loginPage;
 	HomePage homePage;
 	ProgramPage programPage;
-	CommonPage commonPage;
+	
 	public static Map<String, String> programData;
 	public ProgramPaginationDef(TestContext context) {
 		this.context = context;
