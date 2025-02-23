@@ -220,6 +220,17 @@ public class ClassPage {
 	private WebElement allDisabledDatesForCurrentMonth;
 	@FindBy(tagName = "p-calendar")
 	private WebElement elementStoringEnteredDate;
+	
+	//Class Page - Pagination locators
+	
+	private	By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
+	private	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
+	private By thirdPaginatorBtn = By.xpath("//button[normalize-space()='3']");
+	private	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
+	private	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
+	private int lastPageEntryCount;
+	private int lastPageFooterEntryCount;
+		
 
 	// String batchName, String ClassTopic, String ClassDescription, String month,
 	// String date1, String date2, String StaffName, String Status
@@ -532,6 +543,56 @@ public class ClassPage {
 		text2 = success_dbdelete.getText();
 		System.out.println(text2);
 	}
+	
+	public void clickOnNextPage() {
+		elementUtil.clickElementByJS(nextPaginatorBtn, driver);
+
+	}
+	public boolean nextPageEnabled() {
+		return elementUtil.isElementEnabled(nextPaginatorBtn);
+
+	}
+	public String nextPageValidation() {
+		
+		String pageEntryText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+				.getText();
+		return pageEntryText;
+	}
+	
+	public void clickOnLastPage() {
+		elementUtil.clickElementByJS(lastPaginatorBtn, driver);
+
+	}
+	public boolean lastPageDisplayed() {
+		return elementUtil.isElementDisplayed(lastPaginatorBtn);
+
+	}
+	public boolean verifyNextPageBtnDisabled() {
+
+		if (!elementUtil.isElementEnabled(nextPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int lastPageRecord() {
+		
+		String pageEntryText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+				.getText();
+		String[] lastPageEntry = pageEntryText.split("of ");
+		lastPageEntryCount = Integer.parseInt(lastPageEntry[1].trim().split(" ")[0]);
+		return lastPageEntryCount;
+	}
+	
+	public int lastPageFootCount() {
+		String footerMessageText = driver.findElement(By.xpath("//p-table/div/div[2]/div"))
+				.getText();
+		String[] lastPageFooterEntry = footerMessageText.split("are ");
+		lastPageFooterEntryCount = Integer.parseInt(lastPageFooterEntry[1].trim().split(" ")[0]);
+		return lastPageFooterEntryCount;
+		
+	}
+	
 	
 
 }

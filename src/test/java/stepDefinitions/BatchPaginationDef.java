@@ -16,9 +16,8 @@ public class BatchPaginationDef {
 	WebDriver driver;
 	TestContext context;
 	ReadConfig readConfig;
-	LoginPage loginPage;
 	BatchPage batchPage;
-	HomePage homePage;
+
 	public BatchPaginationDef(TestContext context) {
 		this.context = context;
 	      this.driver = context.getDriver();
