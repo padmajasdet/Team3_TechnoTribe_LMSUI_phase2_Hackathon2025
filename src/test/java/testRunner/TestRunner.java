@@ -5,8 +5,6 @@ import org.testng.annotations.DataProvider;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
-
-
 @CucumberOptions(features = { "src/test/resources/features/" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
@@ -19,8 +17,9 @@ import io.cucumber.testng.CucumberOptions;
 				//"io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
 				/*Commenting out report for now*/		
 				 //"com.aventstack.chaintest.plugins.ChainTestCucumberListener:",
+
 				"rerun:target/rerun.txt" // to record the failures
-		// features={"@target/rerun.txt" } //to rerun only failed tests
+// features={"@target/rerun.txt" } //to rerun only failed tests
 		})
 
 public class TestRunner extends AbstractTestNGCucumberTests {

@@ -204,6 +204,7 @@ public class ClassPage extends CommonPage {
 
 	public boolean cancelDisp() throws InterruptedException {
 		// return cancelBtn.isDisplayed();
+		elementUtil.scrollIntoView(cancelBtn);
 		return elementUtil.isElementDisplayed(cancelBtn);
 	}
 
@@ -265,6 +266,7 @@ public class ClassPage extends CommonPage {
 
 	public String addingMandatoryFields(String batchName, String ClassTopic, String ClassDescription, String month,
 			String date, String StaffName, String Status) throws Exception {
+
 		
 		//Enter Batch Name
 		//elementUtil.clickElementByJS(batchNameDrpdw, driver);
@@ -282,7 +284,6 @@ public class ClassPage extends CommonPage {
 		
 		//Select Class Dates
 		elementUtil.doClick(datePicker); //clicking on date box. Calendar pops up
-
 		
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -380,22 +381,12 @@ public class ClassPage extends CommonPage {
 		return element.getText();
 	}
 
-	public void selectOptionalFields(String comments, String Notes, String Recording) {
+	public void selectOptionalFields(String comments, String Notes, String Recording) throws InterruptedException {
 
-		//JavascriptExecutor js = (JavascriptExecutor) driver;
-		// js.executeScript("arguments[0].scrollIntoView(true);", statusInActive);
-		//js.executeScript("arguments[0].scrollIntoView(true);", Status);
 		elementUtil.scrollIntoView(Status);
-
-		// classComments.sendKeys(comments);
 		elementUtil.doSendKeys(classComments, comments);
-
-		// notes.sendKeys(Notes);
 		elementUtil.doSendKeys(notes, Notes);
-
-		// recording.sendKeys(Recording);
 		elementUtil.doSendKeys(recording, Recording);
-
 		elementUtil.doClick(saveAddClass);
 
 	}
