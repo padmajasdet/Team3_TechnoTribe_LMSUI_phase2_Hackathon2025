@@ -1,318 +1,184 @@
 package pageObjects;
 
 import java.time.Duration;
-//import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.text.SimpleDateFormat;
-import java.text.*;
 
-import org.apache.poi.ss.formula.functions.T;
-import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.ElementUtil;
 
-import hooks.TestContext;
 
-
-public class ClassPage {
+public class ClassPage extends CommonPage {
 
 	private WebDriver driver;
 	private WebDriverWait wait;
 	Actions actions;
 
-	TestContext context;
 	ElementUtil elementUtil;
 	JavascriptExecutor js;
 	List<WebElement> manageProgramMenuItems = new ArrayList<>();
 
-	public ClassPage(WebDriver driver, TestContext context) {
+	private By classBtn = By.xpath("//span[text()='Class']");
 
-		this.driver = context.getDriver();
-
-		this.context = context;
-		this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		this.actions = new Actions(driver);
-		this.elementUtil = new ElementUtil(driver);
-		this.js = (JavascriptExecutor) driver;
-		PageFactory.initElements(driver, this);
-
-	}
-
-//login
-	@FindBy(id = "username")
-	private WebElement userName;
-	@FindBy(id = "password")
-	private WebElement password;
-
-	@FindBy(xpath = "//span[text()='Select the role']")
-	private WebElement selectRole;
-
-	@FindBy(xpath = "//span[normalize-space()='Admin']")
-	private WebElement Role;
-	@FindBy(xpath = "//button[@id='login']")
-	private WebElement Login;
-	@FindBy(xpath = "//span[text()='Class']")
-	private WebElement classBtn;
-
-//Manage class page
-	@FindBy(xpath = "//div[normalize-space()='Manage Class']")
-	private WebElement ManageHeader;
-	@FindBy(xpath = "//input[@id='filterGlobal']")
-	private WebElement searchBox;
-	@FindBy(xpath = "//thead[@class='p-datatable-thead']/tr")
-	private WebElement ManageTable;
-	@FindBy(xpath = "//p-table/div/div[2]/div")
-	private WebElement paginationfooter;
-	@FindBy(className = "p-sortable-column-icon")
-	private List<WebElement> sortingBtn;
-	@FindBy(css = "button[class='p-button-danger p-button p-component p-button-icon-only']")
-	private WebElement deleteBtnMC;
-	@FindBy(css = ".p-paginator-current.ng-star-inserted")
-	private WebElement showingEnteries;
+	//Manage class page
+	private By ManageHeader = By.xpath("//div[normalize-space()='Manage Class']");
+	private By searchBox = By.xpath("//input[@id='filterGlobal']");
+	private By ManageTable = By.xpath("//thead[@class='p-datatable-thead']/tr");
+	private By paginationfooter = By.xpath("//p-table/div/div[2]/div");
+	private By sortingBtn = By.className("p-sortable-column-icon");
+	private By deleteBtnMC = By.cssSelector("button[class='p-button-danger p-button p-component p-button-icon-only']");
+	private By showingEnteries = By.cssSelector(".p-paginator-current.ng-star-inserted");
 
 	// Add new class
-	// popup new window elements
-	@FindBy(xpath = "//button[text()='Add New Class']")
-	private WebElement addNewClassBtn;
-	@FindBy(xpath = "//button[@label='Cancel']")
-	private WebElement cancelBtn;
-	@FindBy(xpath = "//button[@label='Save']")
-	private WebElement saveBtn;
-	@FindBy(css = ".p-dialog-header-close")
-	private WebElement crossBtn;
-	@FindBy(css = ".p-datatable-footer.ng-star-inserted")
-	private WebElement footer;
-	@FindBy(xpath = "//label[normalize-space()='Batch Name']")
-	private WebElement batchNamePopup;
+	//private By addNewClassBtn = By.xpath("//button[text()='Add New Class']");
+	private By addNewClassBtn = By.xpath("//button[@role='menuitem']");
 
-	// Add new class page 
-	//@FindBy(xpath = "//input[@placeholder='Select a Batch Name']")
-	@FindBy(xpath = "//label[text()='Batch Name']//following-sibling::p-dropdown//div[@role='button']")
-	private WebElement batchNameDrpdw;
+	private By cancelBtn = By.xpath("//button[@label='Cancel']");
+	private By saveBtn = By.xpath("//button[@label='Save']");
+	private By crossBtn = By.cssSelector(".p-dialog-header-close");
+	// private By footer = By.cssSelector(".p-datatable-footer.ng-star-inserted");
+	// no usage
+	private By batchNamePopup = By.xpath("//label[normalize-space()='Batch Name']");
 
-	// @FindBy(id = "batchName")
-	// private WebElement batchNameDrpdw;
-	// @FindBy(xpath = "(//span[contains(@class,'p-dropdown-trigger-icon')]/..)[1]")
-	// private WebElement batchNameDrpdw;
+	// Add new class page
+	private By batchNameDrpdw = By
+			.xpath("//label[text()='Batch Name']//following-sibling::p-dropdown//div[@role='button']");
+	private By batchNameTextArea = By.xpath("//input[@placeholder='Select a Batch Name']");
+	private By classTopicPopup = By.xpath("//label[text()='Class Topic ']");
+	private By classTopicTextbox = By.xpath("//input[@id='classTopic']");
+	private By managePage = By.xpath("//div[normalize-space()='Manage Class']");
+	private By ClassDescription = By.xpath("//label[normalize-space()='Class Description']");
+	private By ClassDescriptionTextbox = By.xpath("//input[@id='classDescription']");
+	private By No_of_Classes = By.xpath("//label[normalize-space()='No of Classes']");
+	private By No_of_ClassesTextbox = By.xpath("//input[@id='classNo']");
 
-	@FindBy(xpath = "//label[text()='Class Topic ']")
-	private WebElement classTopicPopup;
-	@FindBy(xpath = "//input[@id='classTopic']")
-	private WebElement classTopicTextbox;
-
-	@FindBy(xpath = "//div[normalize-space()='Manage Class']")
-	private WebElement managePage;
-	@FindBy(xpath = "//label[normalize-space()='Class Description']")
-	private WebElement ClassDescription;
-	@FindBy(xpath = "//input[@id='classDescription']")
-	private WebElement ClassDescriptionTextbox;
-
-	@FindBy(xpath = "//label[normalize-space()='No of Classes']")
-	private WebElement No_of_Classes;
-	@FindBy(xpath = "//input[@id='classNo']")
-	private WebElement No_of_ClassesTextbox;
-	@FindBy(xpath = "//span[@class='p-dropdown-trigger-icon ng-tns-c88-29 pi pi-chevron-down']")
-	private WebElement StaffNameDropDown;
-	@FindBy(xpath = "//div[normalize-space()='Active']/p-radiobutton")
-	private WebElement statusActive;
-	@FindBy(xpath = "(//div[normalize-space()='Inactive']/p-radiobutton")
-	private WebElement statusInActive;
-
-	@FindBy(xpath = "//label[normalize-space()='Staff Name']")
-	private WebElement StaffName;
-	@FindBy(xpath = "//input[@placeholder='Select a Staff Name']")
-	private WebElement staffName;
-	@FindBy(xpath = "//label[normalize-space()='Comments']")
-	private WebElement Comments;
-	@FindBy(xpath = "//label[normalize-space()='Notes']")
-	private WebElement Notes;
-	@FindBy(xpath = "//label[normalize-space()='Recording']")
-	private WebElement Recording;
-	@FindBy(xpath = "//lable[@for='online']")
-	private WebElement Status;
-	@FindBy(xpath = "//label[normalize-space()='Select Class Dates']")
-	private WebElement ClassDates;
-	@FindBy(id = "saveClass")
-	private WebElement saveAddClass;
+	private By statusActive = By.xpath("//div[normalize-space()='Active']/p-radiobutton");
+	private By statusInActive = By.xpath("(//div[normalize-space()='Inactive']/p-radiobutton");
+	private By StaffName = By.xpath("//label[normalize-space()='Staff Name']");
+	private By staffName = By.xpath("//input[@placeholder='Select a Staff Name']");
+	private By Comments = By.xpath("//label[normalize-space()='Comments']");
+	private By Notes = By.xpath("//label[normalize-space()='Notes']");
+	private By Recording = By.xpath("//label[normalize-space()='Recording']");
+	private By Status = By.xpath("//lable[@for='online']");
+	private By ClassDates = By.xpath("//label[normalize-space()='Select Class Dates']");
+	private By saveAddClass = By.id("saveClass");
 
 	// required fields
+	private By batchNameReq = By.xpath("//small[normalize-space()='Batch Name is required.']");
+	private By classTopicReq = By.xpath("//small[normalize-space()='Class Topic is required.']");
+	private By classDateReq = By.xpath("//small[normalize-space()='Class Date is required.']");
+	private By staffNameReq = By.xpath("//small[normalize-space()='Staff Name is required.']");
+	private By noOfClassesReq = By.xpath("//small[normalize-space()='No. of Classes is required.']");
 
-	@FindBy(xpath = "//small[normalize-space()='Batch Name is required.']")
-	private WebElement batchNameReq;
-	@FindBy(xpath = "//small[normalize-space()='Class Topic is required.']")
-	private WebElement classTopicReq;
-	@FindBy(xpath = "//small[normalize-space()='Class Date is required.']")
-	private WebElement classDateReq;
-	@FindBy(xpath = "//small[normalize-space()='Staff Name is required.']")
-	private WebElement staffNameReq;
-	@FindBy(xpath = "//small[normalize-space()='No. of Classes is required.']")
-	private WebElement noOfClassesReq;
-// optional fields
-	@FindBy(xpath = "//input[@id='classComments']")
-	private WebElement classComments;
-	@FindBy(xpath = "//input[@id='classNotes']")
-	private WebElement notes;
-	@FindBy(xpath = "//input[@id='classRecordingPath']")
-	private WebElement recording;
+	// optional fields
+	private By classComments = By.xpath("//input[@id='classComments']");
+	private By notes = By.xpath("//input[@id='classNotes']");
+	private By recording = By.xpath("//input[@id='classRecordingPath']");
 
 // class SuccessMessage
-	@FindBy(xpath = "//div[text()='Successful']")
-	private WebElement classCreated;
+	private By classCreated = By.xpath("//div[text()='Successful']");
 
 // Edit Window
-	@FindBy(xpath = "//button[@icon='pi pi-pencil']")
-	private WebElement editBtn;
-	//@FindBy(xpath = "//div[@class='p-dialog-header ng-tns-c168-7 ng-star-inserted']")
-	@FindBy(xpath = "//div[@class='ng-trigger ng-trigger-animation ng-tns-c81-10 p-fluid p-dialog p-component p-dialog-draggable p-dialog-resizable ng-star-inserted']")
-	private WebElement editPopup;
-	
+	private By editBtn = By.xpath("//button[@icon='pi pi-pencil']");
+	private By editPopup = By.xpath(
+			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c81-10 p-fluid p-dialog p-component p-dialog-draggable p-dialog-resizable ng-star-inserted']");
 
 // Delete
+	private By deletebtn = By.xpath("(//button[@icon='pi pi-trash'])[2]");
+	private By confirmyes = By.xpath("//button//span[text()='Yes']");
+	private By confirmno = By.xpath("//button//span[text()='No']");
+	private By successdelete = By.xpath("//div[text()='Successful']");
 
-	@FindBy(xpath = "(//button[@icon='pi pi-trash'])[2]")
-	private WebElement deletebtn;
-	@FindBy(xpath = "//button//span[text()='Yes']")
-	private WebElement confirmyes;
-	@FindBy(xpath = "//button//span[text()='No']")
-	private WebElement confirmno;
-	@FindBy(xpath = "//div[text()='Successful']")
-	private WebElement successdelete;
 	// delete multiple program locators
-		@FindBy(xpath = "//div/mat-card/mat-card-content/p-table/div/div[1]/table/tbody/tr[1]/td[1]/p-tablecheckbox/div/div[2]")
-		private WebElement checkbox1;
-		@FindBy(xpath = "//div/mat-card/mat-card-content/p-table/div/div[1]/table/tbody/tr[3]/td[1]/p-tablecheckbox/div/div[2]")
-		private WebElement checkbox2;
-		@FindBy(xpath = "//div/mat-card/mat-card-title/div[2]/div[1]/button/span[1]")
-		private WebElement dubdelete_icon;
-		@FindBy(xpath = "//button//span[text()='Yes']")
-		private WebElement dubdelete_yes;
-		@FindBy(xpath = "//div/p-toastitem/div/div/div/div[2]")
-		private WebElement success_dbdelete;
-		
-		//Search
-		@FindBy(xpath = "//tbody//td[2]")
-		List<WebElement> listOfBatchNames;
-		@FindBy(xpath = "//tbody//td[3]")
-		List<WebElement> listOfClassTopic;
-		@FindBy(xpath = "//tbody//td[7]")
-		List<WebElement> listOfStaffNames;
-		
-		
-		// sort element locators
-		// sort
-		@FindBy(xpath = "//thead//tr//th[2]//i")
-		private WebElement BatchNameSort;
-		@FindBy(xpath = "//thead//tr//th[3]//i")
-		private WebElement classTopicSort;
-		@FindBy(xpath = "//thead//tr//th[4]//i")
-		private WebElement classDescripSort;
-		@FindBy(xpath = "//thead//tr//th[5]//i")
-		private WebElement StatusSort;
-		@FindBy(xpath = "//thead//tr//th[6]//i")
-		private WebElement ClassDateSort;
-		@FindBy(xpath = "//thead//tr//th[7]//i")
-		private WebElement StaffNameSort;
-		
-		
-		
-		
-		// SortList
-		@FindBy(xpath = "//tbody//td[2]")
-		private List<WebElement> BatchNameList;
-		@FindBy(xpath = "//tbody//td[3]")
-		private List<WebElement> classTopicList;
-		@FindBy(xpath = "//tbody//td[4]")
-		private List<WebElement> classDescripList;
-		
-		@FindBy(xpath = "//tbody//td[5]")
-		private List<WebElement> StatusList;
-		@FindBy(xpath = "//tbody//td[6]")
-		private List<WebElement> ClassDateList;
-		@FindBy(xpath = "//tbody//td[6]")
-		private List<WebElement> StaffNameList;
-		
-		
+	private By checkbox1 = By.xpath(
+			"//div/mat-card/mat-card-content/p-table/div/div[1]/table/tbody/tr[1]/td[1]/p-tablecheckbox/div/div[2]");
+	private By checkbox2 = By.xpath(
+			"//div/mat-card/mat-card-content/p-table/div/div[1]/table/tbody/tr[3]/td[1]/p-tablecheckbox/div/div[2]");
+	private By dubdelete_icon = By.xpath("//div/mat-card/mat-card-title/div[2]/div[1]/button/span[1]");
+	private By dubdelete_yes = By.xpath("//button//span[text()='Yes']");
+	private By success_dbdelete = By.xpath("//div/p-toastitem/div/div/div/div[2]");
+
+	// Search
+	private By listOfBatchNames = By.xpath("//tbody//td[2]");
+	private By listOfClassTopic = By.xpath("//tbody//td[3]");
+	private By listOfStaffNames = By.xpath("//tbody//td[7]");
+
+	// sort element locators
+	// sort
+	private By BatchNameSort = By.xpath("//thead//tr//th[2]//i");
+	private By classTopicSort = By.xpath("//thead//tr//th[3]//i");
+	private By classDescripSort = By.xpath("//thead//tr//th[4]//i");
+	private By StatusSort = By.xpath("//thead//tr//th[5]//i");
+	private By ClassDateSort = By.xpath("//thead//tr//th[6]//i");
+	private By StaffNameSort = By.xpath("//thead//tr//th[7]//i");
+
+	// SortList
+	private By BatchNameList = By.xpath("//tbody//td[2]");
+	private By classTopicList = By.xpath("//tbody//td[3]");
+	private By classDescripList = By.xpath("//tbody//td[4]");
+	private By StatusList = By.xpath("//tbody//td[5]");
+	private By ClassDateList = By.xpath("//tbody//td[6]");
+	private By StaffNameList = By.xpath("//tbody//td[7]");
 
 	// date picker
+	private By datePicker = By.xpath("//input[@id='icon']");
+	private By nextMonth = By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']");
+	private By Currentmonth = By.xpath("//span[@class='p-datepicker-month ng-tns-c92-13 ng-star-inserted']");
 
-	@FindBy(xpath = "//input[@id='icon']")
-	private WebElement datePicker;
-	@FindBy(xpath = "//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']")
-	private WebElement nextMonth;
-	@FindBy(xpath = "//span[@class='p-datepicker-month ng-tns-c92-13 ng-star-inserted']")
-	private WebElement Currentmonth;
-	@FindBy(xpath = "//span[normalize-space()='21']")
-	private WebElement date;
-	// @FindBy(xpath = "//table[@class='p-datepicker-calendar
-	// ng-tns-c92-13']/tbody/tr/td/span")
-	// private List<WebElement> dateSel;
-	@FindBy(xpath = "//td[@ng-reflect-ng-class='[object Object]']")
-	private List<WebElement> dateSel;
+	private By calendarTextField = By.xpath("//input[@id='icon']");
+	private By selectDateCalenderBtn = By.xpath("//button[@ng-reflect-icon='pi pi-calendar']");
 
-	@FindBy(xpath = "//input[@id='icon']")
-	private WebElement calendarTextField;
-	@FindBy(xpath = "//button[@ng-reflect-icon='pi pi-calendar']")
-	private WebElement selectDateCalenderBtn;
-	@FindBy(css = "span.p-disabled")
-	private WebElement allDisabledDatesForCurrentMonth;
-	@FindBy(tagName = "p-calendar")
-	private WebElement elementStoringEnteredDate;
-	
-	//Class Page - Pagination locators
-	
-	private	By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
-	private	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
-	private By thirdPaginatorBtn = By.xpath("//button[normalize-space()='3']");
-	private	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
-	private	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
+
+	// Class Page - Pagination locators
+	private By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
+	private By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
+	private By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
+	private By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
 	private int lastPageEntryCount;
 	private int lastPageFooterEntryCount;
-		
 
-	// String batchName, String ClassTopic, String ClassDescription, String month,
-	// String date1, String date2, String StaffName, String Status
+	public ClassPage(WebDriver driver) {
+		super(driver);
+		this.driver = driver;
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		actions = new Actions(driver);
+		elementUtil = new ElementUtil(driver);
+		js = (JavascriptExecutor) driver;
+	}
+	
+	
 	public void openCalendar() throws Exception {
-		// util.scrollIntoView(selectDateCalenderBtn);
 		elementUtil.doClick(selectDateCalenderBtn);
 		Thread.sleep(2000);
 	}
 
 	public void clickClassBtn() {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
-		js.executeScript("arguments[0].click();", classBtn);
-
+		elementUtil.clickElementByJS(classBtn, driver);
 	}
 
 //manage class page methods
 	public String getManageHeader() {
-		return ManageHeader.getText();
+		// return ManageHeader.getText();
+		return elementUtil.getElementText(ManageHeader);
 
 	}
 
 	public boolean validatesearchbox() {
-
-		return searchBox.isDisplayed();
-
+		return elementUtil.isElementDisplayed(searchBox);
 	}
 
 	public List<String> validateManageTableHeader() {
 
-		manageProgramMenuItems = ManageTable.findElements(By.tagName("th"));
+		manageProgramMenuItems = elementUtil.getElement(ManageTable).findElements(By.tagName("th"));
 		List<String> itemTextList = new ArrayList<>();
 		for (WebElement item : manageProgramMenuItems) {
 			String itemText = item.getText();
@@ -324,138 +190,129 @@ public class ClassPage {
 	}
 
 	public String testpaginationfooter() {
-
-		String paginationTextfooter = paginationfooter.getText();
-
-		return paginationTextfooter;
+		return elementUtil.getElementText(paginationfooter);
 	}
 
 	// popup methods
 
 	public void clickAddNewClass() throws InterruptedException {
-
-		js.executeScript("arguments[0].click();", addNewClassBtn);
-
+		//elementUtil.doClick(addNewClassBtn);
+		elementUtil.mouseclickUsingAction(addNewClassBtn);
+		//elementUtil.clickElementByJS(addNewClassBtn, driver);
+		Thread.sleep(5000);
 	}
 
 	public boolean cancelDisp() throws InterruptedException {
-		Thread.sleep(3000);
-		return cancelBtn.isDisplayed();
+		// return cancelBtn.isDisplayed();
+		return elementUtil.isElementDisplayed(cancelBtn);
 	}
 
 	public boolean saveDisp() {
-		return saveBtn.isDisplayed();
+		return elementUtil.isElementDisplayed(saveBtn);
 	}
 
 	public boolean crossBtnDisp() {
-		return crossBtn.isDisplayed();
+		return elementUtil.isElementDisplayed(crossBtn);
 	}
 
 	public boolean batchNameOnPopupDisp() {
-
-		return batchNamePopup.isDisplayed();
+		return elementUtil.isElementDisplayed(batchNamePopup);
 	}
 
 	public boolean classTopicOnPopupDisp() {
-		return classTopicPopup.isDisplayed();
+		return elementUtil.isElementDisplayed(classTopicPopup);
+
 	}
 
 	public boolean classDescriptionOnPopupDisp() {
-		return ClassDescription.isDisplayed();
+		return elementUtil.isElementDisplayed(ClassDescription);
 
 	}
 
 	public boolean noOfClassesonPopupDisp() {
-		return No_of_Classes.isDisplayed();
-
+		return elementUtil.isElementDisplayed(No_of_Classes);
 	}
 
 	public boolean staffNameOnPopupDisp() {
-		js.executeScript("arguments[0].click();", StaffName);
-		return StaffName.isDisplayed();
+		elementUtil.clickElementByJS(StaffName, driver);
+		return elementUtil.isElementDisplayed(StaffName);
 	}
 
 	public boolean statusonPopupDisp() {
-		return Status.isDisplayed();
-
+		return elementUtil.isElementDisplayed(Status);
 	}
 
 	public boolean recordingonPopupDisp() {
-		return Recording.isDisplayed();
-
+		return elementUtil.isElementDisplayed(Recording);
 	}
 
 	public boolean notesPopupDisp() {
-		return Notes.isDisplayed();
-
+		return elementUtil.isElementDisplayed(Notes);
 	}
 
 	public boolean commentsonPopupDisp() {
-		return Comments.isDisplayed();
-
+		return elementUtil.isElementDisplayed(Comments);
 	}
 
 	public boolean classDatesonPopupDisp() {
-		return ClassDates.isDisplayed();
-
+		return elementUtil.isElementDisplayed(ClassDates);
 	}
 
 	public boolean batchnamedropdownDisplayed() {
-		return batchNameDrpdw.isDisplayed();
+		return elementUtil.isElementDisplayed(batchNameDrpdw);
 
 	}
 
 	public String addingMandatoryFields(String batchName, String ClassTopic, String ClassDescription, String month,
-			String date1, String StaffName, String Status) throws InterruptedException {
-		// Thread.sleep(3000);
+			String date, String StaffName, String Status) throws Exception {
 		
-		//JavascriptExecutor js = ((JavascriptExecutor) driver);
-		js.executeScript("arguments[0].click();", batchNameDrpdw);
+		//Enter Batch Name
 		//elementUtil.clickElementByJS(batchNameDrpdw, driver);
+		elementUtil.clickElementByJS(batchNameTextArea, driver);
+		//elementUtil.doSendKeys(batchNameDrpdw, batchName);
+		elementUtil.doSendKeys(batchNameTextArea, batchName);
 		
+		//Enter Class Topic
+		elementUtil.clickElementByJS(classTopicTextbox, driver);
+		elementUtil.doSendKeys(classTopicTextbox, ClassTopic);
 		
-		batchNameDrpdw.sendKeys(batchName);
+		//Enter Class Description
+		elementUtil.doClick(ClassDescriptionTextbox);
+		elementUtil.doSendKeys(ClassDescriptionTextbox, ClassDescription);
+		
+		//Select Class Dates
+		elementUtil.doClick(datePicker); //clicking on date box. Calendar pops up
 
-		js.executeScript("arguments[0].click();", classTopicTextbox);
-		// classTopicTextbox.click();
-		classTopicTextbox.sendKeys(ClassTopic);
-		// js.executeScript("arguments[0].click();", batchNameDrpdw);
-		// batchNameDrpdw.click();
-
-		ClassDescriptionTextbox.click();
-		ClassDescriptionTextbox.sendKeys(ClassDescription);
-		datePicker.click();
-
-		Thread.sleep(1000);
-
+		
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("//div[@class='p-datepicker-group ng-tns-c92-13 ng-star-inserted']")));
+				By.xpath("(//div[contains(@class,'p-datepicker-group')])[1]")));
 
-		while (!Currentmonth.getText().contains(month)) {
+		while (!elementUtil.getElementText(Currentmonth).contains(month)) {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']")));
-			js.executeScript("arguments[0].click();", nextMonth);
-
+			elementUtil.clickElementByJS(nextMonth, driver);
 		}
-		actions.contextClick(calendarTextField).perform();
-		calendarTextField.click();
-		calendarTextField.sendKeys(date1);
-
-		js.executeScript("arguments[0].scrollIntoView(true);", staffName);
-		staffName.click();
-		staffName.sendKeys(StaffName);
-		js.executeScript("arguments[0].scrollIntoView(true);", No_of_ClassesTextbox);
+		
+		actions.contextClick(elementUtil.getElement(calendarTextField)).perform();
+		elementUtil.doClick(calendarTextField);
+		elementUtil.doSendKeys(calendarTextField, date);
+		
+		//Enter Staff Name
+		elementUtil.scrollIntoView(staffName);
+		elementUtil.doClick(staffName);
+		elementUtil.doSendKeys(staffName, StaffName);
+		elementUtil.scrollIntoView(No_of_ClassesTextbox);
 
 		if (Status.equals("Active")) {
-			statusActive.click();
+			elementUtil.doClick(statusActive);
 		} else {
-			statusInActive.click();
-
+			elementUtil.doClick(statusInActive);
 		}
-		saveBtn.click();
-
-		return classCreated.getText();
+		
+		elementUtil.doClick(saveBtn);
+		
+		return elementUtil.getElementText(classCreated);
 	}
 
 	public boolean isSortingbuttonDisplayed(List<WebElement> elements) {
@@ -475,44 +332,46 @@ public class ClassPage {
 	}
 
 	public boolean validateSortingBtn() {
-		return isSortingbuttonDisplayed(sortingBtn);
+		// return isSortingbuttonDisplayed(sortingBtn);
+		return isSortingbuttonDisplayed(elementUtil.getElements(sortingBtn));
 	}
 
 	public boolean deleteBtnDisplayed() {
-		return deleteBtnMC.isDisplayed();
+		// return deleteBtnMC.isDisplayed();
+		return elementUtil.isElementDisplayed(deleteBtnMC);
 	}
 
 	public boolean validateShowingEnteries() {
-		return showingEnteries.isDisplayed();
-
+		// return showingEnteries.isDisplayed();
+		return elementUtil.isElementDisplayed(showingEnteries);
 	}
 
 	public boolean onManagePage() {
-		return managePage.isDisplayed();
+		return elementUtil.isElementDisplayed(managePage);
 	}
 
 	public void clickOnSave() {
-		saveAddClass.click();
+		elementUtil.doClick(saveAddClass);
 	}
 
 	public String getBatchNameReqText() {
-		return getTextFromMandatoryFields(batchNameReq);
+		return getTextFromMandatoryFields(elementUtil.getElement(batchNameReq));
 	}
 
 	public String getClassTopicReqText() {
-		return getTextFromMandatoryFields(classTopicReq);
+		return getTextFromMandatoryFields(elementUtil.getElement(classTopicReq));
 	}
 
 	public String getClassDateReqText() {
-		return getTextFromMandatoryFields(classDateReq);
+		return getTextFromMandatoryFields(elementUtil.getElement(classDateReq));
 	}
 
 	public String getStaffNameReqText() {
-		return getTextFromMandatoryFields(staffNameReq);
+		return getTextFromMandatoryFields(elementUtil.getElement(staffNameReq));
 	}
 
 	public String getNoOfClassesReqText() {
-		return getTextFromMandatoryFields(noOfClassesReq);
+		return getTextFromMandatoryFields(elementUtil.getElement(noOfClassesReq));
 	}
 
 	private String getTextFromMandatoryFields(WebElement element) {
@@ -523,69 +382,71 @@ public class ClassPage {
 
 	public void selectOptionalFields(String comments, String Notes, String Recording) {
 
-		JavascriptExecutor js = (JavascriptExecutor) driver;
+		//JavascriptExecutor js = (JavascriptExecutor) driver;
 		// js.executeScript("arguments[0].scrollIntoView(true);", statusInActive);
-		js.executeScript("arguments[0].scrollIntoView(true);", Status);
-		classComments.sendKeys(comments);
-		notes.sendKeys(Notes);
-		recording.sendKeys(Recording);
+		//js.executeScript("arguments[0].scrollIntoView(true);", Status);
+		elementUtil.scrollIntoView(Status);
 
-		saveAddClass.click();
+		// classComments.sendKeys(comments);
+		elementUtil.doSendKeys(classComments, comments);
+
+		// notes.sendKeys(Notes);
+		elementUtil.doSendKeys(notes, Notes);
+
+		// recording.sendKeys(Recording);
+		elementUtil.doSendKeys(recording, Recording);
+
+		elementUtil.doClick(saveAddClass);
 
 	}
 
 	/*---edit page--------*/
 
 	public void clickOnEdit() {
-		// Actions actions = new Actions(driver);
-		actions.doubleClick(editBtn).perform();
+		actions.doubleClick(elementUtil.getElement(editBtn)).perform();
 	}
 
 	public boolean editPopup() {
-		return editPopup.isDisplayed();
+		return elementUtil.isElementDisplayed(editPopup);
 	}
 
 	public boolean batchNameDisabled() {
-		return batchNameDrpdw.isEnabled();
+		return elementUtil.isElementEnabled(batchNameDrpdw);
 	}
 
 	public boolean classTopicDisabled() {
-		return classTopicTextbox.isEnabled();
+		return elementUtil.isElementEnabled(classTopicTextbox);
 	}
 
 	public void editClassDetails(String editClass) {
-		ClassDescriptionTextbox.sendKeys(editClass);
+		elementUtil.doSendKeys(ClassDescriptionTextbox, editClass);
 	}
 
 	public String saveEditClass() {
-		saveAddClass.click();
-		return classCreated.getText();
+		elementUtil.doClick(saveAddClass);
+		return elementUtil.getElementText(classCreated);
 	}
-	
+
 	/*----delete---------*/
 	public void clickOnDeleteIcon() {
 		Actions actions = new Actions(driver);
-		actions.doubleClick(deletebtn).perform();
+		actions.doubleClick(elementUtil.getElement(deletebtn)).perform();
 	}
 
 	public void deleteSingleProgram() {
-		confirmyes.click();
-		String text1;
-		text1 = successdelete.getText();
+		elementUtil.doClick(confirmyes);
+		String text1 = elementUtil.getElementText(successdelete);
 		System.out.println(text1);
 	}
 
 	public void DropDeleteSingleProgram() {
-		confirmno.click();
-
+		elementUtil.doClick(confirmno);
 	}
 
 	public void SelectCheckBoxes() {
 		Actions actions = new Actions(driver);
-		actions.doubleClick(checkbox1).perform();
-		checkbox2.click();
-		System.out.println("this function executed:");
-
+		actions.doubleClick(elementUtil.getElement(checkbox1)).perform();
+		elementUtil.doClick(checkbox2);
 	}
 
 	public void MultipleDelete() {
@@ -595,30 +456,42 @@ public class ClassPage {
 	}
 
 	public void DeleteSuccess() {
-		dubdelete_yes.click();
-		String text2;
-		text2 = success_dbdelete.getText();
+		elementUtil.doClick(dubdelete_yes);
+		String text2 = elementUtil.getElementText(success_dbdelete);
 		System.out.println(text2);
 	}
+
 	public void searhBoxValidation(String field, String value) throws InterruptedException {
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].click();", searchBox);
-		boolean found = false;
+		/*
+		 * JavascriptExecutor js = (JavascriptExecutor) driver;
+		 * js.executeScript("arguments[0].click();", searchBox);
+		 */
+		elementUtil.clickElementByJS(searchBox, driver);
+		boolean found = false; // where are we using this?? --> PADMAJA
 		switch (field) {
 		case "Batch Name":
-			searchBox.sendKeys(value);
-			logicForValidatingSearch(listOfBatchNames, value);
+			// searchBox.sendKeys(value);
+			elementUtil.doSendKeys(searchBox, value);
+			logicForValidatingSearch(elementUtil.getElements(listOfBatchNames), value);
+			// logicForValidatingSearch(listOfBatchNames, value);
 			break;
+
 		case "Class Topic":
-			searchBox.sendKeys(value);
-			logicForValidatingSearch(listOfClassTopic, value);
+			// searchBox.sendKeys(value);
+			elementUtil.doSendKeys(searchBox, value);
+			logicForValidatingSearch(elementUtil.getElements(listOfClassTopic), value);
+			// logicForValidatingSearch(listOfClassTopic, value);
 			break;
+
 		case "Staff Name":
-			searchBox.sendKeys(value);
-			logicForValidatingSearch(listOfStaffNames, value);
+			// searchBox.sendKeys(value);
+			elementUtil.doSendKeys(searchBox, value);
+			logicForValidatingSearch(elementUtil.getElements(listOfStaffNames), value);
+			// logicForValidatingSearch(listOfStaffNames, value);
 			break;
 		}
 	}
+
 	public void logicForValidatingSearch(List<WebElement> searchedValues, String value) {
 		boolean found = false;
 		for (WebElement v : searchedValues) {
@@ -632,160 +505,167 @@ public class ClassPage {
 		if (!found) {
 			System.out.println("Search is not success for value: " + value);
 		}
-		
+
 	}
-	
-	
-	//sorting
+
+	// sorting
 	public void clickBatchNameSort() {
-		actions.click(BatchNameSort).perform();
-		actions.click(BatchNameSort).perform();
+		actions.click(elementUtil.getElement(BatchNameSort)).perform();
+		actions.click(elementUtil.getElement(BatchNameSort)).perform();
 	}
 
 	public void clickBatchNameSortDec() {
-		actions.click(BatchNameSort).perform();
-		actions.click(BatchNameSort).perform();
-		actions.click(BatchNameSort).perform();
+		actions.click(elementUtil.getElement(BatchNameSort)).perform();
+		actions.click(elementUtil.getElement(BatchNameSort)).perform();
+		actions.click(elementUtil.getElement(BatchNameSort)).perform();
 
 	}
 
 	public void clickclassTopicSort() {
-		actions.click(classTopicSort).perform();
-		actions.click(classTopicSort).perform();
+		actions.click(elementUtil.getElement(classTopicSort)).perform();
+		actions.click(elementUtil.getElement(classTopicSort)).perform();
 
 	}
 
 	public void clickclassTopicSortDes() {
-		actions.click(classTopicSort).perform();
-		actions.click(classTopicSort).perform();
-		actions.click(classTopicSort).perform();
+		actions.click(elementUtil.getElement(classTopicSort)).perform();
+		actions.click(elementUtil.getElement(classTopicSort)).perform();
+		actions.click(elementUtil.getElement(classTopicSort)).perform();
 
 	}
 
 	public void clickclassDescriptionSort() {
-		actions.click(classDescripSort).perform();
-		actions.click(classDescripSort).perform();
+		actions.click(elementUtil.getElement(classDescripSort)).perform();
+		actions.click(elementUtil.getElement(classDescripSort)).perform();
 
 	}
 
 	public void clickclassDescriptionSortDes() {
-		actions.click(classDescripSort).perform();
-		actions.click(classDescripSort).perform();
-		actions.click(classDescripSort).perform();
+		actions.click(elementUtil.getElement(classDescripSort)).perform();
+		actions.click(elementUtil.getElement(classDescripSort)).perform();
+		actions.click(elementUtil.getElement(classDescripSort)).perform();
 
 	}
+
 	public void clickStatusSort() {
-		actions.click(StatusSort).perform();
-		actions.click(StatusSort).perform();
+		actions.click(elementUtil.getElement(StatusSort)).perform();
+		actions.click(elementUtil.getElement(StatusSort)).perform();
 	}
 
 	public void clickStatusSortDec() {
-		actions.click(StatusSort).perform();
-		actions.click(StatusSort).perform();
-		actions.click(StatusSort).perform();
+		actions.click(elementUtil.getElement(StatusSort)).perform();
+		actions.click(elementUtil.getElement(StatusSort)).perform();
+		actions.click(elementUtil.getElement(StatusSort)).perform();
 
 	}
+
 	public void clickClassDateSort() {
-		actions.click(ClassDateSort).perform();
-		actions.click(ClassDateSort).perform();
+		actions.click(elementUtil.getElement(ClassDateSort)).perform();
+		actions.click(elementUtil.getElement(ClassDateSort)).perform();
 	}
 
 	public void clickClassDateSortDec() {
-		actions.click(ClassDateSort).perform();
-		actions.click(ClassDateSort).perform();
-		actions.click(ClassDateSort).perform();
+		actions.click(elementUtil.getElement(ClassDateSort)).perform();
+		actions.click(elementUtil.getElement(ClassDateSort)).perform();
+		actions.click(elementUtil.getElement(ClassDateSort)).perform();
 
 	}
+
 	public void clickStaffNameSort() {
-		actions.click(StaffNameSort).perform();
-		actions.click(StaffNameSort).perform();
+		actions.click(elementUtil.getElement(StaffNameSort)).perform();
+		actions.click(elementUtil.getElement(StaffNameSort)).perform();
 	}
 
 	public void clickStaffNameSortDec() {
-		actions.click(StaffNameSort).perform();
-		actions.click(StaffNameSort).perform();
-		actions.click(StaffNameSort).perform();
+		actions.click(elementUtil.getElement(StaffNameSort)).perform();
+		actions.click(elementUtil.getElement(StaffNameSort)).perform();
+		actions.click(elementUtil.getElement(StaffNameSort)).perform();
 
 	}
 
-//get and return original list	
+	//get and return original list	
 	public List<String> getOriginalList(String type) {
 		List<String> originalList = null;
 
 		if (type.equals("BatchName")) {
-			originalList = printWebElements(BatchNameList);
+			// originalList = printWebElements(BatchNameList);
+			originalList = printWebElements(elementUtil.getElements(BatchNameList));
 
 		} else if (type.equals("ClassTopic")) {
-			originalList = printWebElements(classTopicList);
+			// originalList = printWebElements(classTopicList);
+			originalList = printWebElements(elementUtil.getElements(classTopicList));
 
 		} else if (type.equals("Status")) {
-			originalList = printWebElements(StatusList);
-		}else if (type.equals("Class Date")) {
-			originalList = printWebElements(ClassDateList);
-		}else if (type.equals("Staff Name")) {
-			originalList = printWebElements(StaffNameList);
+			// originalList = printWebElements(StatusList);
+			originalList = printWebElements(elementUtil.getElements(StatusList));
+
+		} else if (type.equals("Class Date")) {
+			// originalList = printWebElements(ClassDateList);
+			originalList = printWebElements(elementUtil.getElements(ClassDateList));
+
+		} else if (type.equals("Staff Name")) {
+			// originalList = printWebElements(StaffNameList);
+			originalList = printWebElements(elementUtil.getElements(StaffNameList));
+
 		}
-		
+
 		else {
-			originalList = printWebElements(classDescripList);
+			// originalList = printWebElements(classDescripList);
+			originalList = printWebElements(elementUtil.getElements(classDescripList));
+
 		}
 		return originalList;
 	}
 
-	
 	public List<Date> getClassDatesOriginalList() {
-		
+
 		// List to store the dates
-        List<Date> dates = new ArrayList<>();
+		List<Date> dates = new ArrayList<>();
 
-        // Define the date format used on the webpage
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
+		// Define the date format used on the webpage
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
 
-        // Extract dates from elements and convert to Date objects
-        for (WebElement element : ClassDateList) {
-            String dateStr = element.getText(); // Get the text representing the date
-            try {
-                  Date classdates =  dateFormat.parse(dateStr); // Parse the string to Date object
-                dates.add(classdates);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
+		// Extract dates from elements and convert to Date objects
+		// for (WebElement element : ClassDateList) {
+
+		for (WebElement element : elementUtil.getElements(ClassDateList)) {
+			String dateStr = element.getText(); // Get the text representing the date
+			try {
+				Date classdates = dateFormat.parse(dateStr); // Parse the string to Date object
+				dates.add(classdates);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		return dates;
 
-      			
-	}
-public List<Date> getClassDatesSortedList() {
-	// List to store the dates
-    List<Date> dates = new ArrayList<>();
-
-    // Define the date format used on the webpage
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
-
-    // Extract dates from elements and convert to Date objects
-    for (WebElement element : ClassDateList) {
-        String dateStr = element.getText(); // Get the text representing the date
-        try {
-              Date classdates =  dateFormat.parse(dateStr); // Parse the string to Date object
-            dates.add(classdates);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    Collections.sort(dates);
-    return dates;
-    
-	
-
-		
-
-      			
 	}
 
-	
-	
-	
+	public List<Date> getClassDatesSortedList() {
+		// List to store the dates
+		List<Date> dates = new ArrayList<>();
+
+		// Define the date format used on the webpage
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
+
+		// Extract dates from elements and convert to Date objects
+//    for (WebElement element : ClassDateList) {
+
+		for (WebElement element : elementUtil.getElements(ClassDateList)) {
+			String dateStr = element.getText(); // Get the text representing the date
+			try {
+				Date classdates = dateFormat.parse(dateStr); // Parse the string to Date object
+				dates.add(classdates);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		Collections.sort(dates);
+		return dates;
+
+	}
+
 // this method will sort the given list
 	public List<String> getSortedList(List<String> originalList) {
 		System.out.println("Original List Before sorting is" + originalList);
@@ -818,31 +698,33 @@ public List<Date> getClassDatesSortedList() {
 		return texts;
 	}
 
-	
-	
 	public void clickOnNextPage() {
 		elementUtil.clickElementByJS(nextPaginatorBtn, driver);
 
 	}
+
 	public boolean nextPageEnabled() {
 		return elementUtil.isElementEnabled(nextPaginatorBtn);
 
 	}
+
 	public String nextPageValidation() {
-		
+
 		String pageEntryText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
 				.getText();
 		return pageEntryText;
 	}
-	
+
 	public void clickOnLastPage() {
 		elementUtil.clickElementByJS(lastPaginatorBtn, driver);
 
 	}
+
 	public boolean lastPageDisplayed() {
 		return elementUtil.isElementDisplayed(lastPaginatorBtn);
 
 	}
+
 	public boolean verifyNextPageBtnDisabled() {
 
 		if (!elementUtil.isElementEnabled(nextPaginatorBtn)) {
@@ -850,25 +732,43 @@ public List<Date> getClassDatesSortedList() {
 		}
 		return false;
 	}
-	
+
 	public int lastPageRecord() {
-		
+
 		String pageEntryText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
 				.getText();
 		String[] lastPageEntry = pageEntryText.split("of ");
 		lastPageEntryCount = Integer.parseInt(lastPageEntry[1].trim().split(" ")[0]);
 		return lastPageEntryCount;
 	}
-	
+
 	public int lastPageFootCount() {
-		String footerMessageText = driver.findElement(By.xpath("//p-table/div/div[2]/div"))
-				.getText();
+		String footerMessageText = driver.findElement(By.xpath("//p-table/div/div[2]/div")).getText();
 		String[] lastPageFooterEntry = footerMessageText.split("are ");
 		lastPageFooterEntryCount = Integer.parseInt(lastPageFooterEntry[1].trim().split(" ")[0]);
 		return lastPageFooterEntryCount;
-		
+
 	}
-	
-	
+
+	public void clickOnFirstPage() {
+		elementUtil.clickElementByJS(firstPaginatorBtn, driver);
+
+	}
+
+	public boolean verifyPreviousPageBtnEnabled() {
+
+		if (elementUtil.isElementEnabled(prevPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean verifyPreviousPageBtnDisabled() {
+
+		if (!elementUtil.isElementEnabled(prevPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
 
 }

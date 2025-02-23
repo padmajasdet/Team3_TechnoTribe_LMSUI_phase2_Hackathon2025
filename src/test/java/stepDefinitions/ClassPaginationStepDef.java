@@ -20,9 +20,10 @@ public class ClassPaginationStepDef {
 	LoginPage loginPage;
 	public ClassPaginationStepDef(TestContext context) {
 		this.context = context;
-		this.driver = context.getDriver();
-		this.classPage = new ClassPage(driver, context);
-		this.readConfig = new ReadConfig();
+		driver = context.getDriver();
+		//this.classPage = new ClassPage(driver, context);
+		classPage = new ClassPage(driver);
+		readConfig = new ReadConfig();
 
 	}
 	
@@ -50,12 +51,33 @@ public class ClassPaginationStepDef {
 		boolean lastPageDisplayed = classPage.lastPageDisplayed();
 		int lastPageRecord = classPage.lastPageRecord();
 		int lastPageFootCount = classPage.lastPageFootCount();
-		System.out.println(lastPageRecord);
-		System.out.println(lastPageFootCount);
 		Assert.assertTrue(nextPageDisabled);
 		Assert.assertTrue(lastPageDisplayed);
 		Assert.assertEquals(lastPageRecord, lastPageFootCount);
 	}
+	
+	@When("Admin clicks next page link of class data table")
+	public void admin_clicks_next_page_link_of_class_data_table() {
+	    classPage.clickOnNextPage();
+	}
+
+	@Then("Admin should see the previous page record on the table with pagination has previous page link enabled for class data table")
+	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link_enabled_for_class_data_table() {
+		boolean previousPageEnabled =classPage.verifyPreviousPageBtnEnabled();
+		Assert.assertTrue(previousPageEnabled);
+	}
+	
+	@When("Admin clicks Start page link of class data table")
+	public void admin_clicks_start_page_link_of_class_data_table() {
+	    classPage.clickOnFirstPage();
+	}
+
+	@Then("Admin should see the very first page record on the table with Previous page link are disabled for class data table")
+	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled_for_class_data_table() {
+	    boolean previousPageDisabled= classPage.verifyPreviousPageBtnDisabled();
+	    Assert.assertTrue(previousPageDisabled);
+	}
+
 
 
 }

@@ -142,7 +142,7 @@ public class LoginStepDef {
 			String expErr3) {
 
 		// Error Count Validation
-		softAssert.assertEquals(expectedErrMsgCount, actualErrMsgList.size());
+		softAssert.assertEquals((int)expectedErrMsgCount, (int)actualErrMsgList.size());
 
 		// Actual Error Msg Text Validation
 		List<String> expectedErrMsgList = Arrays.asList(expErr1.trim(), expErr2.trim(), expErr3.trim());
@@ -162,7 +162,7 @@ public class LoginStepDef {
 	public void admin_sees_error_messages_and(Integer expectedErrMsgCount, String expErr1, String expErr2) {
 
 		// Error Count Validation
-		softAssert.assertEquals(expectedErrMsgCount, actualErrMsgList.size());
+		softAssert.assertEquals((int)expectedErrMsgCount, (int)actualErrMsgList.size());
 
 		// Actual Error Msg Text Validation
 		List<String> expectedErrMsgList = Arrays.asList(expErr1.trim(), expErr2.trim());
@@ -238,8 +238,6 @@ public class LoginStepDef {
 			context.getDriver().get(invalidLMSURL);
 
 		} catch (Exception e) {
-			System.out.println("ERROR MSG IN CONSOLE");
-			System.out.println(e.getMessage());
 			actualErrMsg = e.getMessage();
 		}
 

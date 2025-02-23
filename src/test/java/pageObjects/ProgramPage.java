@@ -9,9 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,34 +34,43 @@ public class ProgramPage extends CommonPage {
 
 	Map<String, String> programData;
 
-	@FindBy(xpath = "//button[@id='program']")
-	WebElement menu_Program;
+	/*
+	 * @FindBy(xpath = "//button[@id='program']") WebElement menu_Program;
+	 */
 
-	@FindBy(xpath = "//*[contains(text(),'Manage Program')]")
-	WebElement programPageTitle;
+	/*
+	 * @FindBy(xpath = "//*[contains(text(),'Manage Program')]") WebElement
+	 * programPageTitle;
+	
 
 	@FindBy(xpath = "//mat-toolbar[@class='mat-toolbar mat-primary mat-toolbar-single-row ng-star-inserted']")
 	WebElement headerBar;
-	
-	@FindAll (value = {@FindBy (xpath = "//table/tbody//tr")}) 
+ */
+	/*
+	@FindAll(value = { @FindBy(xpath = "//table/tbody//tr") })
 	List<WebElement> programResults;
-
+	
+	
 	@FindBy(id = "filterGlobal")
 	WebElement searchBox;
 
-	@FindBy(xpath = "//table/tbody")
-	WebElement programTable;
+	
+	 * @FindBy(xpath = "//table/tbody") WebElement programTable;
+	 */
 
-	@FindBy(xpath = ".//table/thead/tr/th[1]/p-tableheadercheckbox/div/div[2]/span")
-	WebElement checkBoxHeader;
+	/*
+	 * @FindBy(xpath =
+	 * ".//table/thead/tr/th[1]/p-tableheadercheckbox/div/div[2]/span") WebElement
+	 * checkBoxHeader;
+	 */
 
 	public ProgramPage(WebDriver driver) {
 		super(driver);
 		this.driver = driver;
 		PageFactory.initElements(driver, this);
 		util = new ElementUtil(this.driver);
-		this.readConfig = new ReadConfig();
-		this.filePath = readConfig.getExcelPath();
+		readConfig = new ReadConfig();
+		filePath = readConfig.getExcelPath();
 	}
 
 	By programPageLMSHeading = By.xpath("//*[contains(text(),'LMS - Learning Management System')]");
@@ -75,6 +81,7 @@ public class ProgramPage extends CommonPage {
 	By requiredFieldErrorMsgs = By.xpath("//small[@class='p-invalid ng-star-inserted']");
 	By searchBar = By.xpath("//input[@id='filterGlobal']");
 
+	By headerBar = By.xpath("//mat-toolbar[@class='mat-toolbar mat-primary mat-toolbar-single-row ng-star-inserted']");
 	By programResultsTable = By.xpath("//table/tbody//tr");
 	By programNameInput = By.id("programName");
 	By programDescInput = By.id("programDescription");
@@ -83,7 +90,6 @@ public class ProgramPage extends CommonPage {
 	By xButton = By.xpath("//*[@header='Program Details']//button[@type='button']");
 	By xDeleteButton = By.xpath("//*[contains(@class,' p-dialog-header-close p-link ng-star-inserted')]/..");
 
-	
 	By deleteButton = By.xpath("//div[@class='action']//button[@icon='pi pi-trash']");
 	By deleteYesBtn = By.xpath("//span[normalize-space()='Yes']");
 	By deleteNoBtn = By.xpath("//button/span[@class='p-button-label' and text()='No']");
@@ -93,26 +99,32 @@ public class ProgramPage extends CommonPage {
 
 	By addNewProgramSuccessMsg = By.xpath("//div[@class='p-toast-message-content ng-tns-c20-13']");
 
+	// Table
 	By programNameHeading = By.xpath("//table/thead/tr/th[2]");
 	By programDescHeading = By.xpath("//table/thead/tr/th[3]");
 	By programStatusHeading = By.xpath("//table/thead/tr/th[4]");
 	By deleteBtnManageProgram = By.xpath("//button[@class='p-button-danger p-button p-component p-button-icon-only']");
-	// By programTable = By.xpath("//table/tbody");
+	By programTable = By.xpath("//table/tbody");
 	By footerPrograms = By.xpath("//div[@class='p-d-flex p-ai-center p-jc-between ng-star-inserted']");
-	
-	//Pagination
-	
+
+	//Tohfa
+	By checkBoxHeader = By.xpath(".//table/thead/tr/th[1]/p-tableheadercheckbox/div/div[2]/span");
+	By searchBox = By.id("filterGlobal");
+
+	// Pagination
 	By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
 	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
 	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
 	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
-	
+
 	public String getProgramPageTitle() {
-		return util.getElementText(programPageTitle);
+		//return util.getElementText(programPageTitle);
+		return util.getElementText(manageProgramTitle);
 	}
 
 	public void isLogoutDisplayedMenuBar() {
-		logout.isDisplayed();
+		util.isElementDisplayed(menu_logout);
+		//menu_logout.isDisplayed();
 	}
 
 	public String getLMSHeaderMenuBar() {
@@ -120,7 +132,7 @@ public class ProgramPage extends CommonPage {
 		return util.getElementText(programPageLMSHeading);
 
 	}
-	
+
 	public String getAddNewProgramSubMenu() {
 
 		return util.getElementText(btn_AddNewProgram);
@@ -128,8 +140,11 @@ public class ProgramPage extends CommonPage {
 	}
 
 	public void menuBarDisplay() {
+		
+		WebElement headerBarEle = util.getElement(headerBar);
+		//List<WebElement> buttons = headerBar.findElements(By.xpath("//div[@class='ng-star-inserted']//button"));
+		List<WebElement> buttons = headerBarEle.findElements(By.xpath("//div[@class='ng-star-inserted']//button"));
 
-		List<WebElement> buttons = headerBar.findElements(By.xpath("//div[@class='ng-star-inserted']//button"));
 		Assert.assertTrue(buttons.size() > 0, "Menu headers are not present in the navigation bar");
 		for (WebElement button : buttons) {
 			String buttonText = button.getText().trim();
@@ -190,7 +205,8 @@ public class ProgramPage extends CommonPage {
 		By statusRadioBtn = By.xpath("//input[@id='" + status + "']");
 		util.clickElementByJS(statusRadioBtn, driver);
 
-		//ExcelReader.updateTestData(filePath, sheetName, testCase, "ProgramName", programName);
+		// ExcelReader.updateTestData(filePath, sheetName, testCase, "ProgramName",
+		// programName);
 		util.doClick(saveButton);
 
 		if (getToast().equalsIgnoreCase("Successful") && testCase.equalsIgnoreCase("validInputData")) {
@@ -262,9 +278,9 @@ public class ProgramPage extends CommonPage {
 
 	public void deleteTheProgramAndClickSave(String newProgram, String testCase) throws InterruptedException {
 
-		//programData = ExcelReader.getTestData(filePath, sheetName, testCase);
+		// programData = ExcelReader.getTestData(filePath, sheetName, testCase);
 		newProgram = getProgramName();
-		//String programNameDelete = programData.get("ProgramName");
+		// String programNameDelete = programData.get("ProgramName");
 		search(newProgram);
 		clickDeleteProgramBtn(newProgram);
 		util.isElementDisplayed(deleteConfirmationPopUp);
@@ -306,7 +322,10 @@ public class ProgramPage extends CommonPage {
 	}
 
 	public WebElement getProgramRowElement(String programName) {
-		return programTable.findElement(By.xpath("//tr/td[contains(text(),'" + programName + "')]/.."));
+		WebElement ele = util.getElement(programTable);
+		// return programTable.findElement(By.xpath("//tr/td[contains(text(),'" +
+		// programName + "')]/.."));
+		return ele.findElement(By.xpath("//tr/td[contains(text(),'" + programName + "')]/.."));
 
 	}
 
@@ -317,9 +336,9 @@ public class ProgramPage extends CommonPage {
 	}
 
 	public void clickDeleteProgramBtn(String programName) {
-		
+
 		programName = getProgramName();
-		System.out.println("Program to be deleted >>>"+programName);
+		System.out.println("Program to be deleted >>>" + programName);
 		WebElement deleteProgBtn = getProgramRowElement(programName).findElement(deleteButton);
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteProgBtn);
 
@@ -329,20 +348,18 @@ public class ProgramPage extends CommonPage {
 		util.doClick(cancelButton);
 	}
 
-
-
 	public void clickYesDeleteBtn() throws InterruptedException {
 
 		Thread.sleep(500);
 		util.clickElementByJS(deleteYesBtn, driver);
-		
+
 		System.out.println("Clicked on Yes...");
 
 	}
 
 	public void clickNoDeleteBtn() {
 
-		util.clickElementByJS(deleteNoBtn,driver);
+		util.clickElementByJS(deleteNoBtn, driver);
 
 	}
 
@@ -353,7 +370,7 @@ public class ProgramPage extends CommonPage {
 		util.isElementDisplayed(successPopupContent);
 
 		String content = util.getElementText(successPopupContent);
-		System.out.println("Message >>>>"+content);
+		System.out.println("Message >>>>" + content);
 
 		if (content.equals(message)) {
 			return true;
@@ -386,27 +403,33 @@ public class ProgramPage extends CommonPage {
 
 	public void search(String newProgram) {
 
-		searchBox.clear();
+		//searchBox.clear();
+		util.getElement(searchBox).clear();		
 		util.doClick(searchBox);
-		System.out.println("Program to search>>" + getProgramName());
-		searchBox.sendKeys(getProgramName());
+		//System.out.println("Program to search>>" + getProgramName());
+		//searchBox.sendKeys(getProgramName());
+		util.doSendKeys(searchBox, getProgramName());
 
 	}
 
 	public void searchForEditDeleteProgram(String newProgram) {
-		searchBox.clear();
+		//searchBox.clear();
+		util.getElement(searchBox).clear();	
 		util.doClick(searchBox);
-		searchBox.sendKeys(newProgram);
+		//searchBox.sendKeys(newProgram);
+		util.doSendKeys(searchBox, newProgram);
 	}
-	
-	  public void searchUpdatedProgram(String updatedProgram) {
-	  
-	  searchBox.clear(); util.doClick(searchBox);
-	  System.out.println("Program to search>>" + getProgramName());
-	  searchBox.sendKeys(getUpdatedProgramName());
-	  
-	  }
-	 
+
+	public void searchUpdatedProgram(String updatedProgram) {
+
+		//searchBox.clear();
+		util.getElement(searchBox).clear();
+		util.doClick(searchBox);
+		//System.out.println("Program to search>>" + getProgramName());
+		//searchBox.sendKeys(getUpdatedProgramName());
+		util.doSendKeys(searchBox, getUpdatedProgramName());
+
+	}
 
 	public void verifySearchResultProgramName(String newProgram) {
 		newProgram = getProgramName();
@@ -451,14 +474,16 @@ public class ProgramPage extends CommonPage {
 
 	public void verifySearchBarManageProgram(String searchBarText) {
 
-		searchBox.isDisplayed();
+		//searchBox.isDisplayed();
+		util.isElementDisplayed(searchBox);
 		System.out.println("Search bar text -" + util.getAttributeVal(searchBar, "placeholder"));
 		Assert.assertEquals(util.getAttributeVal(searchBar, "placeholder"), searchBarText);
 
 	}
 
 	public boolean verifyCheckBoxUnchecked() {
-		if (!checkBoxHeader.isSelected()) {
+//		if (!checkBoxHeader.isSelected()) {
+		if (!util.getElement(checkBoxHeader).isSelected()) {
 			System.out.println("Checkbox is unchecked");
 
 			return true;
@@ -487,18 +512,22 @@ public class ProgramPage extends CommonPage {
 		Assert.assertEquals(actualFooterText, expectedText);
 
 	}
+
 	public void clickOnNextPage() {
 		util.clickElementByJS(nextPaginatorBtn, driver);
 
 	}
+
 	public boolean nextPageEnabled() {
 		return util.isElementEnabled(nextPaginatorBtn);
 
 	}
+
 	public void clickOnLastPage() {
 		util.clickElementByJS(lastPaginatorBtn, driver);
 
 	}
+
 	public boolean verifyNextPageBtnDisabled() {
 
 		if (!util.isElementEnabled(nextPaginatorBtn)) {
@@ -506,18 +535,22 @@ public class ProgramPage extends CommonPage {
 		}
 		return false;
 	}
+
 	public void clickOnPreviuosPage() {
 		util.clickElementByJS(prevPaginatorBtn, driver);
 
 	}
+
 	public boolean previousPageEnabled() {
 		return util.isElementEnabled(prevPaginatorBtn);
 
 	}
+
 	public void clickOnFirstPage() {
 		util.clickElementByJS(firstPaginatorBtn, driver);
 
 	}
+
 	public boolean verifyPreviousPageBtnDisabled() {
 
 		if (!util.isElementEnabled(prevPaginatorBtn)) {
@@ -526,8 +559,7 @@ public class ProgramPage extends CommonPage {
 		return false;
 	}
 
-
-public void verifyRequiredFieldErrorMessage() {
+	public void verifyRequiredFieldErrorMessage() {
 
 		String expProgNameErrorMsg = "Program name is required.";
 		String expProgDescErrorMsg = "Description is required.";
@@ -548,21 +580,21 @@ public void verifyRequiredFieldErrorMessage() {
 		util.doClick(xButton);
 
 	}
-	
+
 	public void clickXDeleteConfirmationBtn() {
 		util.doClick(xDeleteButton);
 
 	}
-	
+
 	public boolean verifyZeroSearchResultsAfterDeletion() throws InterruptedException {
-	
+
 		Thread.sleep(500);
-		 List<WebElement> programResults = driver.findElements(programResultsTable);
-		 System.out.println("Results list size ---"+programResults.size());
-		    	if(programResults.size()<1) return true;
-		    		
-		    	return false;
-		    }
+		List<WebElement> programResults = driver.findElements(programResultsTable);
+		System.out.println("Results list size ---" + programResults.size());
+		if (programResults.size() < 1)
+			return true;
+
+		return false;
+	}
 
 }
-

@@ -210,4 +210,10 @@ public class LoginPage {
 	public boolean isPasswordFieldPresent() {
 		return util.isElementDisplayed(password);
 	}
+	
+	public void navigateBack() {
+		
+		driver.navigate().back();
+		util.getPageLoadStatus();
+	}
 }

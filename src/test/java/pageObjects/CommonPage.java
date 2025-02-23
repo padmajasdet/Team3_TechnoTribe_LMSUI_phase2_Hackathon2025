@@ -16,58 +16,66 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.ElementUtil;
 
 public class CommonPage {
-	private WebDriver driver;
-	private ElementUtil util;
+	protected WebDriver driver;
+	protected ElementUtil util;
+
+	//Menu Locators
+	protected By menu_Home = By.id("dashboard");
+	protected By menu_Program = By.xpath("//span[contains(text(),'Program')]");
+	protected By menu_Batch = By.xpath("//span[contains(text(),'Batch')]");
+	protected By menu_Class = By.xpath("//span[contains(text(),'Class')]");
+	protected By menu_logout = By.xpath("//button[@id='logout']");
+
+	// Table locators
+	protected By paginationButtons = By
+			.xpath("//div[@class='p-paginator-bottom p-paginator p-component ng-star-inserted']");
+	protected By tableLocator = By.xpath("//*[@class='mat-card-content']");
+	protected By tableHeaderLocator = By.xpath("//*[@class='mat-card-content']//thead/tr");
+	protected String editIconLocator = ".//span[@class='p-button-icon pi pi-pencil']";
+	protected String deleteIconLocator = ".//span[@class='p-button-icon pi pi-trash']";
+	protected String checkboxLocator = ".//span[@class='p-checkbox-icon']";
+	protected String sortIconLocator = ".//*[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']";
+	protected By deleteNoButton = By.xpath("//span[normalize-space()='No']");
+	protected By deleteYesButton = By.xpath("//span[normalize-space()='Yes']");
+	protected By deleteCloseButton = By
+			.xpath("//*[contains(@class,' p-dialog-header-close p-link ng-star-inserted')]/..");
+	protected By deleteAllButton = By.xpath(
+			"//button[@class='p-button-danger p-button p-component p-button-icon-only']//span[@class='p-button-icon pi pi-trash']");
+
+	By deleteConfirmationPopUp = By.xpath(
+			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c118-10 p-dialog p-confirm-dialog p-component ng-star-inserted']");
+	protected By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
+	protected int selectedRows;
+	protected int beforeCount;
+	protected int afterCount;
+
+	/*
+	 * @FindBy(xpath = "//button[@id='logout']") WebElement logout;
+	 * 
+	 * @FindBy(id = "dashboard") WebElement menu_Home;
+	 * 
+	 * @FindBy(xpath = "//span[contains(text(),'Program')]") WebElement
+	 * menu_Program;
+	 * 
+	 * @FindBy(xpath = "//span[contains(text(),'Batch')]") WebElement menu_Batch;
+	 * 
+	 * @FindBy(xpath = "//span[contains(text(),'Class')]") WebElement menu_Class;
+	 */
 
 	public CommonPage(WebDriver driver) {
 		this.driver = driver;
 		PageFactory.initElements(driver, this); // Initialize @FindBy elements
 		util = new ElementUtil(this.driver);
 	}
-
-	// Table locators
-	private By paginationButtons = By
-			.xpath("//div[@class='p-paginator-bottom p-paginator p-component ng-star-inserted']");
-	private By tableLocator = By.xpath("//*[@class='mat-card-content']");
-	private By tableHeaderLocator = By.xpath("//*[@class='mat-card-content']//thead/tr");
-	private String editIconLocator = ".//span[@class='p-button-icon pi pi-pencil']";
-	private String deleteIconLocator = ".//span[@class='p-button-icon pi pi-trash']";
-	private String checkboxLocator = ".//span[@class='p-checkbox-icon']";
-	private String sortIconLocator = ".//*[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']";
-	private By deleteNoButton = By.xpath("//span[normalize-space()='No']");
-	private By deleteYesButton = By.xpath("//span[normalize-space()='Yes']");
-	private By deleteCloseButton = By.xpath("//*[contains(@class,' p-dialog-header-close p-link ng-star-inserted')]/..");
-	private By deleteAllButton = By.xpath(
-			"//button[@class='p-button-danger p-button p-component p-button-icon-only']//span[@class='p-button-icon pi pi-trash']");
-
-	By deleteConfirmationPopUp = By.xpath(
-			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c118-10 p-dialog p-confirm-dialog p-component ng-star-inserted']");
-	private By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
-	private int selectedRows;
-	private int beforeCount;
-	private int afterCount;
-
-	@FindBy(xpath = "//button[@id='logout']")
-	WebElement logout;
-
-	@FindBy(id = "dashboard")
-	WebElement menu_Home;
-
-	@FindBy(xpath = "//span[contains(text(),'Program')]")
-	WebElement menu_Program;
-
-	@FindBy(xpath = "//span[contains(text(),'Batch')]")
-	WebElement menu_Batch;
-	@FindBy(xpath = "//span[contains(text(),'Class')]")
-	WebElement menu_Class;
-
+	
 	public String getPageTitle() {
 
 		return driver.getTitle();
 	}
 
 	public void logout() {
-		logout.click();
+		util.doClick(menu_logout);
+		//logout.click();
 	}
 
 	public Object selectOptionNavigationMenuBar(String menuName) throws Exception {
@@ -81,13 +89,14 @@ public class CommonPage {
 			util.doClick(menu_Batch);
 			return new BatchPage(driver);
 
-//		case "class":
-//			//gotoClassMenuThroughTABBING();
-//			return new ClassPage(driver);
+		case "class": 
+			util.doClick(menu_Class);
+			return new ClassPage(driver);
 
 		case "logout":
-			util.doClick(logout);
+			util.doClick(menu_logout);
 			return new LoginPage(driver);
+			
 		default:
 			throw new Exception("Something went wrong!");
 		}
@@ -185,7 +194,7 @@ public class CommonPage {
 			util.doClick(deleteCloseButton);
 		}
 	}
-	
+
 	public void clickdeleteAllButton() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
@@ -201,15 +210,14 @@ public class CommonPage {
 		}
 
 	}
-	
+
 	public void storeBeforeCount() {
 		String countText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
 				.getText();
 		String[] parts = countText.split("of ");
 		this.beforeCount = Integer.parseInt(parts[1].trim().split(" ")[0]);
 	}
-	
-	
+
 	public void selectCheckboxes(int rows) {
 
 		List<WebElement> checkboxes = driver
@@ -241,12 +249,13 @@ public class CommonPage {
 //		clickDeleteButtons("yes");
 
 	}
+
 	public void verifyDeleteProgramPopUp() {
 
 		util.isElementDisplayed(deleteConfirmationPopUp);
 
 	}
-	
+
 	public void storeAfterCount() {
 		String countText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
 				.getText();
@@ -257,12 +266,12 @@ public class CommonPage {
 	public boolean validateCount() {
 		boolean flag = false;
 		int expectedCount = beforeCount - selectedRows;
-		storeAfterCount(); 
+		storeAfterCount();
 		if (afterCount != expectedCount) {
 			throw new AssertionError(
 					"Count validation failed: Expected " + expectedCount + ", but found " + afterCount);
 		} else {
-			flag=true;
+			flag = true;
 		}
 		return flag;
 	}
