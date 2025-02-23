@@ -532,7 +532,6 @@ public class BatchPage{
 		public void storeAfterCount() {
 			String countText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
 					.getText();
-
 			String[] parts = countText.split("of ");
 			this.afterCount = Integer.parseInt(parts[1].trim().split(" ")[0]);
 		}

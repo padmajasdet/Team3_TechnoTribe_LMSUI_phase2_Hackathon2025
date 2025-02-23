@@ -7,7 +7,7 @@ import io.cucumber.testng.CucumberOptions;
 
 
 
-@CucumberOptions(features = { "src/test/resources/features/04_Batch.feature" }, 
+@CucumberOptions(features = { "src/test/resources/features/" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
 				//tags="@doing",

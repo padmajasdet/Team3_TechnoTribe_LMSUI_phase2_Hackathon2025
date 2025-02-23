@@ -168,11 +168,12 @@ Scenario: validate close Icon on the alert box
 	Then Admin should see the alert box closed 
 
 #Delete multiple batches with checkbox
+
 Scenario: Validate single row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon under the Manage batch header
 	Then The respective row in the table should be deleted
-
+@doing
 Scenario: Validate multiple row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon for multiple row under the Manage batch header
