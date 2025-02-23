@@ -46,10 +46,12 @@ public class BatchPage{
 	private By addNewBatch = By.xpath("//button[normalize-space()='Add New Batch']");
 	private By addNewBatchTitle = By.xpath("//*[contains(text(),'Batch Details')]");
 	private By addBatchProgramNameDD = By.xpath("//div[@role='button']");
-	private By addBatchFirstName = By.xpath("//input[@id=\"batchProg\"]");
-	private By addBatchName = By.id("batchName");
+	private By programNameLocator = By.xpath("//input[@placeholder='Select a Program name']");
+	private By addBatchFirstName = By.xpath("//input[@id='batchProg']");
+	private By addBatchName = By.xpath("//*[@id='batchName'][1]");
+	private By editBatchName = By.xpath("//body//app-root//input[3]");
 	private By addBatchDesc = By.id("batchDescription");
-	private By addBatchStatus = By.xpath("//*[@class=\"radio ng-star-inserted\"]");
+	private By addBatchStatus = By.xpath("//*[@class='radio ng-star-inserted']");
 	private By activeStatus = By.xpath("(//p-radiobutton[@name='category']//div[@class='p-radiobutton-box'])[1]");
 	private By inactiveStatus = By.xpath("(//p-radiobutton[@name='category']//div[@class='p-radiobutton-box'])[2]");
 	private By addBatchNoOfClasses = By.id("batchNoOfClasses");
@@ -113,9 +115,12 @@ public class BatchPage{
 		return util.isElementDisplayed(paginationBotton);
 	}
 	
-	 
 	 public boolean isAddBatchNameEnabled() {
 	        return util.isElementEnabled(addBatchName);
+	    }
+	 
+	 public boolean isEditBatchNameEnabled() {
+	        return util.isElementEnabled(editBatchName);
 	    }
 	 
 	public Boolean isAddBatchDescEnabled() {
@@ -129,6 +134,10 @@ public class BatchPage{
 	public boolean isAddBatchProgramNameEnabled() {
         return util.isElementEnabled(addBatchProgramNameDD); 
     }
+	public boolean isEditBatchProgramNameEnabled() {
+        return util.isElementEnabled(programNameLocator); 
+    }
+
 	
 	 public boolean isStatusRadioButtonsPresentAndEnabled() {
 	        List<WebElement> statusRadioButtons = driver.findElements(addBatchStatus);
@@ -222,7 +231,7 @@ public class BatchPage{
 		        excelProgramName = ProgramPage.getProgramName(); // Use chain variable
 		    }
 			WebElement programNameListBox = driver.findElement(
-					By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='" + excelProgramName + "']"));
+					By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='"+excelProgramName+"']"));
 			programNameListBox.click();
 		}
 		
@@ -301,12 +310,12 @@ public class BatchPage{
 			    if (!toastMessage.isEmpty()) { // If toast appears, process it
 			        if (toastMessage.equalsIgnoreCase("Successful")) {
 			            if (testcaseName.equalsIgnoreCase("validAll")) {
-			                System.out.println("Batch created successfully");
+			                System.out.println("Batch created successfully - chaining");
 			                String finalBatchName = finalBatchNamePrefix + newBatchName;
 			                System.out.println("Batch Name: " + finalBatchName);
 			                setBatchName(finalBatchName);
 			            } else {
-			                System.out.println(toastMessage);
+			                System.out.println("Batch created successfully - " +toastMessage);
 			            }
 			        } else {
 			            System.out.println("Unexpected Toast Message: " + toastMessage);
@@ -357,5 +366,77 @@ public class BatchPage{
 			String err = driver.findElement(invalidError).getText();
 			return err;
 		}
+		
+		public void clickAction(String actionType) {
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		   // Wait for the overlay to disappear
+		   wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop")));
+		    WebElement actionIcon = null;
+		    if (actionType.equalsIgnoreCase("edit")) {
+		    	actionIcon = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@icon='pi pi-pencil']")));
+		    } else if (actionType.equalsIgnoreCase("delete")) {
+		        actionIcon = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='action']//button[@icon='pi pi-trash']")));
+		    } else {
+		        throw new IllegalArgumentException("Invalid action type: " + actionType);
+		    }
+		    // Scroll into view and click the action icon
+		    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", actionIcon);
+		    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", actionIcon);
+		}
+		
+		public void editAllDetails(String saveCancel, String testcaseName) {
+			testData = ExcelReader.getTestData(filePath, sheetName,testcaseName);
+			String descriptionStr = testData.get("Description");
+			String descFinal;
+			if (descriptionStr.matches("\\d+(\\.\\d+)?")) { // Check if it's numeric
+			    int desc = Integer.parseInt(descriptionStr.split("\\.")[0]); 
+			    descFinal = String.valueOf(desc);
+			} else {
+			    descFinal = descriptionStr; 
+			}
+			driver.findElement(addBatchDesc).clear();
+			driver.findElement(addBatchDesc).sendKeys(descFinal);
+			getActiveStatusRadioButton();
+			String noOfClassesStr = testData.get("NoOfClasses");
+			if (noOfClassesStr != null && !noOfClassesStr.trim().isEmpty()) { 
+			    int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]); 
+			    String newNoOfClasses = String.valueOf(noOfClasses);
+			    driver.findElement(addBatchNoOfClasses).clear();
+			    driver.findElement(addBatchNoOfClasses).sendKeys(newNoOfClasses);
+			} 
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop")));
+
+			if (saveCancel.equalsIgnoreCase("Save")) {
+				// Wait for the overlay to disappear before clicking Save
+				WebElement saveBtn = driver.findElement(saveButton);
+		        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveBtn);
+		        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
+
+		       	    if (getToast().equalsIgnoreCase("Successful")) {
+			                System.out.println("Batch created successfully");  
+			        }
+			     else { 
+			        String errorMessage = getErrorMessage();
+			        if (!errorMessage.isEmpty()) {
+			            System.out.println("Error: " + errorMessage);
+			        } else {
+			            System.out.println("No toast or error message found.");
+			        }
+			    }
+				
+			} else {
+				 // Wait for the overlay to disappear before clicking Cancel
+				WebElement CancelBtn = driver.findElement(cancelButton);
+		        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", CancelBtn);
+		        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", CancelBtn);
+			}
+		}
 	
+		
+		
+		
+		
+		
+		
 }

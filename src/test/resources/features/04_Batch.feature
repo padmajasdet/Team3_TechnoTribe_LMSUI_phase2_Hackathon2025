@@ -99,7 +99,7 @@ Scenario: validate input data missing for mandatory fields
 	When Admin leaves blank one of the mandatory fields
 	Then Admin should get a error message on the respective mandatory field
 
-@sanity
+@smoke
 Scenario: validate save button in Batch details pop up
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin enters the valid data to all the fields and click save button 
@@ -116,6 +116,59 @@ Scenario: validate close icon on the batch details pop up
 	Then batch details pop up closes
 
 #Edit icon Validation
+Scenario: Validate Edit icon feature in any row
+	Given Admin is on the Batch page
+	When Admin clicks the edit icon
+	Then Admin should see the Batch details pop up window in edit
+
+Scenario: Validate program name  value is disabled to edit
+	Given Admin is on the Batch page
+	When Admin clicks the edit icon
+	Then Admin should see Program name value field is disabled for editing
+
+Scenario: Validate batch name  value is disabled to edit
+	Given Admin is on the Batch page
+	When Admin clicks the edit icon
+	Then Admin should see batch name value field is disabled for editing
+
+Scenario: Validate editing description and No. of classes fields with invalid data in the pop up
+	Given Admin is on the Batch Details Page
+	When Admin Updates any fields with invalid data and click save button
+	Then Admin should get a error message under the respective field
+
+Scenario: validate save button in Batch details pop up
+	Given Admin is on the Batch Details Page
+	When Admin edit the valid data to all the mandatory fields and click save button 
+	Then Admin should get a successful message for editing the batch
+
+Scenario: validate cancel button in Batch details pop up
+	Given Admin is on the Batch Details Page
+	When Admin edit the valid data to all the mandatory fields and click cancel button 
+	Then Admin can see the batch details popup closes without editing the batch
+
+#Delete batch validation
+
+#Scenario: validate delete Icon on any row
+#	Given Admin is on the Batch page
+#	When Admin clicks the delete Icon on any row
+#	Then Admin should see the confirm alert box with yes and no button
+#	
+#Scenario: Validate yes button on the confirm alert box
+#	Given Admin is on the batch confirm popup page
+#	When Admin clicks on the delete icon and click yes button
+#	Then Admin should see the successful message and the batch should be deleted
+#	
+#Scenario: validate no button on the confirm alert box
+#	Given Admin is on the batch confirm popup page
+#	When Admin clicks on the delete icon and click no button
+#	Then Admin should see the alert box closed and the batch is not deleted
+#	
+#Scenario: validate close Icon on the alert box
+#	Given Admin is on the batch confirm popup page
+#	When Admin clicks on the close icon in batch confirm popup
+#	Then Admin should see the alert box closed 
+	
+	
 
 	
 		

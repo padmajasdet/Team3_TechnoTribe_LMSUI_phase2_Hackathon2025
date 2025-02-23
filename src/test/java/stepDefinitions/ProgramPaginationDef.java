@@ -41,6 +41,18 @@ public class ProgramPaginationDef {
 	    Assert.assertTrue(nextPageActive);
 	    
 	}
+	
+	@When("Admin clicks Last page link")
+	public void admin_clicks_last_page_link() {
+	    programPage.clickOnLastPage();
+	}
+
+	@Then("Admin should see the last page record on the table with Next page link are disabled")
+	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled() {
+		boolean nextPageActive = programPage.verifyNextPageBtnDisabled();
+	    Assert.assertTrue(nextPageActive);
+	}
+
 
 
 }
