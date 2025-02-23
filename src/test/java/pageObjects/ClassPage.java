@@ -869,6 +869,28 @@ public List<Date> getClassDatesSortedList() {
 		
 	}
 	
+	public void clickOnFirstPage() {
+		elementUtil.clickElementByJS(firstPaginatorBtn, driver);
+
+	}
+	public boolean verifyPreviousPageBtnEnabled() {
+
+		if (elementUtil.isElementEnabled(prevPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean verifyPreviousPageBtnDisabled() {
+
+		if (!elementUtil.isElementEnabled(prevPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
 	
 
 }
