@@ -4,9 +4,14 @@ import java.time.Duration;
 //import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.text.SimpleDateFormat;
+import java.text.*;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -21,6 +26,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.ElementUtil;
 
 import hooks.TestContext;
+
 
 public class ClassPage {
 
@@ -93,8 +99,9 @@ public class ClassPage {
 	@FindBy(xpath = "//label[normalize-space()='Batch Name']")
 	private WebElement batchNamePopup;
 
-	// Add new class page
-	@FindBy(xpath = "//input[@placeholder='Select a Batch Name']")
+	// Add new class page 
+	//@FindBy(xpath = "//input[@placeholder='Select a Batch Name']")
+	@FindBy(xpath = "//label[text()='Batch Name']//following-sibling::p-dropdown//div[@role='button']")
 	private WebElement batchNameDrpdw;
 
 	// @FindBy(id = "batchName")
@@ -195,6 +202,50 @@ public class ClassPage {
 		private WebElement dubdelete_yes;
 		@FindBy(xpath = "//div/p-toastitem/div/div/div/div[2]")
 		private WebElement success_dbdelete;
+		
+		//Search
+		@FindBy(xpath = "//tbody//td[2]")
+		List<WebElement> listOfBatchNames;
+		@FindBy(xpath = "//tbody//td[3]")
+		List<WebElement> listOfClassTopic;
+		@FindBy(xpath = "//tbody//td[7]")
+		List<WebElement> listOfStaffNames;
+		
+		
+		// sort element locators
+		// sort
+		@FindBy(xpath = "//thead//tr//th[2]//i")
+		private WebElement BatchNameSort;
+		@FindBy(xpath = "//thead//tr//th[3]//i")
+		private WebElement classTopicSort;
+		@FindBy(xpath = "//thead//tr//th[4]//i")
+		private WebElement classDescripSort;
+		@FindBy(xpath = "//thead//tr//th[5]//i")
+		private WebElement StatusSort;
+		@FindBy(xpath = "//thead//tr//th[6]//i")
+		private WebElement ClassDateSort;
+		@FindBy(xpath = "//thead//tr//th[7]//i")
+		private WebElement StaffNameSort;
+		
+		
+		
+		
+		// SortList
+		@FindBy(xpath = "//tbody//td[2]")
+		private List<WebElement> BatchNameList;
+		@FindBy(xpath = "//tbody//td[3]")
+		private List<WebElement> classTopicList;
+		@FindBy(xpath = "//tbody//td[4]")
+		private List<WebElement> classDescripList;
+		
+		@FindBy(xpath = "//tbody//td[5]")
+		private List<WebElement> StatusList;
+		@FindBy(xpath = "//tbody//td[6]")
+		private List<WebElement> ClassDateList;
+		@FindBy(xpath = "//tbody//td[6]")
+		private List<WebElement> StaffNameList;
+		
+		
 
 	// date picker
 
@@ -220,6 +271,17 @@ public class ClassPage {
 	private WebElement allDisabledDatesForCurrentMonth;
 	@FindBy(tagName = "p-calendar")
 	private WebElement elementStoringEnteredDate;
+	
+	//Class Page - Pagination locators
+	
+	private	By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
+	private	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
+	private By thirdPaginatorBtn = By.xpath("//button[normalize-space()='3']");
+	private	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
+	private	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
+	private int lastPageEntryCount;
+	private int lastPageFooterEntryCount;
+		
 
 	// String batchName, String ClassTopic, String ClassDescription, String month,
 	// String date1, String date2, String StaffName, String Status
@@ -346,6 +408,12 @@ public class ClassPage {
 	public String addingMandatoryFields(String batchName, String ClassTopic, String ClassDescription, String month,
 			String date1, String StaffName, String Status) throws InterruptedException {
 		// Thread.sleep(3000);
+		
+		//JavascriptExecutor js = ((JavascriptExecutor) driver);
+		js.executeScript("arguments[0].click();", batchNameDrpdw);
+		//elementUtil.clickElementByJS(batchNameDrpdw, driver);
+		
+		
 		batchNameDrpdw.sendKeys(batchName);
 
 		js.executeScript("arguments[0].click();", classTopicTextbox);
@@ -532,6 +600,297 @@ public class ClassPage {
 		text2 = success_dbdelete.getText();
 		System.out.println(text2);
 	}
+	public void searhBoxValidation(String field, String value) throws InterruptedException {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].click();", searchBox);
+		boolean found = false;
+		switch (field) {
+		case "Batch Name":
+			searchBox.sendKeys(value);
+			logicForValidatingSearch(listOfBatchNames, value);
+			break;
+		case "Class Topic":
+			searchBox.sendKeys(value);
+			logicForValidatingSearch(listOfClassTopic, value);
+			break;
+		case "Staff Name":
+			searchBox.sendKeys(value);
+			logicForValidatingSearch(listOfStaffNames, value);
+			break;
+		}
+	}
+	public void logicForValidatingSearch(List<WebElement> searchedValues, String value) {
+		boolean found = false;
+		for (WebElement v : searchedValues) {
+			if (v.getText().equalsIgnoreCase(value)) {
+				System.out.println("Search is success for value: " + value);
+				found = true;
+				break;
+			}
+		}
+
+		if (!found) {
+			System.out.println("Search is not success for value: " + value);
+		}
+		
+	}
+	
+	
+	//sorting
+	public void clickBatchNameSort() {
+		actions.click(BatchNameSort).perform();
+		actions.click(BatchNameSort).perform();
+	}
+
+	public void clickBatchNameSortDec() {
+		actions.click(BatchNameSort).perform();
+		actions.click(BatchNameSort).perform();
+		actions.click(BatchNameSort).perform();
+
+	}
+
+	public void clickclassTopicSort() {
+		actions.click(classTopicSort).perform();
+		actions.click(classTopicSort).perform();
+
+	}
+
+	public void clickclassTopicSortDes() {
+		actions.click(classTopicSort).perform();
+		actions.click(classTopicSort).perform();
+		actions.click(classTopicSort).perform();
+
+	}
+
+	public void clickclassDescriptionSort() {
+		actions.click(classDescripSort).perform();
+		actions.click(classDescripSort).perform();
+
+	}
+
+	public void clickclassDescriptionSortDes() {
+		actions.click(classDescripSort).perform();
+		actions.click(classDescripSort).perform();
+		actions.click(classDescripSort).perform();
+
+	}
+	public void clickStatusSort() {
+		actions.click(StatusSort).perform();
+		actions.click(StatusSort).perform();
+	}
+
+	public void clickStatusSortDec() {
+		actions.click(StatusSort).perform();
+		actions.click(StatusSort).perform();
+		actions.click(StatusSort).perform();
+
+	}
+	public void clickClassDateSort() {
+		actions.click(ClassDateSort).perform();
+		actions.click(ClassDateSort).perform();
+	}
+
+	public void clickClassDateSortDec() {
+		actions.click(ClassDateSort).perform();
+		actions.click(ClassDateSort).perform();
+		actions.click(ClassDateSort).perform();
+
+	}
+	public void clickStaffNameSort() {
+		actions.click(StaffNameSort).perform();
+		actions.click(StaffNameSort).perform();
+	}
+
+	public void clickStaffNameSortDec() {
+		actions.click(StaffNameSort).perform();
+		actions.click(StaffNameSort).perform();
+		actions.click(StaffNameSort).perform();
+
+	}
+
+//get and return original list	
+	public List<String> getOriginalList(String type) {
+		List<String> originalList = null;
+
+		if (type.equals("BatchName")) {
+			originalList = printWebElements(BatchNameList);
+
+		} else if (type.equals("ClassTopic")) {
+			originalList = printWebElements(classTopicList);
+
+		} else if (type.equals("Status")) {
+			originalList = printWebElements(StatusList);
+		}else if (type.equals("Class Date")) {
+			originalList = printWebElements(ClassDateList);
+		}else if (type.equals("Staff Name")) {
+			originalList = printWebElements(StaffNameList);
+		}
+		
+		else {
+			originalList = printWebElements(classDescripList);
+		}
+		return originalList;
+	}
+
+	
+	public List<Date> getClassDatesOriginalList() {
+		
+		// List to store the dates
+        List<Date> dates = new ArrayList<>();
+
+        // Define the date format used on the webpage
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
+
+        // Extract dates from elements and convert to Date objects
+        for (WebElement element : ClassDateList) {
+            String dateStr = element.getText(); // Get the text representing the date
+            try {
+                  Date classdates =  dateFormat.parse(dateStr); // Parse the string to Date object
+                dates.add(classdates);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+		return dates;
+
+      			
+	}
+public List<Date> getClassDatesSortedList() {
+	// List to store the dates
+    List<Date> dates = new ArrayList<>();
+
+    // Define the date format used on the webpage
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
+
+    // Extract dates from elements and convert to Date objects
+    for (WebElement element : ClassDateList) {
+        String dateStr = element.getText(); // Get the text representing the date
+        try {
+              Date classdates =  dateFormat.parse(dateStr); // Parse the string to Date object
+            dates.add(classdates);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    Collections.sort(dates);
+    return dates;
+    
+	
+
+		
+
+      			
+	}
+
+	
+	
+	
+// this method will sort the given list
+	public List<String> getSortedList(List<String> originalList) {
+		System.out.println("Original List Before sorting is" + originalList);
+		List<String> sortedList = new ArrayList<>(originalList);
+		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
+		System.out.println("Sorted List After sorting is" + sortedList);
+		return sortedList;
+	}
+
+	public List<String> getSortedListDescending(List<String> originalList) {
+
+		System.out.println("Original List Before sorting is" + originalList);
+		List<String> sortedList = new ArrayList<>(originalList);
+//        Collections.sort(sortedList, (s1, s2) -> s2.compareToIgnoreCase(s1));
+//        Collections.sort(sortedList, Collections.reverseOrder());
+		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER.reversed());
+		System.out.println("Sorted List After sorting is" + sortedList);
+		return sortedList;
+	}
+
+// covert web element to java string list	
+	public List<String> printWebElements(List<WebElement> options) {
+		List<String> texts = new ArrayList<String>();
+		int i = 0;
+		for (WebElement option : options) {
+			texts.add(i, option.getText());
+			i++;
+		}
+		System.out.println("The number of items in the list are: " + texts.size());
+		return texts;
+	}
+
+	
+	
+	public void clickOnNextPage() {
+		elementUtil.clickElementByJS(nextPaginatorBtn, driver);
+
+	}
+	public boolean nextPageEnabled() {
+		return elementUtil.isElementEnabled(nextPaginatorBtn);
+
+	}
+	public String nextPageValidation() {
+		
+		String pageEntryText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+				.getText();
+		return pageEntryText;
+	}
+	
+	public void clickOnLastPage() {
+		elementUtil.clickElementByJS(lastPaginatorBtn, driver);
+
+	}
+	public boolean lastPageDisplayed() {
+		return elementUtil.isElementDisplayed(lastPaginatorBtn);
+
+	}
+	public boolean verifyNextPageBtnDisabled() {
+
+		if (!elementUtil.isElementEnabled(nextPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int lastPageRecord() {
+		
+		String pageEntryText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+				.getText();
+		String[] lastPageEntry = pageEntryText.split("of ");
+		lastPageEntryCount = Integer.parseInt(lastPageEntry[1].trim().split(" ")[0]);
+		return lastPageEntryCount;
+	}
+	
+	public int lastPageFootCount() {
+		String footerMessageText = driver.findElement(By.xpath("//p-table/div/div[2]/div"))
+				.getText();
+		String[] lastPageFooterEntry = footerMessageText.split("are ");
+		lastPageFooterEntryCount = Integer.parseInt(lastPageFooterEntry[1].trim().split(" ")[0]);
+		return lastPageFooterEntryCount;
+		
+	}
+	
+	public void clickOnFirstPage() {
+		elementUtil.clickElementByJS(firstPaginatorBtn, driver);
+
+	}
+	public boolean verifyPreviousPageBtnEnabled() {
+
+		if (elementUtil.isElementEnabled(prevPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean verifyPreviousPageBtnDisabled() {
+
+		if (!elementUtil.isElementEnabled(prevPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
 	
 
 }
