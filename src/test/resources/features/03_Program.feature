@@ -28,7 +28,74 @@ Feature: Program Module
     When Admin clicks "Program" on the navigation bar
     Then Admin should see the page names as in order on menu bar
 
-  @TC5 @AddNewProgram @smoke
+  @TC5 @ManageProgramPageValidation
+  Scenario: Verify heading in manage program
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see the Manage Program "Manage Program" Heading
+
+  @TC6 @ManageProgramPageValidation
+  Scenario: Verify view details of programs
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should able to see Program name, description, and status for each program
+
+  @TC7 @ManageProgramPageValidation
+  Scenario: Verify the Multiple Delete button state
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see a Delete button in left top is disabled
+
+  @TC10 @ManageProgramPageValidation
+  Scenario: Verify the Search button in manage program
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see Search bar with text as "Search..."
+
+  @TC11 @ManageProgramPageValidation
+  Scenario: Verify column header name of data table
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see data table with column header on the Manage Program Page as  Program Name, Program Description, Program Status, Edit/Delete
+
+  @TC12 @ManageProgramPageValidation
+  Scenario: Verify checkbox default state beside Program Name column header
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see checkbox default state as unchecked beside Program Name column header
+
+  @TC13 @ManageProgramPageValidation
+  Scenario: Verify checkboxes default state beside each Program names in the data table
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see check box default state as unchecked on the left side in all rows against program name
+
+  @TC14 @ManageProgramPageValidation
+  Scenario: Verify Sort icon in manage program
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see the sort arrow icon beside to each column header except Edit and Delete
+
+  @TC15 @ManageProgramPageValidation
+  Scenario: Verify edit and delete icon in manage program
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see the Edit and Delete buttons on each row of the data table
+
+  @TC16 @ManageProgramPageValidation
+  Scenario: Verify pagination icons below data table in manage program
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see the text along with Pagination icon below the table
+
+  @TC17 @ManageProgramPageValidation
+  Scenario: Verify footer message in manage program
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    Then Admin should see the footer with total programs
+
+  # --------------------------------Add New Program------------------------------------------------------
+  @TC18 @AddNewProgram @smoke
   Scenario Outline: Verify Admin is able to save the new program details and search validation
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -40,32 +107,14 @@ Feature: Program Module
       | testcase       |
       | validInputData |
 
-  @TC6 @ManageProgramPageValidation
-  Scenario: Verify heading in manage program
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see the Manage Program "Manage Program" Heading
-
-  @TC7 @ManageProgramPageValidation
-  Scenario: Verify view details of programs
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should able to see Program name, description, and status for each program
-
-  @TC8 @ManageProgramPageValidation
-  Scenario: Verify the Multiple Delete button state
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see a Delete button in left top is disabled
-
-  @TC9 @SearchProgramValidation
-  Scenario: Verify edited Program details
+@TC8 @SearchProgramValidation @rerun
+  Scenario: Verify created Program details
     Given Admin is on Program page
     When Admin searches with newly created Program "Name"
     Then Records of the newly created  "Program Name" is displayed and match the data entered
 
-  @TC10 @EditProgramValidation
-  Scenario Outline: Verify edited Program Details
+  @TC19 @EditProgramValidation @rerun
+  Scenario Outline: Verify Edit option and edited Program Details
     Given Admin is on Program page
     When Admin edits the program "Name" and click on save button for "<testcase>"
     Then Updated program "Name" and "Desc" and "Status" is seen by the Admin
@@ -73,51 +122,76 @@ Feature: Program Module
     Examples: 
       | testcase           |
       | validInputEditData |
+      
+  @TC20 @AddNewProgram
+  Scenario: Verify add New Program
+    Given Admin is on Program page
+    When Admin clicks Add New Program under Program menu bar
+    Then Admin should see pop up window for program details
 
-  @TC11 @ManageProgramPageValidation
-  Scenario: Verify the Search button in manage program
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see Search bar with text as "Search..."
+  @TC21 @AddNewProgram
+  Scenario: Verify title of the pop up window
+    Given Admin is on Program page
+    When Admin clicks Add New Program under Program menu bar
+    Then Admin should see window title as "Program Details"
 
-  @TC12 @ManageProgramPageValidation
-  Scenario: Verify column header name of data table
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see data table with column header on the Manage Program Page as  Program Name, Program Description, Program Status, Edit/Delete
+  @TC22 @AddNewProgram
+  Scenario: Verify empty form submission
+    Given Admin is on Program details form
+    When Admin clicks save button without entering mandatory fields
+    Then Admin gets message for mandatory field required
 
-  @TC13 @ManageProgramPageValidation
-  Scenario: Verify checkbox default state beside Program Name column header
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see checkbox default state as unchecked beside Program Name column header
+  @TC23 @AddNewProgram
+  Scenario: Verify Cancel button
+    Given Admin is on Program details form
+    When Admin clicks Cancel button
+    Then Admin can see Program Details form disappears
 
-  @TC14 @ManageProgramPageValidation
-  Scenario: Verify checkboxes default state beside each Program names in the data table
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see check box default state as unchecked on the left side in all rows against program name
+  #@TC24 @AddNewProgram @Failed
+  #Scenario: Verify Program Details entered in the form
+    #Given Admin is on Program page
+    #When Admin clicks Add New Program under Program menu bar
+    #And Admin enters Program details in textboxes and selects status
+    #Then Admin should see the text entered and status selected
 
-  @TC15 @ManageProgramPageValidation
-  Scenario: Verify Sort icon in manage program
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see the sort arrow icon beside to each column header except Edit and Delete
+  @TC25 @AddNewProgram
+  Scenario: Verify Cancel button
+    Given Admin is on Program details form
+    When Admin clicks X button on pop up window
+    Then Admin can see Program Details form disappears
 
-  @TC16 @ManageProgramPageValidation
-  Scenario: Verify edit and delete icon in manage program
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see the Edit and Delete buttons on each row of the data table
+  #----------------------------Edit Program-----------------------------
+  @TC26 @EditProgram
+  Scenario: Verify Edit option
+    Given Admin is on Program page
+    When Admin clicks on Edit option for particular program name "LMSUI"
+    And Admin clicks Cancel button
+    Then Admin can see Program Details form disappears
 
-  @TC17 @ManageProgramPageValidation
-  Scenario: Verify pagination icons below data table in manage program
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see the text along with Pagination icon below the table
+  #----------------------------Delete Program-----------------------------
+  
+  @TC27 @DeleteProgram
+  Scenario: Verify Admin is able to delete program
+    Given Admin is on Confirm deletion form for program "Name"
+    When Admin clicks on Yes button
+    Then Admin can see "Successful Program Deleted" message
 
-  @TC18 @ManageProgramPageValidation
-  Scenario: Verify footer message in manage program
-    Given Admin is on home page after Login
-    When Admin clicks "Program" on the navigation bar
-    Then Admin should see the footer with total programs
+  @TC28 @DeleteProgram
+  Scenario: Verify Admin is able to click 'No'
+    Given Admin is on Confirm deletion form for program "Name"
+    When Admin clicks on No button
+    Then Admin can see Confirm deletion form disappears
+
+  @TC29 @DeleteProgram
+  Scenario: Verify Admin is able to close the window with "X"
+    Given Admin is on Confirm deletion form for program "Name"
+    When Admin clicks on close X button
+    Then Admin can see Confirm deletion form disappears
+
+  @TC30 @DeleteProgram 
+  Scenario: Verify Admin does not find deleted program
+    Given Admin is on Program page
+    When Admin Searches for "Micro services"
+    Then There should be zero results
+    
+     #----------------------------Delete Multiple Program-----------------------------
