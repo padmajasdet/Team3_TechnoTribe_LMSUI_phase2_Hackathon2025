@@ -142,7 +142,7 @@ public class LoginStepDef {
 			String expErr3) {
 
 		// Error Count Validation
-		softAssert.assertEquals(expectedErrMsgCount, actualErrMsgList.size());
+		softAssert.assertEquals((int)expectedErrMsgCount, (int)actualErrMsgList.size());
 
 		// Actual Error Msg Text Validation
 		List<String> expectedErrMsgList = Arrays.asList(expErr1.trim(), expErr2.trim(), expErr3.trim());
