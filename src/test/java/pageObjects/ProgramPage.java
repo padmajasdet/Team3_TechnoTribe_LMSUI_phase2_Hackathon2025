@@ -123,7 +123,8 @@ public class ProgramPage extends CommonPage {
 	}
 
 	public void isLogoutDisplayedMenuBar() {
-		logout.isDisplayed();
+		util.isElementDisplayed(menu_logout);
+		//menu_logout.isDisplayed();
 	}
 
 	public String getLMSHeaderMenuBar() {

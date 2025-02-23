@@ -75,7 +75,7 @@ public class ElementUtil {
 
 		try {
 
-			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(20))
+			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(120))
 					.until(ExpectedConditions.visibilityOf(getElement(locator)));
 			if(ele == null)
 			{
@@ -169,7 +169,7 @@ public class ElementUtil {
 	public void doSendKeys(By locator, String text) {
 		try {
 
-			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(10))
+			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(120))
 					.until(ExpectedConditions.visibilityOf(getElement(locator)));
 
 			if (ele.isDisplayed()) {
@@ -215,8 +215,9 @@ public class ElementUtil {
 	public boolean isElementDisplayed(By locator) {
 		boolean flag = false;
 		try {
-
-			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(30))
+			
+			Thread.sleep(3000);
+			WebElement ele = new WebDriverWait(driver, Duration.ofSeconds(60))
 					.until(ExpectedConditions.visibilityOf(getElement(locator)));
 
 			if (ele.isDisplayed()) {
@@ -405,8 +406,15 @@ public class ElementUtil {
 	}
 
 	public void clickElementByJS(By locator, WebDriver driver) {
-		JavascriptExecutor js = ((JavascriptExecutor) driver);
-		js.executeScript("arguments[0].click();", getElement(locator));
+		try {
+			Thread.sleep(500);
+			JavascriptExecutor js = ((JavascriptExecutor) driver);
+			js.executeScript("arguments[0].click();", getElement(locator));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 
