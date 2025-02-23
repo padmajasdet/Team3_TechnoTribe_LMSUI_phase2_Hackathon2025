@@ -53,6 +53,11 @@ public class ProgramStepDef {
 		Assert.assertEquals(programPage.getLMSHeaderMenuBar(), LMSHeader);
 	}
 
+	@Then("Admin should see sub menu in menu bar as {string}")
+	public void admin_should_see_the_subMenu(String AddNewProgramSubMenu) {
+		Assert.assertEquals(programPage.getAddNewProgramSubMenu(), AddNewProgramSubMenu);
+	}
+	
 	@Then("Admin should see the Manage Program {string} Heading")
 	public void admin_should_see_the_title(String manageProgramTitle) {
 		Assert.assertEquals(programPage.getManageProgramText(), manageProgramTitle);
@@ -61,9 +66,10 @@ public class ProgramStepDef {
 	@Given("Admin is on program details form")
 	public void admin_is_on_program_details_form() {
 
-		programPage = new ProgramPage(driver);
 		programPage.clickAddNewProgramBtn();
 	}
+	
+//	/
 	
 	@When("Admin clicks Add New Program under Program menu bar")
 	public void admin_clicks_add_new_program_under_program_menu_bar() {
@@ -259,8 +265,7 @@ public class ProgramStepDef {
 		programPage.clickDeleteProgramBtn(programName);
 	}
 	@When("Admin clicks on Yes button")
-	public void admin_clicks_on_button() throws InterruptedException {
-	//	programPage.clickYesDeleteBtn();
+	public void admin_clicks_on_button() throws Exception {
 		programPage.clickDeleteButtons("yes");
 		
 	}
@@ -272,15 +277,15 @@ public class ProgramStepDef {
 	}
 	
 	@When("Admin clicks on No button")
-	public void admin_clicks_on_No_button() throws InterruptedException {
-		//programPage.clickNoDeleteBtn();
+	public void admin_clicks_on_No_button() throws Exception {
 		
 		programPage.clickDeleteButtons("no");
 	}
 	
 	@When("Admin clicks on close X button")
-	public void admin_clicks_X_button_delete() {
-		programPage.clickXDeleteConfirmationBtn();
+	public void admin_clicks_X_button_delete() throws Exception {
+		programPage.verifyDeleteProgramPopUp();
+		programPage.clickDeleteButtons("close");
 	}
 
 	
@@ -299,9 +304,34 @@ public class ProgramStepDef {
 		Assert.assertEquals(programPage.verifyZeroSearchResultsAfterDeletion(),true);
 	}
 	
+	@When("Admin selects more than one program by clicking on the checkbox")
+	public void admin_selects_more_than_one_program_by_clicking_on_the_checkbox() {
+
+		programPage.storeBeforeCount();
+		programPage.selectCheckboxes(2);
+	}
 	
+	@Then("Programs get selected")
+	public void admin_sees_ProgramSelected() throws InterruptedException {
+		
+	}
 	
+	@Given("Admin is on Confirmation form")
+	public void admin_is_on_confirmation_form() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new io.cucumber.java.PendingException();
+	}
+	@When("Admin clicks on {string} button")
+	public void admin_clicks_on_button(String string) throws InterruptedException {
+		programPage.clickYesDeleteBtn();
+	}
 	
+	@When("Admin clicks on the delete button on the left top of the program page")
+	public void admin_clicks_on_the_delete_button_on_the_left_top_of_the_program_page() {
+		programPage.selectCheckboxes(4);
+		programPage.clickdeleteAllButton();
+		
+	}
 	
 	
 	

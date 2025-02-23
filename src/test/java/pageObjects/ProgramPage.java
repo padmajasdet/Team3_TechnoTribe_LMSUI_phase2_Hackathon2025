@@ -83,8 +83,7 @@ public class ProgramPage extends CommonPage {
 	By xButton = By.xpath("//*[@header='Program Details']//button[@type='button']");
 	By xDeleteButton = By.xpath("//*[contains(@class,' p-dialog-header-close p-link ng-star-inserted')]/..");
 
-	By deleteConfirmationPopUp = By.xpath(
-			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c118-10 p-dialog p-confirm-dialog p-component ng-star-inserted']");
+	
 	By deleteButton = By.xpath("//div[@class='action']//button[@icon='pi pi-trash']");
 	By deleteYesBtn = By.xpath("//span[normalize-space()='Yes']");
 	By deleteNoBtn = By.xpath("//button/span[@class='p-button-label' and text()='No']");
@@ -119,6 +118,12 @@ public class ProgramPage extends CommonPage {
 	public String getLMSHeaderMenuBar() {
 
 		return util.getElementText(programPageLMSHeading);
+
+	}
+	
+	public String getAddNewProgramSubMenu() {
+
+		return util.getElementText(btn_AddNewProgram);
 
 	}
 
@@ -324,22 +329,14 @@ public class ProgramPage extends CommonPage {
 		util.doClick(cancelButton);
 	}
 
-	public void verifyDeleteProgramPopUp() {
 
-		util.isElementDisplayed(deleteConfirmationPopUp);
-
-	}
 
 	public void clickYesDeleteBtn() throws InterruptedException {
 
 		Thread.sleep(500);
-		//util.doClick(deleteYesBtn);
 		util.clickElementByJS(deleteYesBtn, driver);
 		
-	//	util.mouseclickUsingAction(deleteYesBtn);
 		System.out.println("Clicked on Yes...");
-		Thread.sleep(500);
-		//util.mouseclickUsingAction(deleteYesBtn);
 
 	}
 
