@@ -85,7 +85,7 @@ public class CommonStepDef {
 	@When("Admin clicks browser back button")
 	public void admin_clicks_browser_back_button() {
 
-		homePage.navigateBack();
+		loginPage.navigateBack();
 		
 	}
 	

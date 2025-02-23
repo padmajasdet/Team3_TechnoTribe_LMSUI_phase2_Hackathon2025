@@ -238,8 +238,6 @@ public class LoginStepDef {
 			context.getDriver().get(invalidLMSURL);
 
 		} catch (Exception e) {
-			System.out.println("ERROR MSG IN CONSOLE");
-			System.out.println(e.getMessage());
 			actualErrMsg = e.getMessage();
 		}
 
