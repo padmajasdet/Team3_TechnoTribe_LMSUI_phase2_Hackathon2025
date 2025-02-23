@@ -166,6 +166,11 @@
 		    <version>2.29.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.languagetool/language-en -->
+		<dependency>
+   <groupId>org.languagetool</groupId>
+   <artifactId>language-en</artifactId>
+   <version>6.4</version>
+</dependency>
 
 
 	</dependencies>

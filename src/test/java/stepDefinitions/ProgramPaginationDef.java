@@ -19,10 +19,9 @@ public class ProgramPaginationDef {
 	WebDriver driver;
 	TestContext context;
 	ReadConfig readConfig;
-	LoginPage loginPage;
 	HomePage homePage;
 	ProgramPage programPage;
-	CommonPage commonPage;
+	
 	public static Map<String, String> programData;
 	public ProgramPaginationDef(TestContext context) {
 		this.context = context;
@@ -49,9 +48,50 @@ public class ProgramPaginationDef {
 
 	@Then("Admin should see the last page record on the table with Next page link are disabled")
 	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled() {
-		boolean nextPageActive = programPage.verifyNextPageBtnDisabled();
-	    Assert.assertTrue(nextPageActive);
+		boolean nextPageDisabled = programPage.verifyNextPageBtnDisabled();
+	    Assert.assertTrue(nextPageDisabled);
 	}
+	
+	@Given("Admin is on last page of Program page table")
+	public void admin_is_on_last_page_of_program_page_table() throws Exception {
+		programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar("Program");
+		 programPage.clickOnLastPage();
+	}
+
+	@When("Admin clicks Previous page link")
+	public void admin_clicks_previous_page_link() {
+	    programPage.clickOnPreviuosPage();
+	}
+
+	@Then("Admin should see the previous page record on the table with pagination has previous page link")
+	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link() {
+		boolean prevoiusPageActive = programPage.previousPageEnabled();
+	    Assert.assertTrue(prevoiusPageActive);
+	}
+	
+	@Given("Admin is on Previous Program page")
+	public void admin_is_on_previous_program_page() throws Exception {
+		programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar("Program");
+		 programPage.clickOnLastPage();
+		 programPage.clickOnPreviuosPage();
+	}
+
+	@When("Admin clicks First page link")
+	public void admin_clicks_first_page_link() {
+	    programPage.clickOnFirstPage();
+	}
+
+	@Then("Admin should see the very first page record on the table with Previous page link are disabled")
+	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled() {
+		boolean previousPageActive = programPage.verifyPreviousPageBtnDisabled();
+	    Assert.assertTrue(previousPageActive);
+	}
+
+
+
+
+
+
 
 
 
