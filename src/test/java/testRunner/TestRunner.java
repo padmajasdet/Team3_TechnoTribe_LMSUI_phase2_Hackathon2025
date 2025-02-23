@@ -7,16 +7,13 @@ import io.cucumber.testng.CucumberOptions;
 
 
 
-@CucumberOptions(features = { "src/test/resources/features/Program.feature" }, 
+@CucumberOptions(features = { "src/test/resources/features" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-<<<<<<< HEAD
+
 
 				//tags="@class",
-                  tags="@TTLPH2-158",
-=======
-				tags="@doing",
->>>>>>> 63baf3fae368a8c1dc29db5b2a5522aa3bdfbf52
+						tags="@TTLPH2-177",
 
 				dryRun = false, 
 				//dryRun=true,
