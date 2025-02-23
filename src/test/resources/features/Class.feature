@@ -152,7 +152,68 @@ Feature: Class page validation
     Then Admin should see Class details are searched by given fields
 
     Examples: 
-      | field       |  | value            |
-      | Batch Name  |  | Micro service-01 |
-      | Class Topic |  | Java             |
-      | Staff Name  |  | Getha Takur      |
+      | field       |  | value       |
+      | Batch Name  |  | Python101   |
+      | Class Topic |  | Java        |
+      | Staff Name  |  | Getha Takur |
+
+  #----------------------------- Sorting----------------------------------------------------
+  @TTLPH2-163
+  Scenario: Verify sorting of Batch name in Ascending order
+    When Admin clicks on Arrow next to Batch Name of Class module page for sort
+    Then Admin See the Batch Name is sorted Ascending order in Class module page for sort
+
+  @TTLPH2-164
+  Scenario: Verify sorting of Batch name in Descending order
+    When Admin clicks on Arrow next to Batch Name of Class module page for sort descend
+    Then Admin See the Batch Name is sorted Descending order in Class module page
+
+  @TTLPH2-165
+  Scenario: Verify sorting of Class Topic in Ascending order
+    When Admin clicks on Arrow next to Class Topic of Class module page for sort
+    Then Admin See the Class Topic is sorted Ascending order in Class module page
+
+  @TTLPH2-166
+  Scenario: Verify sorting of Class Topic in Descending order
+    When Admin clicks on Arrow next to Class Topic of Class module page for sort descend
+    Then Admin See the Class Topic is sorted Descending order in Class module page
+
+  @TTLPH2-167
+  Scenario: Verify sorting of Class Description in Ascending order
+    When Admin clicks on Arrow next to Class Description of Class module page for sort
+    Then Admin See the Class Description is sorted Ascending order in Class module page
+
+  @TTLPH2-168
+  Scenario: Verify sorting of Class Description in Descending order
+    When Admin clicks on Arrow next to Class Description of Class module page for sort descend
+    Then Admin See the Class Description is sorted Descending order in Class module page
+
+  @TTLPH2-172
+  Scenario: Verify sorting of Status in Ascending order
+    When Admin clicks on Arrow next to Status of Class module page for sort
+    Then Admin See the Status is sorted Ascending order in Class module page
+
+  @TTLPH2-173
+  Scenario: Verify sorting of Status in Descending order
+    When Admin clicks on Arrow next to Status of Class module page for sort descend
+    Then Admin See the Status is sorted Descending order in Class module page
+#Regression-failed
+  @TTLPH2-174
+  Scenario: Verify sorting of StaffName in Ascending order
+    When Admin clicks on Arrow next to StaffName of Class module page for sort
+    Then Admin See the StaffName is sorted Ascending order in Class module page
+#Regression-failed
+  @TTLPH2-176
+  Scenario: Verify sorting of StaffName in Descending order
+    When Admin clicks on Arrow next to StaffName of Class module page for sort descend
+    Then Admin See the StaffName is sorted Descending order in Class module page
+
+  @TTLPH2-177
+  Scenario: Verify sorting of ClassDate in Ascending order
+    When Admin clicks on Arrow next to ClassDate of Class module page for sort
+    Then Admin See the ClassDate is sorted Ascending order in Class module page
+
+  #@TTLPH2-178
+  #Scenario: Verify sorting of ClassDate in Descending order
+   # When Admin clicks on Arrow next to ClassDate of Class module page for sort descend
+   # Then Admin See the ClassDate is sorted Descending order in Class module page

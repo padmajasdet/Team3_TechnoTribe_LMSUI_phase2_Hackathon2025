@@ -12,6 +12,7 @@ import io.cucumber.testng.CucumberOptions;
 				monochrome = true, 
 				tags="@doing",
 				dryRun = false, 
+
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",
 						"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
