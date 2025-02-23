@@ -20,9 +20,10 @@ public class ClassPaginationStepDef {
 	LoginPage loginPage;
 	public ClassPaginationStepDef(TestContext context) {
 		this.context = context;
-		this.driver = context.getDriver();
-		this.classPage = new ClassPage(driver, context);
-		this.readConfig = new ReadConfig();
+		driver = context.getDriver();
+		//this.classPage = new ClassPage(driver, context);
+		classPage = new ClassPage(driver);
+		readConfig = new ReadConfig();
 
 	}
 	
