@@ -409,5 +409,23 @@ public class ProgramPage extends CommonPage {
 		}
 		return false;
 	}
+	public void clickOnPreviuosPage() {
+		util.clickElementByJS(prevPaginatorBtn, driver);
 
+	}
+	public boolean previousPageEnabled() {
+		return util.isElementEnabled(prevPaginatorBtn);
+
+	}
+	public void clickOnFirstPage() {
+		util.clickElementByJS(firstPaginatorBtn, driver);
+
+	}
+	public boolean verifyPreviousPageBtnDisabled() {
+
+		if (!util.isElementEnabled(prevPaginatorBtn)) {
+			return true;
+		}
+		return false;
+	}
 }
