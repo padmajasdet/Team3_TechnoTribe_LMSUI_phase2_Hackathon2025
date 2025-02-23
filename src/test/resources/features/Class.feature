@@ -197,12 +197,14 @@ Feature: Class page validation
   Scenario: Verify sorting of Status in Descending order
     When Admin clicks on Arrow next to Status of Class module page for sort descend
     Then Admin See the Status is sorted Descending order in Class module page
-#Regression-failed
-  @TTLPH2-174
+
+  #Regression-failed
+  @TTLPH2-183
   Scenario: Verify sorting of StaffName in Ascending order
     When Admin clicks on Arrow next to StaffName of Class module page for sort
     Then Admin See the StaffName is sorted Ascending order in Class module page
-#Regression-failed
+
+  #Regression-failed
   @TTLPH2-176
   Scenario: Verify sorting of StaffName in Descending order
     When Admin clicks on Arrow next to StaffName of Class module page for sort descend
@@ -212,7 +214,6 @@ Feature: Class page validation
   Scenario: Verify sorting of ClassDate in Ascending order
     When Admin clicks on Arrow next to ClassDate of Class module page for sort
     Then Admin See the ClassDate is sorted Ascending order in Class module page
-
   #@TTLPH2-178
   #Scenario: Verify sorting of ClassDate in Descending order
    # When Admin clicks on Arrow next to ClassDate of Class module page for sort descend
