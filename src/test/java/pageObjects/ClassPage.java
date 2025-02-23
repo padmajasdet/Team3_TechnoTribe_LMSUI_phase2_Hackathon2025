@@ -413,6 +413,10 @@ public class ClassPage {
 		js.executeScript("arguments[0].click();", batchNameDrpdw);
 		//elementUtil.clickElementByJS(batchNameDrpdw, driver);
 		
+		/*
+		 * By batch_dropdownIcon = By.xpath("(//div[@role='button'])[1]");
+		 * elementUtil.clickElementByJS(batch_dropdownIcon, driver);
+		 */
 		
 		batchNameDrpdw.sendKeys(batchName);
 

@@ -157,6 +157,7 @@ public class CommonPage {
 			System.out.println("Mismatch in number of header cells!");
 			return false;
 		}
+	 
 
 		for (int i = 1; i < expectedHeaders.size(); i++) {
 			String actualHeaderText = actualHeaderCells.get(i).getText().trim();

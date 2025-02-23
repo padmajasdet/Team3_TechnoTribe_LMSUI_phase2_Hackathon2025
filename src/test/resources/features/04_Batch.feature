@@ -83,6 +83,15 @@ Scenario: Validate batch name suffix box should accept only numbers
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin enters alphabets in batch name suffix box
 	Then Admin should get error message below the text box of respective field
+	
+Scenario Outline: Validate batch name suffix box should accept only numbers
+	Given Admin is on the Batch Details Pop Up WIndow
+	When Admin enters non-numeric values in batch name suffix box
+	Then Admin should get error message below the text box of respective field	
+	
+	Examples:
+	|non-numeric|
+	||
 
 Scenario: Validate batch name prefix box is not editable
 	Given Admin is on the Batch Details Pop Up WIndow
