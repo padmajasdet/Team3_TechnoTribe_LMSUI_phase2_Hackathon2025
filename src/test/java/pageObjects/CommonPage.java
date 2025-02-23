@@ -36,11 +36,16 @@ public class CommonPage {
 	private String sortIconLocator = ".//*[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']";
 	private By deleteNoButton = By.xpath("//span[normalize-space()='No']");
 	private By deleteYesButton = By.xpath("//span[normalize-space()='Yes']");
-	private By deleteCloseButton = By.xpath("//*[@class='p-dialog-header-icons ng-tns-c118-11']//span");
+	private By deleteCloseButton = By.xpath("//*[contains(@class,' p-dialog-header-close p-link ng-star-inserted')]/..");
 	private By deleteAllButton = By.xpath(
 			"//button[@class='p-button-danger p-button p-component p-button-icon-only']//span[@class='p-button-icon pi pi-trash']");
 
-	By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
+	By deleteConfirmationPopUp = By.xpath(
+			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c118-10 p-dialog p-confirm-dialog p-component ng-star-inserted']");
+	private By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
+	private int selectedRows;
+	private int beforeCount;
+	private int afterCount;
 
 	@FindBy(xpath = "//button[@id='logout']")
 	WebElement logout;
@@ -169,7 +174,7 @@ public class CommonPage {
 		return util.isElementDisplayed(paginationButtons);
 	}
 
-	public void clickDeleteButtons(String buttonName) {
+	public void clickDeleteButtons(String buttonName) throws Exception {
 		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
 		overlay.click();
 		if (buttonName.equalsIgnoreCase("yes")) {
@@ -195,5 +200,70 @@ public class CommonPage {
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteButton);
 		}
 
+	}
+	
+	public void storeBeforeCount() {
+		String countText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+				.getText();
+		String[] parts = countText.split("of ");
+		this.beforeCount = Integer.parseInt(parts[1].trim().split(" ")[0]);
+	}
+	
+	
+	public void selectCheckboxes(int rows) {
+
+		List<WebElement> checkboxes = driver
+				.findElements(By.xpath("//tbody[@class='p-datatable-tbody']//div[@role='checkbox']"));
+
+		if (rows > checkboxes.size()) {
+			throw new IllegalArgumentException("Count exceeds the number of available checkboxes");
+		}
+		this.selectedRows = rows;
+		for (int i = 0; i < rows; i++) {
+			WebElement checkbox = checkboxes.get(i);
+			if (!checkbox.isSelected()) {
+
+				WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
+
+				((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", checkbox);
+				try {
+
+					wait.until(ExpectedConditions.elementToBeClickable(checkbox)).click();
+				} catch (ElementClickInterceptedException e) {
+
+					((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkbox);
+				}
+			}
+		}
+//		clickdeleteAllButton();
+//		verifyDeleteProgramPopUp();
+//		clickDeleteButtons("yes");
+
+	}
+	public void verifyDeleteProgramPopUp() {
+
+		util.isElementDisplayed(deleteConfirmationPopUp);
+
+	}
+	
+	public void storeAfterCount() {
+		String countText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+				.getText();
+		String[] parts = countText.split("of ");
+		this.afterCount = Integer.parseInt(parts[1].trim().split(" ")[0]);
+	}
+
+	public boolean validateCount() {
+		boolean flag = false;
+		int expectedCount = beforeCount - selectedRows;
+		storeAfterCount(); 
+		if (afterCount != expectedCount) {
+			throw new AssertionError(
+					"Count validation failed: Expected " + expectedCount + ", but found " + afterCount);
+		} else {
+			flag=true;
+		}
+		return flag;
 	}
 }
