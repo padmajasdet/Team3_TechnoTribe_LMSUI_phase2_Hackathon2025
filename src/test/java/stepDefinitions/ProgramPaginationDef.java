@@ -49,8 +49,8 @@ public class ProgramPaginationDef {
 
 	@Then("Admin should see the last page record on the table with Next page link are disabled")
 	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled() {
-		boolean nextPageActive = programPage.verifyNextPageBtnDisabled();
-	    Assert.assertTrue(nextPageActive);
+		boolean nextPageDisabled = programPage.verifyNextPageBtnDisabled();
+	    Assert.assertTrue(nextPageDisabled);
 	}
 	
 	@Given("Admin is on last page of Program page table")

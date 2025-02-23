@@ -67,6 +67,15 @@ public class BatchPage{
 	private By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
 	private By invalidError = By.xpath("//small[@id='text-danger']");
 	private By closeButton = By.xpath("//*[@header='Batch Details']//button[@type='button']");
+	
+	//Batch Page - Pagination locators
+	
+	private	By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
+	private	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
+	private By thirdPaginatorBtn = By.xpath("//button[normalize-space()='3']");
+	private	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
+	private	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
+	
 	public static String BatchName;  
 	private String filePath ; 
     private String sheetName = "Batch";
@@ -548,6 +557,69 @@ public class BatchPage{
 			}
 			return flag;
 		}
+		
+		public void clickOnNextPage() {
+			util.clickElementByJS(nextPaginatorBtn, driver);
+
+		}
+		public boolean nextPageEnabled() {
+			return util.isElementEnabled(nextPaginatorBtn);
+
+		}
+		
+		public void clickOnLastPage() {
+			util.clickElementByJS(lastPaginatorBtn, driver);
+
+		}
+		public boolean verifyNextPageBtnDisabled() {
+
+			if (!util.isElementEnabled(nextPaginatorBtn)) {
+				return true;
+			}
+			return false;
+		}
+		
+		public boolean lastPageDisplayed() {
+			return util.isElementDisplayed(lastPaginatorBtn);
+
+		}
+		
+		public void clickOnFirstPage() {
+			util.clickElementByJS(firstPaginatorBtn, driver);
+
+		}
+		public void clickOnPreviuosPage() {
+			util.clickElementByJS(prevPaginatorBtn, driver);
+
+		}
+		
+		public boolean verifyPreviousPageBtnDisabled() {
+
+			if (!util.isElementEnabled(prevPaginatorBtn)) {
+				return true;
+			}
+			return false;
+		}
+		public boolean previousPageEnabled() {
+			return util.isElementEnabled(prevPaginatorBtn);
+
+		}
+		
+		
+		public void clickOnThirdPage() {
+			util.clickElementByJS(thirdPaginatorBtn, driver);
+
+		}
+		
+		public String firstPageValidation() {
+			
+			String pageEntryText = driver.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"))
+					.getText();
+			return pageEntryText;
+		}
+		
+		
+		
 
 		
 		
