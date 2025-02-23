@@ -259,6 +259,62 @@ public class BatchStepDef  {
 	public void admin_should_see_the_batch_details_pop_up_window_in_edit() {
 		Assert.assertEquals(batchPage.getAddNewPageTitle(), "Batch Details");	
 	}
+	@When("Admin clicks the delete Icon on any row")
+	public void admin_clicks_the_delete_icon_on_any_row() {
+	   batchPage.clickDelete();
+	}
+	@Then("Admin should see the confirm alert box with yes and no button")
+	public void admin_should_see_the_confirm_alert_box_with_yes_and_no_button() {
+		Assert.assertEquals(batchPage.getDeleteTitle(), "Confirm");
+		Assert.assertEquals(batchPage.getDeleteNoButton(), "No");
+		Assert.assertEquals(batchPage.getDeleteYesButton(), "Yes");
+	}
+	@Given("Admin is on the batch confirm popup page")
+	public void admin_is_on_the_batch_confirm_popup_page() {
+		batchPage.batchMenuClick();	
+		 batchPage.clickDelete();
+	}
+	@When("Admin clicks on the delete icon and click yes button")
+	public void admin_clicks_on_the_delete_icon_and_click_yes_button() {
+	   batchPage.clickDeleteButtons("yes");
+	}
+	@Then("Admin should see the successful message and the batch should be deleted")
+	public void admin_should_see_the_successful_message_and_the_batch_should_be_deleted() {
+		Assert.assertEquals(batchPage.getToast(), "Successful");
+	}
+	@When("Admin clicks on the delete icon and click no button")
+	public void admin_clicks_on_the_delete_icon_and_click_no_button() {
+		 batchPage.clickDeleteButtons("no");
+	}
+	@Then("Admin should see the alert box closed and the batch is not deleted")
+	public void admin_should_see_the_alert_box_closed_and_the_batch_is_not_deleted() {
+		Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
+	}
+	@When("Admin clicks on the close icon in batch confirm popup")
+	public void admin_clicks_on_the_close_icon_in_batch_confirm_popup() {
+		batchPage.clickDeleteButtons("close");
+	}
+	@Then("Admin should see the alert box closed")
+	public void admin_should_see_the_alert_box_closed() {
+		Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
+	}
+	
+	@When("Admin clicks on the delete icon under the Manage batch header")
+	public void admin_clicks_on_the_delete_icon_under_the_manage_batch_header() {
+		batchPage.storeBeforeCount();
+		batchPage.selectCheckboxes(1);
+	}
+	@Then("The respective row in the table should be deleted")
+	public void the_respective_row_in_the_table_should_be_deleted() {
+		Assert.assertTrue(batchPage.validateCount());
+	}
+	@When("Admin clicks on the delete icon for multiple row under the Manage batch header")
+	public void admin_clicks_on_the_delete_icon_for_multiple_row_under_the_manage_batch_header() {
+		batchPage.storeBeforeCount();
+		batchPage.selectCheckboxes(3);
+	}
+
+	
 
 
 	
