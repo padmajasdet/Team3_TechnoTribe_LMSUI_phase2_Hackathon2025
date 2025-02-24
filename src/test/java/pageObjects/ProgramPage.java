@@ -1,6 +1,8 @@
 package pageObjects;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -9,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,6 +26,7 @@ public class ProgramPage extends CommonPage {
 	private WebDriver driver;
 	private ElementUtil util;
 	ReadConfig readConfig;
+	Actions actions;
 
 	public static String NewProgramName;
 	public static String UpdatedProgramName;
@@ -71,6 +75,7 @@ public class ProgramPage extends CommonPage {
 		util = new ElementUtil(this.driver);
 		readConfig = new ReadConfig();
 		filePath = readConfig.getExcelPath();
+		actions = new Actions(driver);
 	}
 
 	By programPageLMSHeading = By.xpath("//*[contains(text(),'LMS - Learning Management System')]");
@@ -116,6 +121,19 @@ public class ProgramPage extends CommonPage {
 	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
 	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
 	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
+	
+	// sort element locators
+	
+	By programNameSort = By.xpath("//thead//tr//th[2]//i");
+	By programDescriptionSort = By.xpath("//thead//tr//th[3]//i");
+	By programStatusSort = By.xpath("//thead//tr//th[4]//i");
+	
+	// SortList
+	By programNameList = By.xpath("//tbody//td[2]");
+	By programDescriptionList = By.xpath("//tbody//td[3]");
+	By programStatusList = By.xpath("//tbody//td[4]");
+	
+	
 
 	public String getProgramPageTitle() {
 		//return util.getElementText(programPageTitle);
@@ -596,5 +614,91 @@ public class ProgramPage extends CommonPage {
 
 		return false;
 	}
+	
+	public void clickProgramNameSort() {
+		actions.click(util.getElement(programNameSort)).perform();
+		actions.click(util.getElement(programNameSort)).perform();
+	}
+	
+	// convert web element to java string list	
+		public List<String> printWebElements(List<WebElement> options) {
+			List<String> texts = new ArrayList<String>();
+			int i = 0;
+			for (WebElement option : options) {
+				texts.add(i, option.getText());
+				i++;
+			}
+			System.out.println("The number of items in the list are: " + texts.size());
+			return texts;
+		}
+	//get and return original list	
+		public List<String> getOriginalList(String type) {
+			List<String> originalList = null;
+
+			if (type.equals("ProgramName")) {
+				// originalList = printWebElements(BatchNameList);
+				originalList = printWebElements(util.getElements(programNameList));
+
+			} else if (type.equals("ProgramDescription")) {
+				// originalList = printWebElements(classTopicList);
+				originalList = printWebElements(util.getElements(programDescriptionList));
+
+			} else if (type.equals("ProgramStatus")) {
+				// originalList = printWebElements(StatusList);
+				originalList = printWebElements(util.getElements(programStatusList));
+
+			} 
+			return originalList;
+		}
+		
+		// this method will sort the given list
+		public List<String> getSortedList(List<String> originalList) {
+			System.out.println("Original List Before sorting is" + originalList);
+			List<String> sortedList = new ArrayList<>(originalList);
+			Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
+			System.out.println("Sorted List After sorting is" + sortedList);
+			return sortedList;
+		}
+		public void clickProgramNameSortDescend() {
+			actions.click(util.getElement(programNameSort)).perform();
+			actions.click(util.getElement(programNameSort)).perform();
+			actions.click(util.getElement(programNameSort)).perform();
+
+		}
+		
+		public List<String> getSortedListDescending(List<String> originalList) {
+
+			System.out.println("Original List Before sorting is" + originalList);
+			List<String> sortedList = new ArrayList<>(originalList);
+			Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER.reversed());
+			System.out.println("Sorted List After sorting is" + sortedList);
+			return sortedList;
+		}
+		
+		public void clickProgramDescriptionSort() {
+			actions.click(util.getElement(programDescriptionSort)).perform();
+			actions.click(util.getElement(programDescriptionSort)).perform();
+
+		}
+		public void clickProgramDescriptionSortDes() {
+			actions.click(util.getElement(programDescriptionSort)).perform();
+			actions.click(util.getElement(programDescriptionSort)).perform();
+			actions.click(util.getElement(programDescriptionSort)).perform();
+
+		}
+		
+		public void clickProgramStatusSort() {
+			actions.click(util.getElement(programStatusSort)).perform();
+			actions.click(util.getElement(programStatusSort)).perform();
+
+		}
+		public void clickProgramStatusSortDes() {
+			actions.click(util.getElement(programStatusSort)).perform();
+			actions.click(util.getElement(programStatusSort)).perform();
+			actions.click(util.getElement(programStatusSort)).perform();
+
+		}
+
+
 
 }
