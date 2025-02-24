@@ -1,9 +1,12 @@
 package hooks;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import utilities.Log;
 import utilities.ReadConfig;
 import utilities.Screenshot;
+
+import java.io.ByteArrayInputStream;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -40,17 +43,15 @@ public class BaseClass {
 		Log.logInfo("Screenshots for failed");
 		if (scenario.isFailed()) {
 			// Use context.getDriver() to take a screenshot
-			Screenshot.takeScreenshot(context.getDriver(), scenario.getName());
+			//Screenshot.takeScreenshot(context.getDriver(), scenario.getName());
+			final byte[] screenshot = ((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES);
+			scenario.attach(screenshot, "image/png", "My screenshot");
+			Allure.addAttachment("Myscreenshot",
+					new ByteArrayInputStream(((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES)));
 		}
 		Log.logInfo("Closing WebDriver");
 		context.closeDriver();
 
 	}
 
-	// to attach screeshots in allure
-	@Attachment(value = "Screenshot", type = "image/png")
-	public byte[] attachScreenshot(WebDriver driver) {
-		// Capture the screenshot and return it as bytes
-		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-	}
 }
