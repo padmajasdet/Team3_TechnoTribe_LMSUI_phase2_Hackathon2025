@@ -11,9 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import utilities.ElementUtil;
 import utilities.ExcelReader;
 import utilities.ReadConfig;
@@ -67,7 +64,6 @@ public class BatchPage {
 
 	public static String BatchName;
 	public static String BatchName1;
-	private String filePath;
 	private String sheetName = "Batch";
 	private WebDriverWait wait;
 
@@ -75,7 +71,6 @@ public class BatchPage {
 		this.driver = driver;
 		util = new ElementUtil(this.driver);
 		this.readConfig = new ReadConfig();
-		this.filePath = readConfig.getExcelPath();
 	}
 
 	/**
@@ -109,11 +104,6 @@ public class BatchPage {
 
 	public void batchMenuClick() {
 		util.doClick(batchMenu);
-//		try {
-//			WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
-//			overlay.click();
-//		} catch (Exception e) {
-//		}
 	}
 
 	public void closeButtonClick() {
@@ -281,9 +271,6 @@ public class BatchPage {
 		            System.out.println("Invalid number format for NoOfClasses: " + noOfClassesStr);
 		        }
 		    }
-		//int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]);
-		//String newnoOfClasses = String.valueOf(noOfClasses);
-		//util.doSendKeys(addBatchNoOfClasses, newnoOfClasses);
 		
 		if (saveCancel.equalsIgnoreCase("Save")) {
 			saveButtonClick();
@@ -292,7 +279,7 @@ public class BatchPage {
 				if (toastMessage.equalsIgnoreCase("Successful")) {
 					if (testcaseName.equalsIgnoreCase("validAll")) {
 						System.out.println("Batch created successfully - chaining");
-						String finalBatchName = finalBatchNamePrefix + newBatchName;
+						String finalBatchName = ProgramPage.getProgramName() + newBatchName;
 						System.out.println("Batch Name: " + finalBatchName);
 						setBatchName(finalBatchName);
 					} else {
