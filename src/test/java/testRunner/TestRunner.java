@@ -8,9 +8,8 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(features = { "src/test/resources/features/" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-				tags="@TTLPH2-108",
+				//	tags="@doing",
 				dryRun = false, 
-
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",
 						"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",

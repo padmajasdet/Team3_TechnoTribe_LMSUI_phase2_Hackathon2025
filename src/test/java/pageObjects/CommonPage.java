@@ -169,7 +169,7 @@ public class CommonPage {
 
 		for (int i = 1; i < expectedHeaders.size(); i++) {
 			String actualHeaderText = actualHeaderCells.get(i).getText().trim();
-			System.out.println(actualHeaderText);
+		//	System.out.println(actualHeaderText);
 			if (!actualHeaderText.equals(expectedHeaders.get(i - 1))) {
 				System.out.println("Header mismatch at index " + i + ": expected '" + expectedHeaders.get(i)
 						+ "', but found '" + actualHeaderText + "'");
@@ -184,10 +184,13 @@ public class CommonPage {
 	}
 
 	public void clickDeleteButtons(String buttonName) throws Exception {
+		try {
 		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
 		overlay.click();
+		}
+		catch(Exception e) {}
 		if (buttonName.equalsIgnoreCase("yes")) {
-			util.doClick(deleteYesButton);
+			util.clickElementByJS(deleteYesButton, driver);
 		} else if (buttonName.equalsIgnoreCase("no")) {
 			util.doClick(deleteNoButton);
 		} else {
