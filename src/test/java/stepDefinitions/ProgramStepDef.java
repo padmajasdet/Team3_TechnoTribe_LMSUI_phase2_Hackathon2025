@@ -120,7 +120,7 @@ public class ProgramStepDef {
 	@When("Admin enters details for {string} for mandatory fields and Click on save button")
 	public void admin_enters_details_for_for_mandatory_fields_and_click_on_save_button(String testCase) throws Exception {
 
-		programPage.fillProgramForm(testCase);
+		programPage.fillProgramForm(testCase.trim());
 
 	}
 	

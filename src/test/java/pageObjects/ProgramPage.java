@@ -239,7 +239,8 @@ public class ProgramPage extends CommonPage {
 
 	public void fillProgramForm(String testCase) throws Exception {
 
-		programData = ExcelReader.getTestData(filePath, sheetName, testCase);
+		//programData = ExcelReader.getTestData(filePath, sheetName, testCase);
+		programData = ExcelReader.getTestData(sheetName, testCase);
 
 		System.out.println("Program data from excel --" + programData);
 
@@ -303,7 +304,8 @@ public class ProgramPage extends CommonPage {
 
 		Assert.assertEquals(getAddNewProgramPopUpTitle(), "Program Details");
 
-		programData = ExcelReader.getTestData(filePath, sheetName, testCase);
+		//programData = ExcelReader.getTestData(filePath, sheetName, testCase);
+		programData = ExcelReader.getTestData(sheetName, testCase);
 
 		String programNameEdit = programData.get("ProgramName");
 		String programDescEdit = programData.get("ProgramDescription");

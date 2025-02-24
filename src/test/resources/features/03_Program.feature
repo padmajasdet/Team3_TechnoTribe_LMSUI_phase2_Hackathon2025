@@ -100,8 +100,8 @@ Feature: Program Module
     Given Admin is on Program page
     When Admin clicks "Program" on the navigation bar
     Then Admin should see sub menu in menu bar as "Add New Program"
-
-  @TC17 @AddNewProgram @smoke
+    
+  @TC17 @AddNewProgram @smoke @try
   Scenario Outline: Verify Admin is able to save the new program details and search validation
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -119,7 +119,7 @@ Feature: Program Module
     When Admin searches with newly created Program "Name"
     Then Records of the newly created  "Program Name" is displayed and match the data entered
 
-  @TC19 @EditProgramValidation
+  @TC19 @EditProgramValidation @rerun @try
   Scenario Outline: Verify Edit option and edited Program Details
     Given Admin is on Program page
     When Admin edits the program "Name" and click on save button for "<testcase>"

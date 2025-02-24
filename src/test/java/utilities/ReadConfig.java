@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 public class ReadConfig {
-	
+
 	Properties pro;
-	
+
 	public ReadConfig() {
 		File src = new File("./src/test/resources/Properties/Config.properties");
 
@@ -19,42 +19,42 @@ public class ReadConfig {
 			System.out.println("Exception is " + e.getMessage());
 		}
 	}
-	
-    //get URL from config                    
+
+	// get URL from config
 	public String getApplicationURL() {
 		String url = pro.getProperty("url");
 		return url;
 	}
-	
-	//get browser from config
+
+	// get browser from config
 	public String getbrowser() {
 		String browser = pro.getProperty("browser");
 		return browser;
 	}
-	
-	//get Login credentials
-		public  String getUsername(){
-			String username= pro.getProperty("LMSUserName");
-			return username;
-		}
-		public String getPassword(){
-			String pwd= pro.getProperty("LMSPassword");
-			return pwd;
-		}
-		
-		public String getDashboardurl(){
-			String HomepageURL=pro.getProperty("DashBoardURL");
-			return HomepageURL;
-		}
-		
-		// read excelpath
-				public String getExcelPath() {
-					String path = pro.getProperty("excelPath");
-					if (path != null)
-						return path;
-					else
-						throw new RuntimeException("path not specified in the Configuration.properties file.");
-				}
-	
+
+	// get Login credentials
+	public String getUsername() {
+		String username = pro.getProperty("LMSUserName");
+		return username;
+	}
+
+	public String getPassword() {
+		String pwd = pro.getProperty("LMSPassword");
+		return pwd;
+	}
+
+	public String getDashboardurl() {
+		String HomepageURL = pro.getProperty("DashBoardURL");
+		return HomepageURL;
+	}
+
+	// read excelpath
+	public String getExcelPath() {
+		String path = pro.getProperty("excelPath");
+		if (path != null)
+			return path;
+		else
+			throw new RuntimeException("path not specified in the Configuration.properties file.");
+	}
 
 }

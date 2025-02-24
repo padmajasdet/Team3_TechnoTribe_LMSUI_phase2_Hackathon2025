@@ -191,7 +191,7 @@ public class BatchPage {
 	}
 
 	public String selectDataFromExcel(String testcaseName, String columnName) {
-		testData = ExcelReader.getTestData(filePath, sheetName, testcaseName);
+		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		return testData.get(columnName);
 	}
 
@@ -233,7 +233,7 @@ public class BatchPage {
 	}
 
 	public void enterAllDetails(String saveCancel, String testcaseName) {
-		testData = ExcelReader.getTestData(filePath, sheetName, testcaseName);
+		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		selectProgramNameDD();
 		selectProgramNameListBox(testcaseName);
 		String finalBatchNamePrefix = selectDataFromExcel(testcaseName, "ProgramName");
@@ -253,7 +253,7 @@ public class BatchPage {
 		if (!newBatchName.isEmpty()) {
 			util.doSendKeys(addBatchName, newBatchName);
 			// Update the BatchName in Excel for the next run
-			ExcelReader.updateTestData(filePath, sheetName, testcaseName, "BatchName", newBatchName);
+			ExcelReader.updateTestData(sheetName, testcaseName, "BatchName", newBatchName);
 		}
 		util.doSendKeys(addBatchDesc, testData.get("Description"));
 		getActiveStatusRadioButton();
@@ -348,7 +348,7 @@ public class BatchPage {
 	}
 
 	public void editAllDetails(String saveCancel, String testcaseName) {
-		testData = ExcelReader.getTestData(filePath, sheetName, testcaseName);
+		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		String descriptionStr = testData.get("Description");
 		String descFinal;
 		if (descriptionStr.matches("\\d+(\\.\\d+)?")) { // Check if it's numeric
