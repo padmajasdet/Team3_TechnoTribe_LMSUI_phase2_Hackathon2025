@@ -1,6 +1,6 @@
 #Author: Mathumathi Balakrishnan
 
-@batch 
+@batch  @smoke
 Feature: Batch Page
 
 Background:
@@ -71,35 +71,42 @@ Scenario: Validate batchname prefix selected program name
 	When Admin selects program name present in the dropdown
 	Then Admin should see selected program name in the batch name prefix box
 
-Scenario: Validate batch name suffix box should accept only numbers
-	Given Admin is on the Batch Details Pop Up WIndow
-	When Admin enters alphabets in batch name suffix box
-	Then Admin should get error message below the text box of respective field
-	
 Scenario Outline: Validate batch name suffix box should accept only numbers
 	Given Admin is on the Batch Details Pop Up WIndow
-	When Admin enters non-numeric values in batch name suffix box
+	When Admin enters "<non-numeric>" values in batch name suffix box
 	Then Admin should get error message below the text box of respective field	
 	
 	Examples:
 	|non-numeric|
-	||
+	|invalid|
+	|	@#$%^ |
+	|a123		|
+	|1234567|
+	|-123		|
+	| 12.34	|
 
 Scenario: Validate batch name prefix box is not editable
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin enters alphabets in batch name prefix box
 	Then Admin should see empty text box
 
+
 Scenario: Validate input data only for mandatory fields
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin enters the data only to the mandatory fields and clicks save button
 	Then Admin should get a successful message
 
-Scenario: validate input data missing for mandatory fields
+Scenario Outline: validate input data missing for mandatory fields
 	Given Admin is on the Batch Details Pop Up WIndow
-	When Admin leaves blank one of the mandatory fields
-	Then Admin should get a error message on the respective mandatory field
-
+	When Admin leaves blank one of the "<mandatoryFields>"
+	Then Admin should get a "<errorMessage>" on the respective mandatory field
+	Examples:
+	|			mandatoryFields 				|	 		errorMessage						|
+	|missingProgramName						|Program Name is required.		|
+	|missingBatchName							|Batch Name is required.			|
+	|missingBatchDescription			|Batch Description is required.|
+	|missingNumberOfClasses				|Number of classes is required.|
+	
 @smoke
 Scenario: validate save button in Batch details pop up
 	Given Admin is on the Batch Details Pop Up WIndow
@@ -148,12 +155,31 @@ Scenario: validate cancel button in Batch details pop up
 	When Admin edit the valid data to all the mandatory fields and click cancel button 
 	Then Admin can see the batch details popup closes without editing the batch
 
+#Search Text box validation
+
+Scenario: validate search box functionality
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box
+	Then Admin should see the filtered batches in the data table
+
+Scenario: Validate edit icon functionality by search
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box and edit the valid data and click save button 
+	Then Admin should get a successful message for editing the batch
+
+
+	
 #Delete batch validation
 
 Scenario: validate delete Icon on any row
 	Given Admin is on the Batch page
 	When Admin clicks the delete Icon on any row
 	Then Admin should see the confirm alert box with yes and no button
+
+Scenario: Validate delete icon functionality by search
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box and click on delete icon
+	Then The respective row in the table should be deleted
 
 Scenario: Validate yes button on the confirm alert box
 	Given Admin is on the batch confirm popup page
@@ -170,39 +196,49 @@ Scenario: validate close Icon on the alert box
 	When Admin clicks on the close icon in batch confirm popup
 	Then Admin should see the alert box closed 
 
-#Delete multiple batches with checkbox
-	@doing
+
 Scenario: Validate single row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon under the Manage batch header
 	Then The respective row in the table should be deleted
-	@doing
+
 Scenario: Validate multiple row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon for multiple row under the Manage batch header
 	Then The respective row in the table should be deleted
 	
-#Search Text box validation
 
-Scenario: validate search box functionality
-	Given Admin is on the Batch page
-	When Admin enters the batch name in the search text box
-	Then Admin should see the filtered batches in the data table
+#pagination by MAYA
+  Scenario: Validate next page link
+    Given Admin is on the Batch page
+    When Admin clicks next page link on the data table
+    Then Admin should see the Next enabled link
 
-Scenario: Validate edit icon functionality by search
-	Given Admin is on the Batch page
-	When Admin enters the batch name in the search text box and edit the valid data and click save button 
-	Then Admin should get a successful message for editing the batch
+  Scenario: validate last page link
+    Given Admin is on the Batch page
+    When Admin clicks last page link on the data table
+    Then Admin should see the last page link with next page link disabled on the table
 
-Scenario: Validate delete icon functionality by search
-	Given Admin is on the Batch page
-	When Admin enters the batch name in the search text box and click on delete icon
-	Then The respective row in the table should be deleted
+  Scenario: validate the previous page link
+    Given Admin is on the Batch page
+    When Admin clicks previous page link on the data table
+    Then Admin should see the previous page on the table
 
+  Scenario: validate the first page link
+    Given Admin is on the Batch page
+    When Admin clicks first page link on the data table
+    Then Admin should see the very first page on the data table
+
+
+ #sorting
+ 
+ 
+ 
+    
 #LogOut of the application from the batch page
-	@doing
+
 Scenario: Validate logout option in the header is visible and enabled from the batch page
-	Given Admin is on the Batch page
+	Given Admin is on the Batch page for logout
 	When Admin clicks "logout" on the navigation bar
 	Then Admin should be redirected to login page
 	

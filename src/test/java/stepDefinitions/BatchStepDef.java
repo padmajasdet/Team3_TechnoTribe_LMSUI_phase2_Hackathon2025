@@ -162,14 +162,14 @@ public class BatchStepDef {
 		Assert.assertEquals(batchPage.isBatchNamePrefixEditable(), false);
 	}
 
-	@When("Admin leaves blank one of the mandatory fields")
-	public void admin_leaves_blank_one_of_the_mandatory_fields() {
-		batchPage.enterAllDetails("Save", "missingOneMandatory");
+	@When("Admin leaves blank one of the {string}")
+	public void admin_leaves_blank_one_of_the(String testcase) {
+		batchPage.enterAllDetails("Save", testcase);
 	}
 
-	@Then("Admin should get a error message on the respective mandatory field")
-	public void admin_should_get_a_error_message_on_the_respective_mandatory_field() {
-		Assert.assertEquals(batchPage.getErrorMessage(), "Batch Name is required.");
+	@Then("Admin should get a {string} on the respective mandatory field")
+	public void admin_should_get_a_on_the_respective_mandatory_field(String expectedErrorMessage) {
+		Assert.assertEquals(batchPage.getErrorMessage(), expectedErrorMessage);
 	}
 
 	@When("Admin clicks on the close icon")
@@ -181,12 +181,17 @@ public class BatchStepDef {
 	public void batch_details_pop_up_closes() {
 		Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
 	}
+//
+//	@When("Admin enters alphabets in batch name suffix box")
+//	public void admin_enters_alphabets_in_batch_name_suffix_box() {
+//		batchPage.enterBatchNameSuffix();
+//	}
 
-	@When("Admin enters alphabets in batch name suffix box")
-	public void admin_enters_alphabets_in_batch_name_suffix_box() {
-		batchPage.enterBatchNameSuffix();
+	@When("Admin enters {string} values in batch name suffix box")
+	public void admin_enters_values_in_batch_name_suffix_box(String invalidBatchNameSuffix) {
+		batchPage.enterBatchNameSuffix(invalidBatchNameSuffix);
 	}
-
+	
 	@Then("Admin should get error message below the text box of respective field")
 	public void admin_should_get_error_message_below_the_text_box_of_respective_field() {
 		Assert.assertEquals(batchPage.getErrorMessage(), "This field accept only numbers and max 5 count.");
@@ -348,11 +353,68 @@ public class BatchStepDef {
 		Assert.assertEquals(true, batchPage.validateSearch());
 	}
 
+	@Given("Admin is on the Batch page for logout")
+	public void admin_is_on_the_batch_page_for_logout() {
+		batchPage.batchMenuClick();
+		batchPage.isElementIntercepted();
+	}
+	
 	@When("Admin enters the batch name in the search text box and click on delete icon")
 	public void admin_enters_the_batch_name_in_the_search_text_box_and_click_on_delete_icon() throws Exception {
 		batchPage.enterSearch(batchPage.getBatchName1());
 		batchPage.clickAction("delete");
 		commonPage.clickDeleteButtons("yes");
 	}
+	
+	
+	//Pagination step def by Maya
+	@When("Admin clicks next page link on the data table")
+	public void admin_clicks_next_page_link_on_the_data_table() {
+		batchPage.clickOnNextPage();
+	}
+
+	@Then("Admin should see the Next enabled link")
+	public void admin_should_see_the_next_enabled_link() {
+		boolean nextPageActive = batchPage.nextPageEnabled();
+		Assert.assertTrue(nextPageActive);
+		
+	}
+	@When("Admin clicks last page link on the data table")
+	public void admin_clicks_last_page_link_on_the_data_table() {
+	    batchPage.clickOnLastPage();
+	}
+
+	@Then("Admin should see the last page link with next page link disabled on the table")
+	public void admin_should_see_the_last_page_link_with_next_page_link_disabled_on_the_table() {
+		boolean nextPageDisabled= batchPage.verifyNextPageBtnDisabled();
+		boolean lastPageDisplayed = batchPage.lastPageDisplayed();
+		Assert.assertTrue(nextPageDisabled);
+		Assert.assertTrue(lastPageDisplayed);
+	}
+	
+	@When("Admin clicks previous page link on the data table")
+	public void admin_clicks_previous_page_link_on_the_data_table() {
+	    batchPage.clickOnThirdPage();
+	    batchPage.clickOnPreviuosPage();
+	}
+
+	@Then("Admin should see the previous page on the table")
+	public void admin_should_see_the_previous_page_on_the_table() {
+		boolean previousPageActive = batchPage.previousPageEnabled();
+	    Assert.assertTrue(previousPageActive);
+	}
+	
+	@When("Admin clicks first page link on the data table")
+	public void admin_clicks_first_page_link_on_the_data_table() {
+		batchPage.clickOnFirstPage();
+	}
+
+	@Then("Admin should see the very first page on the data table")
+	public void admin_should_see_the_very_first_page_on_the_data_table() {
+	    String pageText = batchPage.firstPageValidation();
+	    System.out.println(pageText);
+	    Assert.assertTrue(pageText.contains("Showing 1"));
+	}
+	
 
 }
