@@ -226,10 +226,8 @@ public class LoginStepDef {
 	@When("Admin gives the invalid LMS portal URL for test case {string}")
 	public void admin_gives_the_invalid_lms_portal_url_for_test_case(String testCase) {
 
-		String filePath = readConfig.getExcelPath();
 		String sheetName = "Login";
-
-		Map<String, String> testCaseData = ExcelReader.getTestData(filePath, sheetName, testCase.trim());
+		Map<String, String> testCaseData = ExcelReader.getTestData(sheetName, testCase.trim());
 
 		String invalidLMSURL = testCaseData.get("URL");
 		System.out.println(invalidLMSURL);

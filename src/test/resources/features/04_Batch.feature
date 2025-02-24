@@ -98,6 +98,7 @@ Scenario: Validate batch name prefix box is not editable
 	When Admin enters alphabets in batch name prefix box
 	Then Admin should see empty text box
 
+
 Scenario: Validate input data only for mandatory fields
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin enters the data only to the mandatory fields and clicks save button
