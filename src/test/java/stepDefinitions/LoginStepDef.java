@@ -163,7 +163,6 @@ public class LoginStepDef {
 
 		// Error Count Validation
 		softAssert.assertEquals((int)expectedErrMsgCount, (int)actualErrMsgList.size());
-
 		// Actual Error Msg Text Validation
 		List<String> expectedErrMsgList = Arrays.asList(expErr1.trim(), expErr2.trim());
 		softAssert.assertTrue(expectedErrMsgList.equals(actualErrMsgList));

@@ -4,72 +4,64 @@
 Feature: Batch Page
 
 Background:
-Given Admin successfully Logged on to the LMS Portal
+Given Admin is logged in to LMS Portal
 
 #Batch Page Navigation
+
 Scenario: Verify Admin Navigate to Batch page successfully
-	Given Admin is on the home Page
-  When Admin Clicks on the Batch menu from the header
+  When Admin clicks "Batch" on the navigation bar
   Then Admin should be in the Manage Batch Page
 
 #Batch Page Validation  
+
 Scenario: Validate "Title" in Batch Page
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the "LMS - Learning Management System" Title
 
 Scenario: Validate "heading" in the Batch Page
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the "Manage Batch" Heading
 
 Scenario: Validate disabled "Delete Icon" under the header in the Batch Page
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the disabled "Delete Icon" under the header
 
 Scenario: Validate pagination in the Batch Page
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the enabled pagination controls under the data table
 
 Scenario: Validate edit icon in each data rows
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the edit icon in each row
 
 Scenario: validate delete icon in each data rows
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the delete icon in each row
 
 Scenario: validate checkbox in each data rows
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the checkbox in each row
 
 Scenario: Validate Datatable headers
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the datatable headers Batch name, Batch Description,Batch Status, No Of classes, Program Name, Edit/Delete
 
 Scenario: Validate "Checkbox" in the Datatable header row
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the checkbox  in the datatable header row
 
 Scenario: Validate "sort icon" next to all the datatable header
-	Given Admin is on the home Page
-	When Admin Clicks on the Batch menu from the header
+	When Admin clicks "Batch" on the navigation bar
 	Then Admin should see the sort icon next to all Datatable headers
 
 #Add New Batch 
+
 Scenario: Validate Admin able to click on the Add new Batch Option
-	Given Admin is on the home Page
 	When Admin clicks on "Add New batch" under the "batch" menu bar
 	Then Admin should see the Batch Details pop up window
 
 #Add New Batch details pop up 
+
 Scenario: Validate all the fields exist in pop up 
 	Given Admin is on the Batch Details Pop Up WIndow
 	Then The pop up should include the fields Batch Name,Number of classes and Description as text box,Program Name as drop down Status as radio button
@@ -126,6 +118,7 @@ Scenario: validate close icon on the batch details pop up
 	Then batch details pop up closes
 
 #Edit icon Validation
+
 Scenario: Validate Edit icon feature in any row
 	Given Admin is on the Batch page
 	When Admin clicks the edit icon
@@ -157,6 +150,7 @@ Scenario: validate cancel button in Batch details pop up
 	Then Admin can see the batch details popup closes without editing the batch
 
 #Delete batch validation
+
 Scenario: validate delete Icon on any row
 	Given Admin is on the Batch page
 	When Admin clicks the delete Icon on any row
@@ -178,18 +172,43 @@ Scenario: validate close Icon on the alert box
 	Then Admin should see the alert box closed 
 
 #Delete multiple batches with checkbox
-
+	@doing
 Scenario: Validate single row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon under the Manage batch header
 	Then The respective row in the table should be deleted
-@doing
+	@doing
 Scenario: Validate multiple row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon for multiple row under the Manage batch header
 	Then The respective row in the table should be deleted
 	
+#Search Text box validation
+
+Scenario: validate search box functionality
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box
+	Then Admin should see the filtered batches in the data table
+
+Scenario: Validate edit icon functionality by search
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box and edit the valid data and click save button 
+	Then Admin should get a successful message for editing the batch
+
+Scenario: Validate delete icon functionality by search
+	Given Admin is on the Batch page
+	When Admin enters the batch name in the search text box and click on delete icon
+	Then The respective row in the table should be deleted
+
+#LogOut of the application from the batch page
+	@doing
+Scenario: Validate logout option in the header is visible and enabled from the batch page
+	Given Admin is on the Batch page
+	When Admin clicks "logout" on the navigation bar
+	Then Admin should be redirected to login page
 	
+
+
 	
 
 	
