@@ -35,7 +35,7 @@ public class CommonStepDef {
 		loginPage = new LoginPage(driver);
 		homePage =  (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
 		
-		System.out.println("Home Page Title >>>>"+this.homePage.getPageTitle());
+	//	System.out.println("Home Page Title >>>>"+this.homePage.getPageTitle());
 	}
 
 	@Given("Admin is on home page after Login")

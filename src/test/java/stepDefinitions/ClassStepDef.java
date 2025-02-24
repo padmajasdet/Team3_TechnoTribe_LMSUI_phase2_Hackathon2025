@@ -75,7 +75,7 @@ public class ClassStepDef {
 		Log.logInfo("Testing Manage class header");
 
 		String ManageHeader = classPage.getManageHeader();
-		Assert.assertEquals(ManageHeader, expectedHeader.trim());
+		Assert.assertEquals(ManageHeader, expectedHeader);
 
 	}
 
