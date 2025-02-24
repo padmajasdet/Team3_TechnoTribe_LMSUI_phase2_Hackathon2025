@@ -9,13 +9,13 @@ import java.text.SimpleDateFormat;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.ElementUtil;
-
 
 public class ClassPage extends CommonPage {
 
@@ -29,7 +29,7 @@ public class ClassPage extends CommonPage {
 
 	private By classBtn = By.xpath("//span[text()='Class']");
 
-	//Manage class page
+	// Manage class page
 	private By ManageHeader = By.xpath("//div[normalize-space()='Manage Class']");
 	private By searchBox = By.xpath("//input[@id='filterGlobal']");
 	private By ManageTable = By.xpath("//thead[@class='p-datatable-thead']/tr");
@@ -39,8 +39,8 @@ public class ClassPage extends CommonPage {
 	private By showingEnteries = By.cssSelector(".p-paginator-current.ng-star-inserted");
 
 	// Add new class
-	//private By addNewClassBtn = By.xpath("//button[text()='Add New Class']");
-	private By addNewClassBtn = By.xpath("//button[@role='menuitem']");
+	 private By addNewClassBtn = By.xpath("//button[text()='Add New Class']");
+	//private By addNewClassBtn = By.xpath("//button[@role='menuitem']");
 
 	private By cancelBtn = By.xpath("//button[@label='Cancel']");
 	private By saveBtn = By.xpath("//button[@label='Save']");
@@ -136,7 +136,7 @@ public class ClassPage extends CommonPage {
 
 	private By calendarTextField = By.xpath("//input[@id='icon']");
 	private By selectDateCalenderBtn = By.xpath("//button[@ng-reflect-icon='pi pi-calendar']");
-
+	private By calenderPop_Up = By.xpath("//div[@class='p-datepicker-group ng-tns-c92-13 ng-star-inserted']");
 
 	// Class Page - Pagination locators
 	private By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
@@ -145,6 +145,10 @@ public class ClassPage extends CommonPage {
 	private By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
 	private int lastPageEntryCount;
 	private int lastPageFooterEntryCount;
+	
+	//Class page logout
+	private By logoutBtn = By.xpath("//span[text()='Logout']");
+	
 
 	public ClassPage(WebDriver driver) {
 		super(driver);
@@ -154,7 +158,10 @@ public class ClassPage extends CommonPage {
 		elementUtil = new ElementUtil(driver);
 		js = (JavascriptExecutor) driver;
 	}
-	
+
+	public void clickLogout() {
+		elementUtil.doClick(logoutBtn);
+		}	
 	
 	public void openCalendar() throws Exception {
 		elementUtil.doClick(selectDateCalenderBtn);
@@ -196,9 +203,9 @@ public class ClassPage extends CommonPage {
 	// popup methods
 
 	public void clickAddNewClass() throws InterruptedException {
-		//elementUtil.doClick(addNewClassBtn);
+		// elementUtil.doClick(addNewClassBtn);
 		elementUtil.mouseclickUsingAction(addNewClassBtn);
-		//elementUtil.clickElementByJS(addNewClassBtn, driver);
+		// elementUtil.clickElementByJS(addNewClassBtn, driver);
 		Thread.sleep(5000);
 	}
 
@@ -268,38 +275,42 @@ public class ClassPage extends CommonPage {
 			String date, String StaffName, String Status) throws Exception {
 
 		
-		//Enter Batch Name
-		//elementUtil.clickElementByJS(batchNameDrpdw, driver);
+		elementUtil.clickElementByJS(classBtn, driver);
+		Thread.sleep(1000);
+		elementUtil.clickElementByJS(addNewClassBtn, driver);
+		//js.executeScript("arguments[0].click();", classBtn);
+		//js.executeScript("arguments[0].click();", addNewClassBtn);
+		Thread.sleep(3000);
 		elementUtil.clickElementByJS(batchNameTextArea, driver);
-		//elementUtil.doSendKeys(batchNameDrpdw, batchName);
+		// elementUtil.doSendKeys(batchNameDrpdw, batchName);
 		elementUtil.doSendKeys(batchNameTextArea, batchName);
-		
-		//Enter Class Topic
+
+		// Enter Class Topic
 		elementUtil.clickElementByJS(classTopicTextbox, driver);
 		elementUtil.doSendKeys(classTopicTextbox, ClassTopic);
-		
-		//Enter Class Description
+
+		// Enter Class Description
 		elementUtil.doClick(ClassDescriptionTextbox);
 		elementUtil.doSendKeys(ClassDescriptionTextbox, ClassDescription);
-		
-		//Select Class Dates
-		elementUtil.doClick(datePicker); //clicking on date box. Calendar pops up
-		
+
+		// Select Class Dates
+		elementUtil.doClick(datePicker); // clicking on date box. Calendar pops up
+
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(
-				By.xpath("(//div[contains(@class,'p-datepicker-group')])[1]")));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("(//div[contains(@class,'p-datepicker-group')])[1]")));
 
 		while (!elementUtil.getElementText(Currentmonth).contains(month)) {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']")));
 			elementUtil.clickElementByJS(nextMonth, driver);
 		}
-		
+
 		actions.contextClick(elementUtil.getElement(calendarTextField)).perform();
 		elementUtil.doClick(calendarTextField);
 		elementUtil.doSendKeys(calendarTextField, date);
-		
-		//Enter Staff Name
+
+		// Enter Staff Name
 		elementUtil.scrollIntoView(staffName);
 		elementUtil.doClick(staffName);
 		elementUtil.doSendKeys(staffName, StaffName);
@@ -310,10 +321,12 @@ public class ClassPage extends CommonPage {
 		} else {
 			elementUtil.doClick(statusInActive);
 		}
-		
+
 		elementUtil.doClick(saveBtn);
-		
+
 		return elementUtil.getElementText(classCreated);
+		
+		
 	}
 
 	public boolean isSortingbuttonDisplayed(List<WebElement> elements) {
@@ -574,7 +587,7 @@ public class ClassPage extends CommonPage {
 
 	}
 
-	//get and return original list	
+	// get and return original list
 	public List<String> getOriginalList(String type) {
 		List<String> originalList = null;
 
@@ -760,6 +773,116 @@ public class ClassPage extends CommonPage {
 			return true;
 		}
 		return false;
+	}
+
+	// date picker for weekend date validation
+	public void clickDatePicker() {
+		elementUtil.doClick(datePicker);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(calenderPop_Up));
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void weekendDaysDisabled() {
+		WebElement calendarTable = driver
+				.findElement(By.xpath("//table[@class='p-datepicker-calendar ng-tns-c92-13']"));
+
+		for (WebElement row : calendarTable.findElements(By.tagName("tr"))) {
+			// Get all the days (td elements) in the current row
+			for (WebElement day : row.findElements(By.tagName("td"))) {
+
+				
+				String disabled = day.getDomAttribute("class");
+				if (!disabled.contains("p-disabled")) {
+					throw new AssertionError("Weekend date is disabled: " + day.getText());
+				}
+
+				if (day.getText().matches("[0-9]+")) {
+					int dayOfWeek = Integer.parseInt(day.getText());
+					if (dayOfWeek == 6 || dayOfWeek == 7) { // Saturday (6) or Sunday (7)
+						if (!day.getCssValue("pointer-events").equals("none")) {
+							throw new AssertionError("Weekend date is selectable: " + day.getText());
+						}
+					}
+				}
+
+			}
+		}
+
+	}
+
+	
+	public boolean areWeekendDatesDisabled() {
+		
+		boolean flag = false;
+		List<String> weekendDates = disabledweekend();
+		int numberOfWeekendDates = 	weekendDates.size();
+		
+		int counter=0;
+		
+		for (String date: weekendDates) {
+			//By weekendDate = ;
+			WebElement weekendDate = elementUtil.getElement(By.xpath("(//tbody)[2]//tr//td//span[text()='"+date+"']"));
+			if(weekendDate.getDomAttribute("class").contains("disabled")) {
+				counter++;
+			}
+				
+		}
+		System.out.println("counter size = " + counter);
+		System.out.println("numberOfWeekendDates size = " + numberOfWeekendDates);
+
+		if(counter == numberOfWeekendDates) {
+			flag = true;
+		}
+		
+		return flag;
+	}
+	
+	
+	
+	public List<String> disabledweekend() {
+
+		List<String> weekendDates = new ArrayList<String>();
+
+		By sundayDates = By.xpath("//table[contains(@class,'datepicker-calendar')]//tbody/tr/td["
+				+ dynamicallyGetAnyDaysColumnNumber("Su") + "]/span");
+		By saturdayDates = By.xpath("//table[contains(@class,'datepicker-calendar')]//tbody/tr/td["
+				+ dynamicallyGetAnyDaysColumnNumber("Sa") + "]/span");
+
+		List<WebElement> sundayDatesList = util.getElements(sundayDates);
+		List<WebElement> saturdayDatesList = util.getElements(saturdayDates);
+		sundayDatesList.addAll(saturdayDatesList);
+
+		for (WebElement e : sundayDatesList) {
+			weekendDates.add(e.getText());
+		}
+
+		if ((Integer.parseInt(weekendDates.get(0))) > 1) {
+			weekendDates.remove(0);
+		}
+
+		return weekendDates;
+
+	}
+
+	private byte dynamicallyGetAnyDaysColumnNumber(String day) {
+
+		By days = By.xpath("//table[contains(@class,'p-datepicker-calendar')]//th/span");
+		byte colNumber = 1;
+		List<WebElement> x = util.getElements(days);
+
+		for (WebElement e : x) {
+			String dayValue = e.getText();
+			if (dayValue.equalsIgnoreCase(day)) {
+				break;
+			} else
+				colNumber++;
+		}
+		return colNumber;
 	}
 
 }
