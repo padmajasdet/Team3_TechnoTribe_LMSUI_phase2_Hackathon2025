@@ -115,7 +115,7 @@ public class ExcelReader {
             workbook.write(fos);
   
             if (fos != null) {
-            	fos.close();  // File Output Stream
+            	fos.close();  // Close File Output Stream
             }
 
         } catch (Exception e) {
