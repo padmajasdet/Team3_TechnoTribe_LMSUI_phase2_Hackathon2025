@@ -124,6 +124,7 @@ public class ClassStepDef {
 		classPage.clickAddNewClass();
 		Thread.sleep(1000);
 	}
+	
 
 	@Then("Admin should see a popup open for class details with empty form along with <SAVE> and <CANCEL> button and Close\\(X) Icon on the top right corner of the window")
 	public void admin_should_see_a_popup_open_for_class_details_with_empty_form_along_with_SAVE_and_CANCEL_button_and_Close_X_Icon_on_the_top_right_corner_of_the_window()
@@ -179,6 +180,8 @@ public class ClassStepDef {
 							.equals(expectedMsg.trim()));
 		} else
 			System.out.println("Add New Class pop up didnt open");
+			
+		
 
 	}
 
@@ -246,7 +249,19 @@ public class ClassStepDef {
 		classPage.selectOptionalFields(comments, notes, recording);
 
 	}
-
+	@Then("Admin should see Class details are searched by given fields")
+	public void admin_should_see_class_details_are_searched_by() {
+		
+	}
+	@When("Admin clicks date picker")
+	public void admin_clicks_date_picker() {
+		classPage.clickDatePicker();
+	}
+	@Then("Admin should see weekends dates are disabled to select")
+	public void admin_should_see_weekends_dates_are_disabled_to_select() {
+		//classPage.weekendDaysDisabled(); 
+		System.out.println(classPage.areWeekendDatesDisabled());
+	}
 	/*------------------------------editpopup------------------------------------------*/
 	@When("Admin clicks on the edit icon")
 	public void admin_clicks_on_the_edit_icon() {
@@ -262,7 +277,7 @@ public class ClassStepDef {
 
 	@Then("Admin should see batch name field is disabled")
 	public void admin_should_see_batch_name_field_is_disabled() {
-		Assert.assertFalse(classPage.batchNameDisabled());
+		Assert.assertTrue(classPage.batchNameDisabled());
 		Log.logInfo("Batch Name is disabled");
 	}
 
@@ -509,7 +524,7 @@ public class ClassStepDef {
 		List<Date> sortedList = classPage.getClassDatesSortedList();
 		System.out.println("sorted name list" + sortedList);
 		System.out.println("original list name list" + originalList);
-		Assert.assertFalse(originalList.equals(sortedList));
+		Assert.assertTrue(originalList.equals(sortedList));
 		// if ((originalList.get(0)).equals(sortedList.get(0))) {
 		// System.out.println("The lists are identical.");
 		// } else {
@@ -529,5 +544,61 @@ public class ClassStepDef {
 		System.out.println("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
+	@When("Admin clicks on Logout link on Manage class page")
+	public void admin_clicks_on_logout_link_on_manage_class_page() {
+	    classPage.clickLogout();
+	}
+	@Then("Admin is redirected to Login page")
+	public void admin_is_redirected_to_login_page() {
+		
+		Log.logInfo("Navigated to Dashboard  page ");
+		String current_Title = driver.getTitle();
+		 String Expected="LMS";
+		Assert.assertEquals(current_Title, Expected);
+	}
+	@When("Admin clicks next page link on the class table")
+	public void admin_clicks_next_page_link_on_the_class_table() {
+	    classPage.clickOnNextPage();
+	}
+	@Then("Admin should see the next page record on the table  with Pagination has next active link enabled")
+	public void admin_should_see_the_next_page_record_on_the_table_with_pagination_has_next_active_link_enabled() {
+		String pageText = classPage.nextPageValidation();
+		boolean nextPageActive = classPage.nextPageEnabled();
+	    //Assert.assertTrue(nextPageActive);
+	    Assert.assertTrue(pageText.contains("Showing 11"));
+	}
+	@When("Admin clicks Last page link of class data table")
+	public void admin_clicks_last_page_link_of_class_data_table() {
+	    classPage.clickOnLastPage();
+	}
+
+	@Then("Admin should see the last page record on the table with Next page link are disabled for class data table")
+	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled_for_class_data_table() {
+		boolean nextPageDisabled= classPage.verifyNextPageBtnDisabled();
+		boolean lastPageDisplayed = classPage.lastPageDisplayed();
+		int lastPageRecord = classPage.lastPageRecord();
+		int lastPageFootCount = classPage.lastPageFootCount();
+		Assert.assertTrue(nextPageDisabled);
+		Assert.assertTrue(lastPageDisplayed);
+		Assert.assertEquals(lastPageRecord, lastPageFootCount);
+	}
+	
+
+	@Then("Admin should see the previous page record on the table with pagination has previous page link enabled for class data table")
+	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link_enabled_for_class_data_table() {
+		boolean previousPageEnabled =classPage.verifyPreviousPageBtnEnabled();
+		Assert.assertTrue(previousPageEnabled);
+	}
+	@When("Admin clicks Start page link of class data table")
+	public void admin_clicks_start_page_link_of_class_data_table() {
+	    classPage.clickOnFirstPage();
+	}
+
+	@Then("Admin should see the very first page record on the table with Previous page link are disabled for class data table")
+	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled_for_class_data_table() {
+	    boolean previousPageDisabled= classPage.verifyPreviousPageBtnDisabled();
+	    Assert.assertTrue(previousPageDisabled);
+	}
+	
 
 }

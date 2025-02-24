@@ -39,15 +39,20 @@ Feature: Class page validation
 
   @TTLPH2-108
   Scenario Outline: Check if class is created when only mandatory fields are entered with valid data
-    Given clicks add new class under the class menu bar
-    When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
-   # hen Admin gets message Class added Successfully
-
-    Examples: 
-      | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date      |  | StaffName |  | Status |  | SuccessMsg |  |
-      | SMPO33    |  | Java       |  | Core Java        |  | February |  | 02/28/2025 |  | Sarnaya   |  | Active |  | Successful |  |
-
-  # | SMPO10     |  | @@         |  | %^U^**&          |  | December |  |    26 |  |    31 |  | Geetha Thakur |  | Inactive |  | Unsuccessful |
+  #Given clicks add new class under the class menu bar
+  When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
+  Then Admin gets message Class added Successfully
+  Examples:
+   | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status |  | SuccessMsg |  |
+  | SMPO33    |  | Java       |  | Core Java        |  | February |  | 02/28/2025 |  | Sarnaya   |  | Active |  | Successful |  |
+  #@TTLPH2-195
+  # Scenario Outline: Check if class is created when invalid data is  entered in Class Details form
+  #Given clicks add new class under the class menu bar
+  # When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
+  # Then Admin gets message Class  is not created
+  #Examples:
+  #  | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status   |  | SuccessMsg   |  |
+  #  | SMPO33    |  | @@@@       |  | @#$%^&**         |  | February |  | 03/28/2000 |  | Sarnaya   |  | Inactive |  | Unsuccessful |  |
   @TTLPH2-151
   Scenario Outline: Check if class is created when only optional fields are entered with valid data
     Given clicks add new class under the class menu bar
@@ -57,6 +62,12 @@ Feature: Class page validation
     Examples: 
       | comments |  | notes      |  | recording |  | batchNameReqText       | classTopicReqText       | classDateReqText       | staffNameReqText       | noOfClassesReqText         |
       | Good     |  | java notes |  | goto link |  | Batch Name is required | Class Topic is required | Class Date is required | Staff Name is required | No. of Classes is required |
+
+  @TTLPH2-188
+  Scenario: Check weekend dates are disabled in calendar
+    Given clicks add new class under the class menu bar
+    When Admin clicks date picker
+    Then Admin should see weekends dates are disabled to select
 
   @TTLPH2-100
   Scenario: Validate the sort icon of all the field in datatable
@@ -214,7 +225,30 @@ Feature: Class page validation
   Scenario: Verify sorting of ClassDate in Ascending order
     When Admin clicks on Arrow next to ClassDate of Class module page for sort
     Then Admin See the ClassDate is sorted Ascending order in Class module page
-  #@TTLPH2-178
-  #Scenario: Verify sorting of ClassDate in Descending order
-   # When Admin clicks on Arrow next to ClassDate of Class module page for sort descend
-   # Then Admin See the ClassDate is sorted Descending order in Class module page
+
+  
+  #pagination
+  @TTLPH2-193
+  Scenario: Verify Admin is able to click Next page link
+    When Admin clicks Start page link of class data table
+    Then Admin should see the very first page record on the table with Previous page link are disabled for class data table
+
+  @TTLPH2-192
+  Scenario: Verify Admin is able to click Next page link
+    When Admin clicks next page link on the class table
+    Then Admin should see the previous page record on the table with pagination has previous page link enabled for class data table
+
+  @TTLPH2-191
+  Scenario: Verify Admin is able to click Next page link
+    When Admin clicks Last page link of class data table
+    Then Admin should see the last page record on the table with Next page link are disabled for class data table
+
+  @TTLPH2-190
+  Scenario: Verify Admin is able to click Next page link
+    When Admin clicks next page link on the class table
+    Then Admin should see the next page record on the table  with Pagination has next active link enabled
+
+  @TTLPH2-194
+  Scenario: Logout link on navigation bar
+    When Admin clicks on Logout link on Manage class page
+    Then Admin is redirected to Login page
