@@ -45,6 +45,9 @@ public class CommonPage {
 	By deleteConfirmationPopUp = By.xpath(
 			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c118-10 p-dialog p-confirm-dialog p-component ng-star-inserted']");
 	protected By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
+	
+	By toastErrorMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Failed']");
+	By toastErrorMessageDetail = By.xpath("//div[contains(@class, 'p-toast-detail') and text()='programName Must contain only letters and sometimes hyphens']");
 	protected int selectedRows;
 	protected int beforeCount;
 	protected int afterCount;
@@ -67,7 +70,24 @@ public class CommonPage {
 		PageFactory.initElements(driver, this); // Initialize @FindBy elements
 		util = new ElementUtil(this.driver);
 	}
-	
+
+
+
+	@FindBy(xpath = "//button[@id='logout']")
+	WebElement logout;
+
+	/*
+	 * @FindBy(id = "dashboard") WebElement menu_Home;
+	 * 
+	 * @FindBy(xpath = "//span[contains(text(),'Program')]") WebElement
+	 * menu_Program;
+	 * 
+	 * @FindBy(xpath = "//span[contains(text(),'Batch')]") WebElement menu_Batch;
+	 * 
+	 * @FindBy(xpath = "//span[contains(text(),'Class')]") WebElement menu_Class;
+	 */
+
+
 	public String getPageTitle() {
 
 		return driver.getTitle();
@@ -104,10 +124,27 @@ public class CommonPage {
 	}
 
 	public String getToast() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(toastMessage)));
 		String toastMessageValue = driver.findElement(toastMessage).getText();
+		System.out.println("Toast Message >>"+toastMessageValue);
 		return toastMessageValue;
+	}
+	
+	public String getErrorToast() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(toastErrorMessage)));
+		String toastMessageValue = driver.findElement(toastErrorMessage).getText();
+		System.out.println("Toast Message >>"+toastMessageValue);
+		return toastMessageValue;
+	}
+	
+	public String getErrorToastMessageContent() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(toastErrorMessageDetail)));
+		String toastMessageValueContent = driver.findElement(toastErrorMessageDetail).getText();
+		System.out.println("Toast Message >>"+toastMessageValueContent);
+		return toastMessageValueContent;
 	}
 
 	public boolean isElementPresent(String elementType, String locationType) {

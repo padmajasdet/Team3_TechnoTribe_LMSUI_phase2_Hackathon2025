@@ -9,6 +9,7 @@ import io.cucumber.testng.CucumberOptions;
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
 				//	tags="@doing",
+
 				dryRun = false, 
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",

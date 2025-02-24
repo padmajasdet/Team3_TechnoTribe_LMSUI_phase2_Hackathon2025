@@ -118,7 +118,7 @@ public class ProgramStepDef {
 	}
 
 	@When("Admin enters details for {string} for mandatory fields and Click on save button")
-	public void admin_enters_details_for_for_mandatory_fields_and_click_on_save_button(String testCase) {
+	public void admin_enters_details_for_for_mandatory_fields_and_click_on_save_button(String testCase) throws Exception {
 
 		programPage.fillProgramForm(testCase);
 
@@ -133,6 +133,19 @@ public class ProgramStepDef {
 	@Then("Admin gets message {string}")
 	public void admin_gets_message(String expSuccessMsg) {
 		programPage.verifySuccessMessage(expSuccessMsg);
+
+	}
+	
+	@Then("Admin gets error message")
+	public void admin_gets_ErrorMessage() {
+		Assert.assertEquals(programPage.verifyErrorMessage(), true);
+
+	}
+	
+	@Then("Admin gets message {string} on Program Details Pop up")
+	public void admin_gets_ErrorMessageInForm(String expErrorMsg) {
+		programPage.verifyProgramNameAlreadyExistsErrorMessage(expErrorMsg);
+		
 
 	}
 

@@ -49,8 +49,8 @@ public class ProgramPage extends CommonPage {
 
 	@FindBy(xpath = "//mat-toolbar[@class='mat-toolbar mat-primary mat-toolbar-single-row ng-star-inserted']")
 	WebElement headerBar;
- */
-	/*
+
+
 	@FindAll(value = { @FindBy(xpath = "//table/tbody//tr") })
 	List<WebElement> programResults;
 	
@@ -117,6 +117,7 @@ public class ProgramPage extends CommonPage {
 	By searchBox = By.id("filterGlobal");
 
 	// Pagination
+
 	By prevPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-prev')]");
 	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
 	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
@@ -132,7 +133,6 @@ public class ProgramPage extends CommonPage {
 	By programNameList = By.xpath("//tbody//td[2]");
 	By programDescriptionList = By.xpath("//tbody//td[3]");
 	By programStatusList = By.xpath("//tbody//td[4]");
-	
 	
 
 	public String getProgramPageTitle() {
@@ -194,7 +194,50 @@ public class ProgramPage extends CommonPage {
 		return (char) ('b' + random.nextInt(26));
 	}
 
-	public void fillProgramForm(String testCase) {
+	/*
+	 * public void fillProgramForm(String testCase) {
+	 * 
+	 * programData = ExcelReader.getTestData(filePath, sheetName, testCase);
+	 * 
+	 * System.out.println("Program data from excel --" + programData);
+	 * 
+	 * String programName = programData.get("ProgramName"); String programDesc =
+	 * programData.get("ProgramDescription"); String status =
+	 * programData.get("ProgramStatus");
+	 * 
+	 * programName = programName + getRandomCharacter();
+	 * System.out.println("Program Name Input :" + programName);
+	 * 
+	 * if (programName != null && !programName.isEmpty()) {
+	 * util.doSendKeys(programNameInput, programName); } else {
+	 * System.out.println("Program Name is missing or empty"); }
+	 * 
+	 * if (programDesc != null && !programDesc.isEmpty()) {
+	 * util.doSendKeys(programDescInput, programDesc);
+	 * 
+	 * } else { System.out.println("Program Description is missing or empty"); }
+	 * 
+	 * By statusRadioBtn = By.xpath("//input[@id='" + status + "']");
+	 * util.clickElementByJS(statusRadioBtn, driver);
+	 * 
+	 * //ExcelReader.updateTestData(filePath, sheetName, testCase, "ProgramName",
+	 * programName); util.doClick(saveButton);
+	 * 
+	 * if (getToast().equalsIgnoreCase("Successful") &&
+	 * testCase.equalsIgnoreCase("validInputData")) {
+	 * System.out.println("Program created successfully");
+	 * System.out.println("Program Name: " + programName); /// Set the program name
+	 * after creation setProgramName(programName);
+	 * 
+	 * } else { System.out.println("Program creation failed"); }
+	 * 
+	 * }
+	 * 
+	 * 
+	 * 
+	 */
+
+	public void fillProgramForm(String testCase) throws Exception {
 
 		programData = ExcelReader.getTestData(filePath, sheetName, testCase);
 
@@ -204,7 +247,14 @@ public class ProgramPage extends CommonPage {
 		String programDesc = programData.get("ProgramDescription");
 		String status = programData.get("ProgramStatus");
 
-		programName = programName + getRandomCharacter();
+		
+		if(testCase.equalsIgnoreCase("validInputData")) {
+			programName = programName + getRandomCharacter();
+			
+		}
+		
+		
+		
 		System.out.println("Program Name Input :" + programName);
 
 		if (programName != null && !programName.isEmpty()) {
@@ -227,15 +277,9 @@ public class ProgramPage extends CommonPage {
 		// programName);
 		util.doClick(saveButton);
 
-		if (getToast().equalsIgnoreCase("Successful") && testCase.equalsIgnoreCase("validInputData")) {
-			System.out.println("Program created successfully");
-			System.out.println("Program Name: " + programName);
-			/// Set the program name after creation
-			setProgramName(programName);
-
-		} else {
-			System.out.println("Program creation failed");
-		}
+		setProgramName(programName);
+		
+		
 
 	}
 
@@ -449,6 +493,7 @@ public class ProgramPage extends CommonPage {
 
 	}
 
+
 	public void verifySearchResultProgramName(String newProgram) {
 		newProgram = getProgramName();
 
@@ -593,6 +638,17 @@ public class ProgramPage extends CommonPage {
 		Assert.assertEquals(statusErrorMsg, expStatusErrorMsg);
 
 	}
+	
+	public void verifyProgramNameAlreadyExistsErrorMessage(String expProgNameErrorMsg) {
+
+		//String expProgNameErrorMsg = "Program name is already exist.";
+
+		List<WebElement> actualMsgs = driver.findElements(requiredFieldErrorMsgs);
+		String progNameExistErrorMsg = actualMsgs.get(0).getText();
+
+		Assert.assertEquals(progNameExistErrorMsg, expProgNameErrorMsg);
+
+	}
 
 	public void clickXProgramBtn() {
 		util.doClick(xButton);
@@ -700,5 +756,24 @@ public class ProgramPage extends CommonPage {
 		}
 
 
+
+	public boolean verifyErrorMessage() {
+
+		
+		boolean isErrorMessagePresent = util.isElementDisplayed(toastErrorMessage);
+
+		 if (isErrorMessagePresent) {
+			String errorMessage = getErrorToast();
+			System.out.println("Validation error displayed as expected: " + errorMessage);
+			
+			//String errorMessageContent = getErrorToastMessageContent();
+			//System.out.println("Validation error content displayed as expected: " + errorMessageContent);
+			
+			
+		}
+		 return isErrorMessagePresent;	 
+		
+
+}
 
 }
