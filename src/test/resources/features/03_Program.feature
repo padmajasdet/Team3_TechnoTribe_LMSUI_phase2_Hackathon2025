@@ -93,10 +93,8 @@ Feature: Program Module
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
     Then Admin should see the footer with total programs
-    
 
   # --------------------------------Add New Program------------------------------------------------------
-  
   @TC16 @ManageProgramPageValidation
   Scenario: Verify sub menu displayed in program menu bar
     Given Admin is on Program page
@@ -115,7 +113,7 @@ Feature: Program Module
       | testcase       |
       | validInputData |
 
-  @TC18 @SearchProgramValidation @rerun
+  @TC18 @SearchProgramValidation
   Scenario: Verify created Program details
     Given Admin is on Program page
     When Admin searches with newly created Program "Name"
@@ -155,7 +153,6 @@ Feature: Program Module
     When Admin clicks Cancel button
     Then Admin can see Program Details form disappears
 
-  
   @TC24 @AddNewProgram
   Scenario: Verify Cancel button
     Given Admin is on Program details form
@@ -222,8 +219,33 @@ Feature: Program Module
     Then Admin can see Confirm deletion form disappears
 
   @TC34 @DeleteMultipleProgram
-  Scenario: Verify Admin is able to close the window with "X" 
+  Scenario: Verify Admin is able to close the window with "X"
     Given Admin is on Program page
     When Admin clicks on the delete button on the left top of the program page
     And Admin clicks on close X button
     Then Admin can see Confirm deletion form disappears
+
+  #----------------------------Negative Scenarios Programs-----------------------------
+  @TC35 @AddNewProgramNeagtive
+  Scenario Outline: Verify Admin is able to save the new program details and search validation
+    Given Admin is on home page after Login
+    When Admin clicks "Program" on the navigation bar
+    And Admin is on program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin gets error message
+
+    Examples: 
+      | testcase            |
+      | InvalidProgName     |
+      | InvalidProgDesc     |
+      | InvalidExistingProg |
+
+  @TC36 @AddNewProgramNeagtive
+  Scenario Outline: Verify Add New Program with already existing Program Name
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin gets message "Program name is already exist." on Program Details Pop up
+
+    Examples: 
+      | testcase            |
+      | InvalidExistingProgName |
