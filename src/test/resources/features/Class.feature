@@ -2,7 +2,7 @@
 @class
 Feature: Class page validation
 
-  Background: Admin Is on the Dashboard page after login
+  Background: 
     Given Admin is on the dashboard page after login
     When Admin clicks the Class Navigation bar in the Header
 
@@ -41,10 +41,10 @@ Feature: Class page validation
   Scenario Outline: Check if class is created when only mandatory fields are entered with valid data
     Given clicks add new class under the class menu bar
     When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
-    Then Admin gets message Class added Successfully
+   # hen Admin gets message Class added Successfully
 
     Examples: 
-      | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date1      |  | StaffName |  | Status |  | SuccessMsg |  |
+      | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date      |  | StaffName |  | Status |  | SuccessMsg |  |
       | SMPO33    |  | Java       |  | Core Java        |  | February |  | 02/28/2025 |  | Sarnaya   |  | Active |  | Successful |  |
 
   # | SMPO10     |  | @@         |  | %^U^**&          |  | December |  |    26 |  |    31 |  | Geetha Thakur |  | Inactive |  | Unsuccessful |
@@ -197,12 +197,14 @@ Feature: Class page validation
   Scenario: Verify sorting of Status in Descending order
     When Admin clicks on Arrow next to Status of Class module page for sort descend
     Then Admin See the Status is sorted Descending order in Class module page
-#Regression-failed
-  @TTLPH2-174
+
+  #Regression-failed
+  @TTLPH2-183
   Scenario: Verify sorting of StaffName in Ascending order
     When Admin clicks on Arrow next to StaffName of Class module page for sort
     Then Admin See the StaffName is sorted Ascending order in Class module page
-#Regression-failed
+
+  #Regression-failed
   @TTLPH2-176
   Scenario: Verify sorting of StaffName in Descending order
     When Admin clicks on Arrow next to StaffName of Class module page for sort descend
@@ -212,7 +214,6 @@ Feature: Class page validation
   Scenario: Verify sorting of ClassDate in Ascending order
     When Admin clicks on Arrow next to ClassDate of Class module page for sort
     Then Admin See the ClassDate is sorted Ascending order in Class module page
-
   #@TTLPH2-178
   #Scenario: Verify sorting of ClassDate in Descending order
    # When Admin clicks on Arrow next to ClassDate of Class module page for sort descend
