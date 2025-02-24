@@ -45,7 +45,7 @@ public class BaseClass {
 			// Use context.getDriver() to take a screenshot
 			//Screenshot.takeScreenshot(context.getDriver(), scenario.getName());
 			final byte[] screenshot = ((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES);
-			scenario.attach(screenshot, "image/png", "My screenshot");
+			scenario.attach(screenshot, "image/png", "Myscreenshot");
 			Allure.addAttachment("Myscreenshot",
 					new ByteArrayInputStream(((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES)));
 		}
