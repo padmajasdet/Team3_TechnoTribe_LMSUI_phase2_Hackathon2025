@@ -82,12 +82,15 @@ public class BaseClass {
 			e.printStackTrace();
 		}
 	}
-
+	
 	// to attach screeshots in allure
-	@Attachment(value = "Screenshot", type = "image/png")
-	public byte[] attachScreenshot(WebDriver driver) {
-		// Capture the screenshot and return it as bytes
-		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-	}
+		@Attachment(value = "Screenshot", type = "image/png")
+		public byte[] attachScreenshot(WebDriver driver) {
+			// Capture the screenshot and return it as bytes
+			return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+		}
+
+
+	
 
 }
