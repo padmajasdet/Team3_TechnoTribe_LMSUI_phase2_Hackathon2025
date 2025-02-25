@@ -7,6 +7,7 @@ import java.util.Properties;
 public class ReadConfig {
 
 	Properties pro;
+	private static String browserFromTestNG;
 
 	public ReadConfig() {
 		File src = new File("./src/test/resources/Properties/Config.properties");
@@ -55,6 +56,14 @@ public class ReadConfig {
 			return path;
 		else
 			throw new RuntimeException("path not specified in the Configuration.properties file.");
+	}
+	
+	public String getBrowserFromTestNG() {
+		return browserFromTestNG;
+	}
+
+	public void setBrowserFromTestNG(String browser) {
+		browserFromTestNG = browser;
 	}
 
 }
