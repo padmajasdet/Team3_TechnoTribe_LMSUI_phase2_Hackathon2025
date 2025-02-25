@@ -418,4 +418,21 @@ public class BatchStepDef {
 		Assert.assertTrue(pageText.contains("Showing 1"));
 	}
 
+	@When("Admin clicks on Arrow next to {string} of Batch module page for sort ascending")
+	public void admin_clicks_on_arrow_next_to_of_batch_module_page_for_sort_ascending(String columnName) {
+		batchPage.columnNameSorting(columnName, 1);
+	}
+
+	@When("Admin clicks on Arrow next to {string} of Batch module page for sort descending")
+	public void admin_clicks_on_arrow_next_to_of_batch_module_page_for_sort_descending(String columnName) {
+		batchPage.columnNameSorting(columnName, 3);
+	}
+
+	@Then("Admin should see the sorted list for {string}")
+	public void admin_should_see_the_sorted_list(String columnName) {
+		List<String> originalList = batchPage.getOriginalList(columnName);
+		List<String> sortedList = batchPage.getSortedList(originalList);
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+
 }
