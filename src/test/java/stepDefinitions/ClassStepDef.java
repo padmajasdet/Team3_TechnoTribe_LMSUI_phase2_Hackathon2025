@@ -260,7 +260,7 @@ public class ClassStepDef {
 	@Then("Admin should see weekends dates are disabled to select")
 	public void admin_should_see_weekends_dates_are_disabled_to_select() {
 		//classPage.weekendDaysDisabled(); 
-		Log.logInfo(classPage.areWeekendDatesDisabled());
+		Log.logInfo(String.valueOf(classPage.areWeekendDatesDisabled()));
 	}
 	/*------------------------------editpopup------------------------------------------*/
 	@When("Admin clicks on the edit icon")

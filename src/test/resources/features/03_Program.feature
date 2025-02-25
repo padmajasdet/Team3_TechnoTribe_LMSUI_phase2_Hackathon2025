@@ -117,7 +117,7 @@ Feature: Program Module
   Scenario: Verify created Program details
     Given Admin is on Program page
     When Admin searches with newly created Program "Name"
-    Then Records of the newly created  "Program Name" is displayed and match the data entered
+    Then Records of the newly created  program is displayed and match the data entered
 
   @TC19 @EditProgramValidation @rerun @try
   Scenario Outline: Verify Edit option and edited Program Details

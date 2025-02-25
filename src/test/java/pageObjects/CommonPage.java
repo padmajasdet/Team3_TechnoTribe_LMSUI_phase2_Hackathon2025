@@ -273,9 +273,9 @@ public class CommonPage {
 
 	}
 
-	public void verifyDeleteProgramPopUp() {
+	public boolean verifyDeleteProgramPopUp() {
 
-		util.isElementDisplayed(deleteConfirmationPopUp);
+		return util.isElementDisplayed(deleteConfirmationPopUp);
 
 	}
 

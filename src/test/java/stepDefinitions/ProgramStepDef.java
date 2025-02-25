@@ -77,7 +77,8 @@ public class ProgramStepDef {
 
 	@Then("Admin should see pop up window for program details")
 	public void admin_should_see_pop_up_window_for_program_details() {
-		programPage.verifyAddNewProgramPopUpDisplay();
+
+		Assert.assertEquals(programPage.isAddNewProgramPopUpDisplayed(), true);
 	}
 
 	@Given("Admin is on Program details form")
@@ -99,7 +100,12 @@ public class ProgramStepDef {
 
 	@Then("Admin gets message for mandatory field required")
 	public void admin_gets_message_for_mandatoryField() {
-		programPage.verifyRequiredFieldErrorMessage();
+
+		Map<String, String> resultErrorMsgMap = programPage.verifyRequiredFieldErrorMessage();
+
+		Assert.assertEquals(resultErrorMsgMap.get("progNameErrorMsg"), "Program name is required.");
+		Assert.assertEquals(resultErrorMsgMap.get("progDescErrorMsg"), "Description is required.");
+		Assert.assertEquals(resultErrorMsgMap.get("statusErrorMsg"), "Status is required.");
 	}
 
 	@Then("Admin can see Program Details form disappears")
@@ -165,10 +171,10 @@ public class ProgramStepDef {
 
 	@Then("Admin sees error message for invalid Program Description on the Program Details Pop up")
 	public void admin_gets_error_message_on_the_ProgramDetails_invalidProgramDesc() {
-		Assert.assertEquals(programPage.getErrorMessage(), "This field should start with an alphabet, no special char and min 2 char.");
+		Assert.assertEquals(programPage.getErrorMessage(),
+				"This field should start with an alphabet, no special char and min 2 char.");
 	}
 
-	//
 	@Then("Admin should see the page names as in order on menu bar")
 	public void admin_sees_menuBar() {
 		programPage.menuBarDisplay();
@@ -201,15 +207,16 @@ public class ProgramStepDef {
 		programPage.search(newProgName);
 	}
 
-	@Then("Records of the newly created  {string} is displayed and match the data entered")
-	public void admin_verifies_that_the_details_are_correctly_updated(String newProgram) {
-		programPage.verifySearchResultProgramName(newProgram);
+	@Then("Records of the newly created  program is displayed and match the data entered")
+	public void admin_verifies_that_the_details_are_correctly_updated() {
+
+		Assert.assertEquals(programPage.verifySearchResultProgramName(), (String) RunTimeData.getData("programName"),
+				"Searched Program Name does not match the result!");
 
 	}
 
 	@When("Admin edits the program name and click on save button for {string}")
-	public void admin_edits_the_program_name_and_click_on_save_button(String testCase)
-			throws InterruptedException {
+	public void admin_edits_the_program_name_and_click_on_save_button(String testCase) throws InterruptedException {
 
 		programPage.editTheProgramAndClickSave(testCase);
 
@@ -225,24 +232,23 @@ public class ProgramStepDef {
 
 	@Then("Updated program Name and Desc and Status is seen by the Admin")
 	public void updated_program_name_and_desc_and_status_is_seen_by_the_admin() {
-		
-		// programPage.searchUpdatedProgram(updatedProgram);
+
 		programPage.searchUpdatedProgram((String) RunTimeData.getData("programNameEdit"));
 
-		Map<String, String> resultaMap = programPage
-				.verifyUpdatedProgramDetails(/*
-												 * updatedProgram, updatedProgramDesc, updatedStatus
-												 */);
+		Map<String, String> resultaMap = programPage.verifyUpdatedProgramDetails();
 
 		Assert.assertEquals((String) RunTimeData.getData("programNameEdit"), resultaMap.get("resultProgramNameText"),
 				"Searched Program Name does not match the result!");
-		Assert.assertEquals((String) RunTimeData.getData("programDescEdit"), resultaMap.get("resultProgramDescText"), "Searched Program Desc does not match the result!");
-		Assert.assertEquals((String) RunTimeData.getData("programStatusEdit"), resultaMap.get("resultProgramStatusText"), "Searched Program Status does not match the result!");
+		Assert.assertEquals((String) RunTimeData.getData("programDescEdit"), resultaMap.get("resultProgramDescText"),
+				"Searched Program Desc does not match the result!");
+		Assert.assertEquals((String) RunTimeData.getData("programStatusEdit"),
+				resultaMap.get("resultProgramStatusText"), "Searched Program Status does not match the result!");
 	}
 
 	@Then("Admin should see Search bar with text as {string}")
 	public void admin_should_see_search_bar_with_text_as(String searchBarText) {
-		programPage.verifySearchBarManageProgram(searchBarText);
+
+		Assert.assertEquals(programPage.verifySearchBarManageProgram(searchBarText), true);
 
 	}
 
@@ -287,7 +293,7 @@ public class ProgramStepDef {
 	@Then("Admin should see the footer with total programs")
 	public void admin_should_see_the_footer_as() {
 
-		programPage.verifyFooterOfManageProgram();
+		Assert.assertEquals(programPage.verifyFooterOfManageProgram(), true);
 	}
 
 	@When("Admin clicks on delete button for a program {string}")
@@ -298,7 +304,7 @@ public class ProgramStepDef {
 	@Then("Admin will get confirm deletion popup")
 	public void admin_will_get_confirm_deletion_popup() {
 
-		programPage.verifyDeleteProgramPopUp();
+		Assert.assertEquals(programPage.verifyDeleteProgramPopUp(), true);
 	}
 
 	@Given("Admin is on Confirm deletion form for program {string}")
@@ -329,7 +335,7 @@ public class ProgramStepDef {
 
 	@When("Admin clicks on close X button")
 	public void admin_clicks_X_button_delete() throws Exception {
-		programPage.verifyDeleteProgramPopUp();
+		Assert.assertEquals(programPage.verifyDeleteProgramPopUp(), true);
 		programPage.clickDeleteButtons("close");
 	}
 
@@ -353,11 +359,6 @@ public class ProgramStepDef {
 
 		programPage.storeBeforeCount();
 		programPage.selectCheckboxes(2);
-	}
-
-	@Then("Programs get selected")
-	public void admin_sees_ProgramSelected() throws InterruptedException {
-
 	}
 
 	@When("Admin clicks on {string} button")
