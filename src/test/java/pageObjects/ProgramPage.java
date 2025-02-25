@@ -162,19 +162,6 @@ public class ProgramPage extends CommonPage {
 	}
 
 
-	public String generateRandomString(int length) {
-		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
-		Random random = new Random();
-		StringBuilder result = new StringBuilder(length);
-
-		for (int i = 0; i < length; i++) {
-			int index = random.nextInt(characters.length());
-			result.append(characters.charAt(index));
-		}
-
-		return result.toString().toLowerCase();
-	}
-
 	public void fillProgramForm(String testCase) throws Exception {
 
 		programData = ExcelReader.getTestData(sheetName, testCase);
@@ -186,7 +173,7 @@ public class ProgramPage extends CommonPage {
 		String status = programData.get("ProgramStatus");
 
 		if (testCase.equalsIgnoreCase("validInputData")) {
-			programName = programName + generateRandomString(3);
+			programName = programName + util.generateRandomString(3);
 		}
 
 
@@ -246,7 +233,7 @@ public class ProgramPage extends CommonPage {
 
 		log.info("Program name to update from excel >>" + programNameEdit);
 
-		programNameEdit = programNameEdit + generateRandomString(3);
+		programNameEdit = programNameEdit + util.generateRandomString(3);
 		util.mouseclickUsingAction(programNameInput);
 		util.clearField(programNameInput);
 		util.doSendKeys(programNameInput, programNameEdit);

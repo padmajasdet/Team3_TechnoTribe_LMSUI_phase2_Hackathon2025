@@ -78,7 +78,7 @@ public class BaseClass {
 					new ByteArrayInputStream(((TakesScreenshot) context.getDriver()).getScreenshotAs(OutputType.BYTES)));
 		}
 		Log.logInfo("Closing WebDriver");
-		//context.closeDriver();
+		context.closeDriver();
 
 	}
 

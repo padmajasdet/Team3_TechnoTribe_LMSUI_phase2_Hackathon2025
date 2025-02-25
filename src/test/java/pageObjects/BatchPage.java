@@ -108,6 +108,8 @@ public class BatchPage extends CommonPage {
 
 	public void addBatchClick() {
 		util.doClick(addNewBatch);
+		System.out.println("Clicked on addNewBatch");
+
 	}
 
 	public void homeMenuClick() {
@@ -116,6 +118,7 @@ public class BatchPage extends CommonPage {
 
 	public void batchMenuClick() {
 		util.doClick(batchMenu);
+		System.out.println("Clicked on Batch Menu");
 	}
 
 	public void closeButtonClick() {
@@ -263,6 +266,8 @@ public class BatchPage extends CommonPage {
 	}
 
 	public void enterAllDetails(String saveCancel, String testcaseName) {
+		
+		System.out.println("Inside enterAllDetails method in Batch Page");
 		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		selectProgramNameDD();
 		try {

@@ -11,10 +11,7 @@ import utilities.ReadConfig;
 @CucumberOptions(features = {"src/test/resources/features/"}, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-<<<<<<< Updated upstream
-=======
-				tags="@TTLPH2-108",
->>>>>>> Stashed changes
+				tags="@TCB19",
 				dryRun = false, 
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",

@@ -31,3 +31,53 @@
 2025-02-25 00:25:14.414 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
 2025-02-25 00:25:14.415 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
 >>>>>>> Stashed changes
+2025-02-25 12:25:04.231 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 12:25:06.585 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 12:25:09.356 INFO [main] [utilities.Log.logInfo(Log.java:13)] - DashBoard Url is https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/login
+2025-02-25 12:25:09.360 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigated to home page 
+2025-02-25 12:25:23.075 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Add New Class pop up didnt open
+2025-02-25 12:25:23.077 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Class created successfully
+2025-02-25 12:25:23.080 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 12:25:23.082 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 12:26:22.589 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 12:26:24.341 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 12:26:26.797 INFO [main] [utilities.Log.logInfo(Log.java:13)] - DashBoard Url is https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/login
+2025-02-25 12:26:26.800 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigated to home page 
+2025-02-25 12:27:01.373 INFO [main] [utilities.Log.logInfo(Log.java:13)] - batch name displayed:     true
+2025-02-25 12:27:12.761 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Class created successfully
+2025-02-25 12:27:12.762 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 12:27:12.764 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 12:34:10.962 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 12:34:12.766 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 12:34:15.256 INFO [main] [utilities.Log.logInfo(Log.java:13)] - DashBoard Url is https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/login
+2025-02-25 12:34:15.260 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigated to home page 
+2025-02-25 12:34:49.698 INFO [main] [utilities.Log.logInfo(Log.java:13)] - batch name displayed:     true
+2025-02-25 12:35:01.117 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 12:35:01.119 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 12:45:44.301 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 12:45:46.103 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 12:45:48.438 INFO [main] [utilities.Log.logInfo(Log.java:13)] - DashBoard Url is https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/login
+2025-02-25 12:45:48.441 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigated to home page 
+2025-02-25 12:46:22.543 INFO [main] [utilities.Log.logInfo(Log.java:13)] - batch name displayed:     true
+2025-02-25 12:46:34.212 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 12:46:34.213 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 13:27:32.639 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 13:27:34.639 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 13:27:42.476 INFO [main] [utilities.Log.logInfo(Log.java:13)] - DashBoard Url is https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/login
+2025-02-25 13:27:42.480 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigated to home page 
+2025-02-25 13:28:16.858 INFO [main] [utilities.Log.logInfo(Log.java:13)] - batch name displayed:     true
+2025-02-25 13:29:17.902 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 13:29:17.903 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 13:31:47.506 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 13:31:49.241 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 13:31:51.403 INFO [main] [utilities.Log.logInfo(Log.java:13)] - DashBoard Url is https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/login
+2025-02-25 13:31:51.407 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigated to home page 
+2025-02-25 13:32:25.728 INFO [main] [utilities.Log.logInfo(Log.java:13)] - batch name displayed:     true
+2025-02-25 13:33:27.639 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 13:33:27.641 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 14:22:53.403 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 14:22:55.162 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 14:23:04.744 INFO [main] [utilities.Log.logInfo(Log.java:13)] - ProgramName at run time received in line 193 in EditProgramPage = null
+2025-02-25 14:25:55.217 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 14:25:57.029 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 14:26:00.426 INFO [main] [utilities.Log.logInfo(Log.java:13)] - ProgramName at run time received in line 193 in EditProgramPage = null
