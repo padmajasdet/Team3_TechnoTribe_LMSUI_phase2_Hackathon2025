@@ -11,6 +11,8 @@ Feature: LogOut
 	When Admin enters the batch name in the search and click on delete icon
 	Then Selected Batch should be deleted
 	
+	
+	
 	@US-TTLPH2-10 @TTLPH2-112 @sanity
 	Scenario: Verify logout function
 	When Admin clicks "Logout" on the navigation bar

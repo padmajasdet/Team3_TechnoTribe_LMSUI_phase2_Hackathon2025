@@ -3,6 +3,7 @@ package pageObjects;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -23,6 +24,7 @@ import org.testng.Assert;
 import utilities.ElementUtil;
 import utilities.ExcelReader;
 import utilities.ReadConfig;
+import utilities.RunTimeData;
 
 public class ProgramPage extends CommonPage {
 
@@ -41,7 +43,6 @@ public class ProgramPage extends CommonPage {
 
 	Map<String, String> programData;
 	private static final Logger log = LogManager.getLogger(ProgramPage.class);
-
 
 	public ProgramPage(WebDriver driver) {
 		super(driver);
@@ -166,10 +167,23 @@ public class ProgramPage extends CommonPage {
 		util.isElementDisplayed(addNewProgramPopUp);
 	}
 
-	public static char getRandomCharacter() {
-		Random random = new Random();
-		return (char) ('b' + random.nextInt(26));
-	}
+	/*
+	 * public static char getRandomCharacter() { Random random = new Random();
+	 * return (char) ('b' + random.nextInt(26)); }
+	 */
+	
+	public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // You can include lowercase or digits if needed
+        Random random = new Random();
+        StringBuilder result = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            result.append(characters.charAt(index));
+        }
+
+        return result.toString().toLowerCase();
+    }
 
 	public void fillProgramForm(String testCase) throws Exception {
 
@@ -183,7 +197,9 @@ public class ProgramPage extends CommonPage {
 		String status = programData.get("ProgramStatus");
 
 		if (testCase.equalsIgnoreCase("validInputData")) {
-			programName = programName + getRandomCharacter();
+			//programName = programName + getRandomCharacter();
+			programName = programName + generateRandomString(3);
+
 
 		}
 
@@ -207,7 +223,10 @@ public class ProgramPage extends CommonPage {
 
 		util.doClick(saveButton);
 
-		setProgramName(programName);
+		// setProgramName(programName);
+		RunTimeData.setData("programName", programName);
+		RunTimeData.setData("programDesc", programDesc);
+		RunTimeData.setData("programstatus", status);
 
 	}
 
@@ -223,11 +242,29 @@ public class ProgramPage extends CommonPage {
 		return NewProgramName;
 	}
 
-	public void editTheProgramAndClickSave(String newProgram, String testCase) throws InterruptedException {
+	public void editTheProgramAndClickSave(String testCase) throws InterruptedException {
 
-		newProgram = getProgramName();
-		search(newProgram);
-		clickEditProgramBtn(newProgram);
+		System.out.println(RunTimeData.getData("programName"));
+		System.out.println(RunTimeData.getData("programDesc"));
+		System.out.println(RunTimeData.getData("programstatus"));
+
+		System.out.println("===========================================");
+
+		// newProgram = getProgramName();
+		String existingProgram = (String) RunTimeData.getData("programName");
+
+		System.out.println("ProgramName at run time received in line 235 in ProgramPage = " + existingProgram);
+
+		while (existingProgram == null) {
+			Thread.sleep(1000);
+			// Then fetch data again
+			existingProgram = (String) RunTimeData.getData("programName");
+		}
+
+		// Search for Program and Click Edit
+		searchUpdatedProgram(existingProgram);
+		// search(newProgram);
+		clickEditProgramBtn(existingProgram);
 
 		// Use if
 		Assert.assertEquals(getAddNewProgramPopUpTitle(), "Program Details");
@@ -240,7 +277,7 @@ public class ProgramPage extends CommonPage {
 
 		log.info("Program name to update from excel >>" + programNameEdit);
 
-		programNameEdit = programNameEdit + getRandomCharacter();
+		programNameEdit = programNameEdit + generateRandomString(3);
 		util.mouseclickUsingAction(programNameInput);
 		util.clearField(programNameInput);
 		util.doSendKeys(programNameInput, programNameEdit);
@@ -254,16 +291,32 @@ public class ProgramPage extends CommonPage {
 
 		util.doClick(saveButton);
 
-		if (getToast().equalsIgnoreCase("Successful") && testCase.equalsIgnoreCase("validInputEditData")) {
-			log.info("Program updated successfully");
-			log.info("Updated Program Name: " + programNameEdit);
-			setUpdatedProgramName(programNameEdit);
-			setUpdatedProgramDesc(programDescEdit);
-			setUpdatedProgramStatus(programStatusEdit);
+		
+		  if (getToast().equalsIgnoreCase("Successful") &&
+		  testCase.equalsIgnoreCase("validInputEditData")) {
+		  System.out.println("Program updated successfully");
+		  System.out.println("Updated Program Name: " + programNameEdit);
+		  
+		  
+			/*
+			 * setUpdatedProgramName(programNameEdit);
+			 * setUpdatedProgramDesc(programDescEdit);
+			 * setUpdatedProgramStatus(programStatusEdit);
+			 */
+		  
+		  
+		  RunTimeData.setData("programNameEdit", programNameEdit);
+		  RunTimeData.setData("programDescEdit", programDescEdit);
+		  RunTimeData.setData("programStatusEdit", programStatusEdit);
+		  
+		  } else { log.info("Program update failed"); }
+		 
 
-		} else {
-			log.info("Program update failed");
-		}
+		System.out.println("============== ALL EDIT PROGRAM VALUES =============================");
+
+		System.out.println(RunTimeData.getData("programNameEdit"));
+		System.out.println(RunTimeData.getData("programDescEdit"));
+		System.out.println(RunTimeData.getData("programStatusEdit"));
 
 	}
 
@@ -413,7 +466,9 @@ public class ProgramPage extends CommonPage {
 		// util.getElement(searchBox).clear();
 		util.doClick(searchBox);
 		// log.info("Program to search>>" + getProgramName());
-		searchBox.sendKeys(getUpdatedProgramName());
+		searchBox.sendKeys(updatedProgram);
+		// searchBox.sendKeys((String) RunTimeData.getData("programNameEdit"));
+
 		// util.doSendKeys(searchBox, getUpdatedProgramName());
 
 	}
@@ -434,10 +489,21 @@ public class ProgramPage extends CommonPage {
 
 	}
 
-	public void verifyUpdatedProgramDetails(String updatedProgram, String updatedProgramDesc, String updatedStatus) {
-		updatedProgram = getUpdatedProgramName();
-		updatedProgramDesc = getUpdatedProgramDescS();
-		updatedStatus = getUpdatedProgramStatus();
+	// public void verifyUpdatedProgramDetails(String updatedProgram, String
+	// updatedProgramDesc, String updatedStatus) {
+	public Map<String, String> verifyUpdatedProgramDetails(/*
+															 * String updatedProgram, String updatedProgramDesc, String
+															 * updatedStatus
+															 */) {
+
+		/*
+		 * String updatedProgram = getUpdatedProgramName(); String updatedProgramDesc =
+		 * getUpdatedProgramDescS(); String updatedStatus = getUpdatedProgramStatus();
+		 */
+
+		String updatedProgram = (String) RunTimeData.getData("programNameEdit");
+		String updatedProgramDesc = (String) RunTimeData.getData("programDescEdit");
+		String updatedStatus = (String) RunTimeData.getData("programStatusEdit");
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions
@@ -450,13 +516,25 @@ public class ProgramPage extends CommonPage {
 		String resultNameText = resultName.getText();
 		String resultDescText = resultDesc.getText();
 		String resultStatusText = resultStatus.getText();
-		log.info("Search result Name >>" + resultNameText);
-		log.info("Search result Desc >>" + resultDescText);
-		Assert.assertEquals(resultNameText, updatedProgram, "Searched Program Name does not match the result!");
-		Assert.assertEquals(resultDescText, updatedProgramDesc, "Searched Program Desc does not match the result!");
-		Assert.assertEquals(resultStatusText, updatedStatus, "Searched Program Status does not match the result!");
-		log.info("Search result validation passed: ");
 
+		Map<String, String> actualResultMap = new HashMap<>();
+		actualResultMap.put("resultProgramNameText", resultNameText);
+		actualResultMap.put("resultProgramDescText", resultDescText);
+		actualResultMap.put("resultProgramStatusText", resultStatusText);
+
+		/*
+		 * log.info("Search result Name >>" + resultNameText);
+		 * log.info("Search result Desc >>" + resultDescText);
+		 * Assert.assertEquals(resultNameText, updatedProgram,
+		 * "Searched Program Name does not match the result!");
+		 * Assert.assertEquals(resultDescText, updatedProgramDesc,
+		 * "Searched Program Desc does not match the result!");
+		 * Assert.assertEquals(resultStatusText, updatedStatus,
+		 * "Searched Program Status does not match the result!");
+		 * log.info("Search result validation passed: ");
+		 */
+
+		return actualResultMap;
 	}
 
 	public void verifySearchBarManageProgram(String searchBarText) {
