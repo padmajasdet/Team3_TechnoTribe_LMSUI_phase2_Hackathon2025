@@ -320,9 +320,28 @@ public class ProgramPage extends CommonPage {
 
 	}
 
+	/*
+	 * public void deleteTheProgramAndClickSave(String newProgram, String testCase)
+	 * throws InterruptedException {
+	 * 
+	 * newProgram = getProgramName(); search(newProgram);
+	 * clickDeleteProgramBtn(newProgram);
+	 * util.isElementDisplayed(deleteConfirmationPopUp);
+	 * 
+	 * util.doClick(deleteYesBtn);
+	 * 
+	 * if (getToast().equalsIgnoreCase("Successful")) {
+	 * log.info("Program deleted successfully"); log.info("Deleted Program Name: " +
+	 * newProgram);
+	 * 
+	 * } else { log.info("Program deletion failed"); }
+	 * 
+	 * }
+	 */
+	
 	public void deleteTheProgramAndClickSave(String newProgram, String testCase) throws InterruptedException {
 
-		newProgram = getProgramName();
+		newProgram =(String) RunTimeData.getData("programNameEdit");
 		search(newProgram);
 		clickDeleteProgramBtn(newProgram);
 		util.isElementDisplayed(deleteConfirmationPopUp);
@@ -377,7 +396,7 @@ public class ProgramPage extends CommonPage {
 
 	public void clickDeleteProgramBtn(String programName) {
 
-		programName = getProgramName();
+		programName = (String) RunTimeData.getData("programNameEdit");
 		log.info("Program to be deleted >>>" + programName);
 		WebElement deleteProgBtn = getProgramRowElement(programName).findElement(deleteButton);
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteProgBtn);
