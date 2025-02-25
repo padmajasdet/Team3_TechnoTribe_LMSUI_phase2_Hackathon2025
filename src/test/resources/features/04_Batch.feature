@@ -1,6 +1,6 @@
 #Author: Mathumathi Balakrishnan
 
-@batch
+@batch @smoke
 Feature: Batch Page
 
 Background:
@@ -264,21 +264,36 @@ Scenario: validate the first page link
   Then Admin should see the very first page on the data table
 
 #------------------------------------Sorting--------------------------------------------#
- #@TCB41 @sortingValidation
- 
- #@TCB42 @sortingValidation
- 
- #@TCB43 @sortingValidation
- 
- #@TCB44 @sortingValidation
- 
- #@TCB45 @sortingValidation
- 
 
+@TCB41 @sortingValidation
+Scenario Outline: Verify sorting of Manage Batch datatable in ascending order
+  Given Admin is on the Batch page
+  When Admin clicks on Arrow next to "<columnName>" of Batch module page for sort ascending
+  Then Admin should see the sorted list for "<columnName>"
+ Examples:
+ | 		columnName	 	|
+ |Program Name			|
+ |Batch Name				|
+ |Batch Description	|
+ |Batch Status			|
+ |No Of Classes			|
+ 
+ @TCB42 @sortingValidation
+ Scenario Outline: Verify sorting of Manage Batch datatable in descending order
+  Given Admin is on the Batch page
+  When Admin clicks on Arrow next to "<columnName>" of Batch module page for sort descending
+  Then Admin should see the sorted list for "<columnName>"
+ Examples:
+ | 		columnName	 	|
+ |Program Name			|
+ |Batch Name				|
+ |Batch Description	|
+ |Batch Status			|
+ |No Of Classes			|
     
 #----------------------------LogOut of the application from the batch page--------------------#
 
-@TCB46 @logoutValidation
+@TCB43 @logoutValidation
 Scenario: Validate logout option in the header is visible and enabled from the batch page
 	Given Admin is on the Batch page for logout
 	When Admin clicks "logout" on the navigation bar

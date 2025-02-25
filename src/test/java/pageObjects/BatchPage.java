@@ -1,6 +1,8 @@
 package pageObjects;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
@@ -31,6 +33,11 @@ public class BatchPage {
 	// Batch page - Table locators
 	private By paginationBotton = By
 			.xpath("//div[@class='p-paginator-bottom p-paginator p-component ng-star-inserted']");
+	private By programNameList = By.xpath("//tbody//td[6]");
+	private By batchNameList = By.xpath("//tbody//td[2]");
+	private By batchDescriptionList = By.xpath("//tbody//td[3]");
+	private By batchStatusList = By.xpath("//tbody//td[4]");
+	private By noOfClassesList = By.xpath("//tbody//td[5]");
 	private By deleteTitle = By.xpath("//span[normalize-space()='Confirm']");
 	private By deleteNoButton = By.xpath("//span[normalize-space()='No']");
 	private By deleteYesButton = By.xpath("//span[normalize-space()='Yes']");
@@ -231,10 +238,9 @@ public class BatchPage {
 		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		selectProgramNameDD();
 		try {
-		selectProgramNameListBox(testcaseName);
-		}
-		catch(Exception e) {
-			
+			selectProgramNameListBox(testcaseName);
+		} catch (Exception e) {
+
 		}
 		String finalBatchNamePrefix = selectDataFromExcel(testcaseName, "ProgramName");
 		// Get the current BatchName value and increment it
@@ -257,21 +263,21 @@ public class BatchPage {
 		}
 		util.doSendKeys(addBatchDesc, testData.get("Description"));
 		getActiveStatusRadioButton();
-		
+
 		String noOfClassesStr = testData.get("NoOfClasses");
-		
-		 if (noOfClassesStr == null || noOfClassesStr.trim().isEmpty()) {
-		        System.out.println("NoOfClasses is missing or empty. Skipping input.");
-		    } else {
-		        try {
-		            int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]);
-		            String newNoOfClasses = String.valueOf(noOfClasses);
-		            util.doSendKeys(addBatchNoOfClasses, newNoOfClasses);
-		        } catch (NumberFormatException e) {
-		            System.out.println("Invalid number format for NoOfClasses: " + noOfClassesStr);
-		        }
-		    }
-		
+
+		if (noOfClassesStr == null || noOfClassesStr.trim().isEmpty()) {
+			System.out.println("NoOfClasses is missing or empty. Skipping input.");
+		} else {
+			try {
+				int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]);
+				String newNoOfClasses = String.valueOf(noOfClasses);
+				util.doSendKeys(addBatchNoOfClasses, newNoOfClasses);
+			} catch (NumberFormatException e) {
+				System.out.println("Invalid number format for NoOfClasses: " + noOfClassesStr);
+			}
+		}
+
 		if (saveCancel.equalsIgnoreCase("Save")) {
 			saveButtonClick();
 			String toastMessage = getToast();
@@ -430,7 +436,7 @@ public class BatchPage {
 
 	public void isElementIntercepted() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		
+
 		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
 		overlay.click();
@@ -550,5 +556,52 @@ public class BatchPage {
 		return flag;
 	}
 
-}
+	public void columnNameSorting(String columnName, int noOfTimesClick) {
+		isElementIntercepted();
+		WebElement columnNameSort = driver.findElement(By.xpath("//th[normalize-space()='" + columnName
+				+ "']//i[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']"));
+		for (int i = 1; i <= noOfTimesClick; i++) {
+			columnNameSort.click();
+		}
+	}
 
+	// convert web element to java string list
+	public List<String> printWebElements(List<WebElement> options) {
+		List<String> texts = new ArrayList<String>();
+		int i = 0;
+		for (WebElement option : options) {
+			texts.add(i, option.getText());
+			i++;
+		}
+		return texts;
+	}
+
+	public List<String> getOriginalList(String type) {
+		List<String> originalList = null;
+
+		if (type.equals("Program Name")) {
+			originalList = printWebElements(util.getElements(programNameList));
+
+		} else if (type.equals("Batch Name")) {
+			originalList = printWebElements(util.getElements(batchNameList));
+
+		} else if (type.equals("Batch Description")) {
+			originalList = printWebElements(util.getElements(batchDescriptionList));
+
+		} else if (type.equals("Batch Status")) {
+			originalList = printWebElements(util.getElements(batchStatusList));
+
+		} else if (type.equals("No Of Classes")) {
+			originalList = printWebElements(util.getElements(noOfClassesList));
+
+		}
+		return originalList;
+	}
+
+	public List<String> getSortedList(List<String> originalList) {
+		List<String> sortedList = new ArrayList<>(originalList);
+		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
+		return sortedList;
+	}
+
+}
