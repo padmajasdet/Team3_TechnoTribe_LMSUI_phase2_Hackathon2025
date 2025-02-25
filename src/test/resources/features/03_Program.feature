@@ -100,7 +100,7 @@ Feature: Program Module
     Given Admin is on Program page
     When Admin clicks "Program" on the navigation bar
     Then Admin should see sub menu in menu bar as "Add New Program"
-    
+
   @TC17 @AddNewProgram @smoke @try
   Scenario Outline: Verify Admin is able to save the new program details and search validation
     Given Admin is on home page after Login
@@ -163,7 +163,7 @@ Feature: Program Module
   @TC25 @EditProgram
   Scenario: Verify Edit option
     Given Admin is on Program page
-    When Admin clicks on Edit option for particular program name "LMSUI"
+    When Admin clicks on Edit option for particular program name "technoTribejve"
     And Admin clicks Cancel button
     Then Admin can see Program Details form disappears
 
@@ -235,17 +235,59 @@ Feature: Program Module
     Then Admin gets error message
 
     Examples: 
+      | testcase               |
+      | InvalidProgName        |
+      | InvalidProgDesc        |
+      | InvalidExistingProgBug |
+  #   | InvalidExistingProgName |
+  @TC36
+  Scenario Outline: Verify Add New Program with already existing Program Name
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+   Then Admin gets error message for existing Program name on the Program Details Pop up
+
+    Examples: 
       | testcase                |
-      | InvalidProgName         |
-      | InvalidProgDesc         |
-      | InvalidExistingProgBug  |
       | InvalidExistingProgName |
-  #@TC36
-  #Scenario Outline: Verify Add New Program with already existing Program Name
-    #Given Admin is on Program details form
-    #When Admin enters details for "<testcase>" for mandatory fields and Click on save button
-    #Then Admin gets message "Program name is already exist." on Program Details Pop up
-#
-    #Examples: 
-      #| testcase            |
-      #| InvalidExistingProgName |
+
+  @TC37
+  Scenario Outline: Verify Add New Program with blank Program Name
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin gets error message for blank Program Name on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidBlankProgName|
+      
+       @TC38
+  Scenario Outline: Verify Add New Program with blank Program Description
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin gets error message on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidBlankProgDescription|
+      
+        @TC39
+  Scenario Outline: Verify Add New Program with Program Name for than 26 characters
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin sees error message for invalid Program Name on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidProgramNameTooLong|
+      
+       @TC40
+  Scenario Outline: Verify Add New Program with Program Description starts with special character
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin sees error message for invalid Program Description on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidProgDescStartsWithSpecialChar|
+
+   
