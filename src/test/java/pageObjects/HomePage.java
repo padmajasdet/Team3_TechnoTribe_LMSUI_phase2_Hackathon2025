@@ -206,13 +206,12 @@ public class HomePage extends CommonPage {
 
 			List<RuleMatch> errors = languageTool.check(dashBoardText); // perform spell check in navigation bar text
 			if (errors.isEmpty()) {
-				System.out.println("No spelling mistake");
+				Log.logInfo("No spelling mistake");
 			} else {
-				System.out.println("Spelling mistake found");
+				Log.logInfo("Spelling mistake found");
 				for (RuleMatch error : errors) {
 
-					System.out.println("error on word:" + error.getLine() + ", column" + error.getColumn() + ": "
-							+ error.getMessage());
+					Log.logInfo("error on word:" + error.getMessage());
 				}
 			}
 		} catch (IOException e) {
@@ -231,13 +230,12 @@ public class HomePage extends CommonPage {
 
 			List<RuleMatch> errors = languageTool.check(lmsTitleText); // perform spell check in navigation bar text
 			if (errors.isEmpty()) {
-				System.out.println("No spelling mistake");
+				Log.logInfo("No spelling mistake");
 			} else {
-				System.out.println("Spelling mistake found");
+				Log.logInfo("Spelling mistake found");
 				for (RuleMatch error : errors) {
 
-					System.out.println("error on word:" + error.getLine() + ", column" + error.getColumn() + ": "
-							+ error.getMessage());
+					Log.logInfo("error on word:" + error.getMessage());
 				}
 			}
 		} catch (IOException e) {
