@@ -11,7 +11,11 @@ Feature: LogOut
 	When Admin enters the batch name in the search and click on delete icon
 	Then Selected Batch should be deleted
 	
-	
+	 @TC26 @DeleteProgram
+  Scenario: Verify Admin is able to delete program
+    Given Admin is on Confirm deletion form for program "Name"
+    When Admin clicks on Yes button
+    Then Admin can see "Successful Program Deleted" message
 	
 	@US-TTLPH2-10 @TTLPH2-112 @sanity
 	Scenario: Verify logout function
