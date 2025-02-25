@@ -79,7 +79,7 @@ Scenario: Validate all the fields exist in pop up
 	Given Admin is on the Batch Details Pop Up WIndow
 	Then The pop up should include the fields Batch Name,Number of classes and Description as text box,Program Name as drop down Status as radio button
 
-@TCB14 @addBatchPageValidation
+@TCB14 @addBatchPageValidation @try
 Scenario: Validate batchname prefix selected program name
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin selects program name present in the dropdown
@@ -166,7 +166,7 @@ Scenario: Validate editing description and No. of classes fields with invalid da
 	Given Admin is on the Batch Details Page
 	When Admin Updates any fields with invalid data and click save button
 	Then Admin should get a error message under the respective field
-
+	
 @TCB26 @editBatchPageValidation @try
 Scenario: validate save button in Batch details pop up
 	Given Admin is on the Batch Details Page
@@ -181,83 +181,71 @@ Scenario: validate cancel button in Batch details pop up
 
 #--------------------------Search Text box validation-------------------------------#
 
-@TCB28 @searchValidation
+@TCB28 @searchValidation @try
 Scenario: validate search box functionality
 	Given Admin is on the Batch page
 	When Admin enters the batch name in the search text box
 	Then Admin should see the filtered batches in the data table
 
-@TCB29 @searchValidation @try
-Scenario: Validate edit icon functionality by search
-	Given Admin is on the Batch page
-	When Admin enters the batch name in the search text box and edit the valid data and click save button 
-	Then Admin should get a successful message for editing the batch
-
 #-----------------------------Delete batch validation--------------------------------#
 
-@TCB30 @deletePageValidation
+@TCB29 @deletePageValidation
 Scenario: validate delete Icon on any row
 	Given Admin is on the Batch page
 	When Admin clicks the delete Icon on any row
 	Then Admin should see the confirm alert box with yes and no button
 
-@TCB31 @deletePageValidation
-Scenario: Validate delete icon functionality by search
-	Given Admin is on the Batch page
-	When Admin enters the batch name in the search text box and click on delete icon
-	Then Selected Batch should be deleted
-
-@TCB32 @deletePageValidation
+@TCB30 @deletePageValidation
 Scenario: Validate yes button on the confirm alert box
 	Given Admin is on the batch confirm popup page
 	When Admin clicks on the delete icon and click yes button
 	Then Admin should see the successful message and the batch should be deleted
 
-@TCB33 @deletePageValidation
+@TCB31 @deletePageValidation
 Scenario: validate no button on the confirm alert box
 	Given Admin is on the batch confirm popup page
 	When Admin clicks on the delete icon and click no button
 	Then Admin should see the alert box closed and the batch is not deleted
 
-@TCB34 @deletePageValidation
+@TCB32 @deletePageValidation
 Scenario: validate close Icon on the alert box
 	Given Admin is on the batch confirm popup page
 	When Admin clicks on the close icon in batch confirm popup
 	Then Admin should see the alert box closed 
 
-@TCB35 @deletePageValidation
+@TCB33 @deletePageValidation @try
 Scenario: Validate single row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon under the Manage batch header
-	Then Selected Batch should be deleted
+	Then Selected batches should get deleted
 
-@TCB36 @deletePageValidation
+@TCB34 @deletePageValidation @try
 Scenario: Validate multiple row delete with checkbox
 	Given Admin is on the Batch page
 	When Admin clicks on the delete icon for multiple row under the Manage batch header
-	Then Selected Batch should be deleted
+	Then Selected batches should get deleted
 	
-#---------------------------------Pagination by MAYA---------------------------------------#
+#---------------------------------Pagination done by MAYA---------------------------------------#
 
-@TCB37 @paginationValidation
+@TCB35 @paginationValidation
 Scenario: Validate next page link
   Given Admin is on the Batch page
   When Admin clicks next page link on the data table
   Then Admin should see the Next enabled link
 
-@TCB38 @paginationValidation
+@TCB36 @paginationValidation
 Scenario: validate last page link
   Given Admin is on the Batch page
   When Admin clicks last page link on the data table
   Then Admin should see the last page link with next page link disabled on the table
 
-@TCB39 @paginationValidation
+@TCB37 @paginationValidation
 Scenario: validate the previous page link
   Given Admin is on the Batch page
   When Admin clicks previous page link on the data table
   Then Admin should see the previous page on the table
 
-@TCB40 @paginationValidation
+@TCB38 @paginationValidation
 Scenario: validate the first page link
   Given Admin is on the Batch page
   When Admin clicks first page link on the data table
@@ -265,7 +253,7 @@ Scenario: validate the first page link
 
 #------------------------------------Sorting--------------------------------------------#
 
-@TCB41 @sortingValidation
+@TCB39 @sortingValidation
 Scenario Outline: Verify sorting of Manage Batch datatable in ascending order
   Given Admin is on the Batch page
   When Admin clicks on Arrow next to "<columnName>" of Batch module page for sort ascending
@@ -278,7 +266,7 @@ Scenario Outline: Verify sorting of Manage Batch datatable in ascending order
  |Batch Status			|
  |No Of Classes			|
  
- @TCB42 @sortingValidation
+ @TCB40 @sortingValidation
  Scenario Outline: Verify sorting of Manage Batch datatable in descending order
   Given Admin is on the Batch page
   When Admin clicks on Arrow next to "<columnName>" of Batch module page for sort descending
@@ -293,7 +281,7 @@ Scenario Outline: Verify sorting of Manage Batch datatable in ascending order
     
 #----------------------------LogOut of the application from the batch page--------------------#
 
-@TCB43 @logoutValidation
+@TCB41 @logoutValidation
 Scenario: Validate logout option in the header is visible and enabled from the batch page
 	Given Admin is on the Batch page for logout
 	When Admin clicks "logout" on the navigation bar

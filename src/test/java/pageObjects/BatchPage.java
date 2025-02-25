@@ -186,8 +186,6 @@ public class BatchPage extends CommonPage {
 
 	public void selectProgramNameListBox(String testcaseName) throws Exception {
 		String excelProgramName = selectDataFromExcel(testcaseName, "ProgramName");
-//		// Check if it should be replaced with the chain variable
-
 		String existingProgram = null;
 		if (excelProgramName.equalsIgnoreCase("chaining")) {
 
@@ -213,7 +211,7 @@ public class BatchPage extends CommonPage {
 
 				util.doClick(option);
 			}
-	
+
 		}
 
 	}
@@ -270,7 +268,6 @@ public class BatchPage extends CommonPage {
 		} catch (Exception e) {
 
 		}
-		String finalBatchNamePrefix = selectDataFromExcel(testcaseName, "ProgramName");
 		// Get the current BatchName value and increment it
 		String batchNameStr = testData.get("BatchName");
 		String newBatchName = "";
@@ -343,8 +340,6 @@ public class BatchPage extends CommonPage {
 		}
 	}
 
-
-
 	public String getToast() {
 		try {
 			List<WebElement> toastElements = driver.findElements(toastMessage);
@@ -368,7 +363,6 @@ public class BatchPage extends CommonPage {
 
 	public void clickAction(String actionType) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		// Wait for the overlay to disappear
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop")));
 		WebElement actionIcon = null;
 		if (actionType.equalsIgnoreCase("edit")) {
@@ -426,7 +420,6 @@ public class BatchPage extends CommonPage {
 			}
 
 		} else {
-			// Wait for the overlay to disappear before clicking Cancel
 			WebElement CancelBtn = driver.findElement(cancelButton);
 			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", CancelBtn);
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", CancelBtn);
@@ -457,7 +450,6 @@ public class BatchPage extends CommonPage {
 
 	public void isElementIntercepted() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
 		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
 		overlay.click();
@@ -557,8 +549,8 @@ public class BatchPage extends CommonPage {
 				if (batchRows.size() > 0) {
 					for (WebElement row : batchRows) {
 						String rowText = row.getText();
-						Log.logInfo("search text is: " + getBatchName1());
-						if (rowText.contains(getBatchName1())) {
+						Log.logInfo("search text is: " + (String) RunTimeData.getData("BatchName_All"));
+						if (rowText.contains((String) RunTimeData.getData("BatchName_All"))) {
 							flag = true;
 							break;
 						}
