@@ -179,8 +179,6 @@
 		            </properties>	
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/resources/TestNG/testng.xml</suiteXmlFile>
-					<!--<suiteXmlFiles>
-						<suiteXmlFile>testngcrossbrowser.xml</suiteXmlFile>-->
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
