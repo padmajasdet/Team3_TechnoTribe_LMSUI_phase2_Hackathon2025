@@ -1146,3 +1146,17 @@
 =======
 >>>>>>> origin/master
 >>>>>>> master
+2025-02-25 14:52:22.328 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 14:52:22.332 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 14:52:30.370 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 14:52:30.370 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 14:52:38.362 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 14:52:38.362 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 14:52:46.929 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 14:52:46.929 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 14:54:03.447 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 14:54:03.453 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 14:54:11.417 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 14:54:11.418 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 14:54:20.930 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 14:54:21.634 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
