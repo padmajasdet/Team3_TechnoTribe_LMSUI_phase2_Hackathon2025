@@ -23,6 +23,7 @@ import org.testng.Assert;
 
 import utilities.ElementUtil;
 import utilities.ExcelReader;
+import utilities.Log;
 import utilities.ReadConfig;
 import utilities.RunTimeData;
 
@@ -33,10 +34,10 @@ public class ProgramPage extends CommonPage {
 	ReadConfig readConfig;
 	Actions actions;
 
-	public static String NewProgramName;
-	public static String UpdatedProgramName;
-	public static String UpdatedProgramDesc;
-	public static String UpdatedProgramStatus;
+//	public static String NewProgramName;
+//	public static String UpdatedProgramName;
+//	public static String UpdatedProgramDesc;
+//	public static String UpdatedProgramStatus;
 
 	private String filePath; // Excel file location
 	private String sheetName = "Program";
@@ -234,26 +235,22 @@ public class ProgramPage extends CommonPage {
 		util.doClick(saveButton);
 	}
 
-	public static void setProgramName(String programName) {
-		ProgramPage.NewProgramName = programName; // Store the program name in the static variable
-	}
-
-	public static String getProgramName() {
-		return NewProgramName;
-	}
+//	public static void setProgramName(String programName) {
+//		ProgramPage.NewProgramName = programName; // Store the program name in the static variable
+//	}
+//
+//	public static String getProgramName() {
+//		return NewProgramName;
+//	}
 
 	public void editTheProgramAndClickSave(String testCase) throws InterruptedException {
 
-		System.out.println(RunTimeData.getData("programName"));
-		System.out.println(RunTimeData.getData("programDesc"));
-		System.out.println(RunTimeData.getData("programstatus"));
-
-		System.out.println("===========================================");
+	
 
 		// newProgram = getProgramName();
 		String existingProgram = (String) RunTimeData.getData("programName");
 
-		System.out.println("ProgramName at run time received in line 235 in ProgramPage = " + existingProgram);
+		Log.logInfo("ProgramName at run time received in line 235 in ProgramPage = " + existingProgram);
 
 		while (existingProgram == null) {
 			Thread.sleep(1000);
@@ -294,8 +291,8 @@ public class ProgramPage extends CommonPage {
 		
 		  if (getToast().equalsIgnoreCase("Successful") &&
 		  testCase.equalsIgnoreCase("validInputEditData")) {
-		  System.out.println("Program updated successfully");
-		  System.out.println("Updated Program Name: " + programNameEdit);
+		  Log.logInfo("Program updated successfully");
+		  Log.logInfo("Updated Program Name: " + programNameEdit);
 		  
 		  
 			/*
@@ -312,11 +309,7 @@ public class ProgramPage extends CommonPage {
 		  } else { log.info("Program update failed"); }
 		 
 
-		System.out.println("============== ALL EDIT PROGRAM VALUES =============================");
-
-		System.out.println(RunTimeData.getData("programNameEdit"));
-		System.out.println(RunTimeData.getData("programDescEdit"));
-		System.out.println(RunTimeData.getData("programStatusEdit"));
+		
 
 	}
 
@@ -358,29 +351,6 @@ public class ProgramPage extends CommonPage {
 
 	}
 
-	public static void setUpdatedProgramName(String updatedProgramName) {
-		ProgramPage.UpdatedProgramName = updatedProgramName; // Store the program name in the static variable
-	}
-
-	public static String getUpdatedProgramName() {
-		return UpdatedProgramName;
-	}
-
-	public static void setUpdatedProgramDesc(String updatedProgramDesc) {
-		ProgramPage.UpdatedProgramDesc = updatedProgramDesc; // Store the program desc in the static variable
-	}
-
-	public static void setUpdatedProgramStatus(String updatedProgramStatus) {
-		ProgramPage.UpdatedProgramStatus = updatedProgramStatus; // Store the program status in the static variable
-	}
-
-	public static String getUpdatedProgramDescS() {
-		return UpdatedProgramDesc;
-	}
-
-	public static String getUpdatedProgramStatus() {
-		return UpdatedProgramStatus;
-	}
 
 	public WebElement getProgramRowElement(String programName) {
 		WebElement ele = util.getElement(programTable);
@@ -463,37 +433,27 @@ public class ProgramPage extends CommonPage {
 	public void search(String newProgram) {
 
 		searchBox.clear();
-		// util.getElement(searchBox).clear();
 		util.doClick(searchBox);
-		log.info("Program to search>>" + getProgramName());
-		searchBox.sendKeys(getProgramName());
-		// util.doSendKeys(searchBox, getProgramName());
+		log.info("Program to search>>" + (String) RunTimeData.getData("programName"));
+		searchBox.sendKeys((String) RunTimeData.getData("programName"));
 
 	}
-
 	public void searchForEditDeleteProgram(String newProgram) {
 		searchBox.clear();
-		// util.getElement(searchBox).clear();
 		util.doClick(searchBox);
 		searchBox.sendKeys(newProgram);
-		// util.doSendKeys(searchBox, newProgram);
+		
 	}
 
 	public void searchUpdatedProgram(String updatedProgram) {
 
 		searchBox.clear();
-		// util.getElement(searchBox).clear();
 		util.doClick(searchBox);
-		// log.info("Program to search>>" + getProgramName());
 		searchBox.sendKeys(updatedProgram);
-		// searchBox.sendKeys((String) RunTimeData.getData("programNameEdit"));
-
-		// util.doSendKeys(searchBox, getUpdatedProgramName());
-
 	}
 
-	public void verifySearchResultProgramName(String newProgram) {
-		newProgram = getProgramName();
+	public String verifySearchResultProgramName() {
+		String newProgram = (String) RunTimeData.getData("programName");
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(
@@ -503,13 +463,13 @@ public class ProgramPage extends CommonPage {
 
 		String resultText = result.getText();
 		log.info("Search result >>" + resultText);
-		Assert.assertEquals(resultText, newProgram, "Searched Program Name does not match the result!");
 		log.info("Search result validation passed: " + resultText);
 
+		
+		return resultText;
 	}
 
-	// public void verifyUpdatedProgramDetails(String updatedProgram, String
-	// updatedProgramDesc, String updatedStatus) {
+	
 	public Map<String, String> verifyUpdatedProgramDetails(/*
 															 * String updatedProgram, String updatedProgramDesc, String
 															 * updatedStatus

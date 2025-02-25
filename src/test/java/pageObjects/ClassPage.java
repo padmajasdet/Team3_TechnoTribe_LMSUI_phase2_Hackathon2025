@@ -1,21 +1,22 @@
 package pageObjects;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.text.SimpleDateFormat;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import utilities.ElementUtil;
+import utilities.Log;
 
 public class ClassPage extends CommonPage {
 
@@ -440,7 +441,7 @@ public class ClassPage extends CommonPage {
 	public void deleteSingleProgram() {
 		elementUtil.doClick(confirmyes);
 		String text1 = elementUtil.getElementText(successdelete);
-		System.out.println(text1);
+		Log.logInfo(text1);
 	}
 
 	public void DropDeleteSingleProgram() {
@@ -462,7 +463,7 @@ public class ClassPage extends CommonPage {
 	public void DeleteSuccess() {
 		elementUtil.doClick(dubdelete_yes);
 		String text2 = elementUtil.getElementText(success_dbdelete);
-		System.out.println(text2);
+		Log.logInfo(text2);
 	}
 
 	public void searhBoxValidation(String field, String value) throws InterruptedException {
@@ -500,14 +501,14 @@ public class ClassPage extends CommonPage {
 		boolean found = false;
 		for (WebElement v : searchedValues) {
 			if (v.getText().equalsIgnoreCase(value)) {
-				System.out.println("Search is success for value: " + value);
+				Log.logInfo("Search is success for value: " + value);
 				found = true;
 				break;
 			}
 		}
 
 		if (!found) {
-			System.out.println("Search is not success for value: " + value);
+			Log.logInfo("Search is not success for value: " + value);
 		}
 
 	}
@@ -672,21 +673,21 @@ public class ClassPage extends CommonPage {
 
 // this method will sort the given list
 	public List<String> getSortedList(List<String> originalList) {
-		System.out.println("Original List Before sorting is" + originalList);
+		Log.logInfo("Original List Before sorting is" + originalList);
 		List<String> sortedList = new ArrayList<>(originalList);
 		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
-		System.out.println("Sorted List After sorting is" + sortedList);
+		Log.logInfo("Sorted List After sorting is" + sortedList);
 		return sortedList;
 	}
 
 	public List<String> getSortedListDescending(List<String> originalList) {
 
-		System.out.println("Original List Before sorting is" + originalList);
+		Log.logInfo("Original List Before sorting is" + originalList);
 		List<String> sortedList = new ArrayList<>(originalList);
 //        Collections.sort(sortedList, (s1, s2) -> s2.compareToIgnoreCase(s1));
 //        Collections.sort(sortedList, Collections.reverseOrder());
 		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER.reversed());
-		System.out.println("Sorted List After sorting is" + sortedList);
+		Log.logInfo("Sorted List After sorting is" + sortedList);
 		return sortedList;
 	}
 
@@ -698,7 +699,7 @@ public class ClassPage extends CommonPage {
 			texts.add(i, option.getText());
 			i++;
 		}
-		System.out.println("The number of items in the list are: " + texts.size());
+		Log.logInfo("The number of items in the list are: " + texts.size());
 		return texts;
 	}
 
@@ -832,8 +833,8 @@ public class ClassPage extends CommonPage {
 			}
 				
 		}
-		System.out.println("counter size = " + counter);
-		System.out.println("numberOfWeekendDates size = " + numberOfWeekendDates);
+		Log.logInfo("counter size = " + counter);
+		Log.logInfo("numberOfWeekendDates size = " + numberOfWeekendDates);
 
 		if(counter == numberOfWeekendDates) {
 			flag = true;

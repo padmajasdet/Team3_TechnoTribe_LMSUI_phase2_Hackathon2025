@@ -1,6 +1,5 @@
 package stepDefinitions;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +8,14 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import hooks.TestContext;
-import io.cucumber.java.en.*;
-import pageObjects.BatchPage;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import pageObjects.CommonPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.ProgramPage;
-import utilities.ExcelReader;
+import utilities.Log;
 import utilities.ReadConfig;
 import utilities.RunTimeData;
 
@@ -371,5 +371,141 @@ public class ProgramStepDef {
 		programPage.clickdeleteAllButton();
 
 	}
+	
+	@When("Admin clicks Next page link on the program table")
+	public void admin_clicks_next_page_link_on_the_program_table() {
+	    programPage.clickOnNextPage();
+	}
+	@Then("Admin should see the Pagination has {string} active link")
+	public void admin_should_see_the_pagination_has_active_link(String string) {
+	    boolean nextPageActive = programPage.nextPageEnabled();
+	    Assert.assertTrue(nextPageActive);
+	    
+	}
+	
+	@When("Admin clicks Last page link")
+	public void admin_clicks_last_page_link() {
+	    programPage.clickOnLastPage();
+	}
+
+	@Then("Admin should see the last page record on the table with Next page link are disabled")
+	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled() {
+		boolean nextPageDisabled = programPage.verifyNextPageBtnDisabled();
+	    Assert.assertTrue(nextPageDisabled);
+	}
+	
+	@Given("Admin is on last page of Program page table")
+	public void admin_is_on_last_page_of_program_page_table() throws Exception {
+		programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar("Program");
+		 programPage.clickOnLastPage();
+	}
+
+	@When("Admin clicks Previous page link")
+	public void admin_clicks_previous_page_link() {
+	    programPage.clickOnPreviuosPage();
+	}
+
+	@Then("Admin should see the previous page record on the table with pagination has previous page link")
+	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link() {
+		boolean prevoiusPageActive = programPage.previousPageEnabled();
+	    Assert.assertTrue(prevoiusPageActive);
+	}
+	
+	@Given("Admin is on Previous Program page")
+	public void admin_is_on_previous_program_page() throws Exception {
+		programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar("Program");
+		 programPage.clickOnLastPage();
+		 programPage.clickOnPreviuosPage();
+	}
+
+	@When("Admin clicks First page link")
+	public void admin_clicks_first_page_link() {
+	    programPage.clickOnFirstPage();
+	}
+
+	@Then("Admin should see the very first page record on the table with Previous page link are disabled")
+	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled() {
+		boolean previousPageActive = programPage.verifyPreviousPageBtnDisabled();
+	    Assert.assertTrue(previousPageActive);
+	}
+
+	@When("Admin clicks on Arrow next to Program Name of Program module page for sort ascending")
+	public void admin_clicks_on_arrow_next_to_program_name_of_program_module_page_for_sort_ascending() {
+		programPage.clickProgramNameSort();
+	}
+
+	@Then("Admin See the Program Name is sorted in ascending order")
+	public void admin_see_the_program_name_is_sorted_in_ascending_order() {
+		List<String> originalList = programPage.getOriginalList("ProgramName");
+		List<String> sortedList = programPage.getSortedList(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString() );
+		Assert.assertTrue(originalList.equals(sortedList));
+}
+	@When("Admin clicks on Arrow next to Program Name of Program module page for sort descend")
+	public void admin_clicks_on_arrow_next_to_program_name_of_program_module_page_for_sort_descend() {
+		programPage.clickProgramNameSortDescend();
+	}
+	
+	@Then("Admin See the Program Name is sorted in descending order")
+	public void admin_see_the_program_name_is_sorted_in_descending_order() {
+		List<String> originalList = programPage.getOriginalList("ProgramName");
+		List<String> sortedList = programPage.getSortedListDescending(originalList);
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program description of Program module page for sort ascending")
+	public void admin_clicks_on_arrow_next_to_program_description_of_program_module_page_for_sort_ascending() {
+	    programPage.clickProgramDescriptionSort();
+	}
+
+	@Then("Admin See the program description is sorted Ascending order in Program module page")
+	public void admin_see_the_program_description_is_sorted_ascending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramDescription");
+		List<String> sortedList = programPage.getSortedList(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program description of Program module page for sort descending")
+	public void admin_clicks_on_arrow_next_to_program_description_of_program_module_page_for_sort_descending() {
+		programPage.clickProgramDescriptionSortDes();
+	}
+
+	@Then("Admin See the program description is sorted Descending order in Program module page")
+	public void admin_see_the_program_description_is_sorted_descending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramDescription");
+		List<String> sortedList = programPage.getSortedListDescending(originalList);
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program Status of Program module page for sort ascending")
+	public void admin_clicks_on_arrow_next_to_program_status_of_program_module_page_for_sort_ascending() {
+		 programPage.clickProgramStatusSort();
+	}
+
+	@Then("Admin See the program Status is sorted Ascending order in Program module page")
+	public void admin_see_the_program_status_is_sorted_ascending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramStatus");
+		List<String> sortedList = programPage.getSortedList(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program Status of Program module page for sort descending")
+	public void admin_clicks_on_arrow_next_to_program_status_of_program_module_page_for_sort_descending() {
+		 programPage.clickProgramStatusSortDes();
+	}
+
+	@Then("Admin See the program Status is sorted descending order in Program module page")
+	public void admin_see_the_program_status_is_sorted_descending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramStatus");
+		List<String> sortedList = programPage.getSortedListDescending(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+
 
 }
