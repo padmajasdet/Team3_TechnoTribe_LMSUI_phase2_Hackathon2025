@@ -154,7 +154,7 @@ public class ElementUtil {
 	}
 
 	public List<WebElement> getElements(By locator) {
-		elementWithFluentWaitLocated(locator, 10, 100);
+		elementWithFluentWaitLocated(locator, 30, 100);
 		return driver.findElements(locator);
 	}
 		

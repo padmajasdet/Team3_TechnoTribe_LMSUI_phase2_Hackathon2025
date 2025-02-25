@@ -124,7 +124,7 @@ Feature: Home Page
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then admin should see first page icon disabled
-    
+    #
      @Scenario21_homePage
   Scenario: Verify staff data page split
     Given Admin lands on login page
