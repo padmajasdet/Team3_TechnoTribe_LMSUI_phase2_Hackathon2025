@@ -117,7 +117,7 @@ Feature: Program Module
   Scenario: Verify created Program details
     Given Admin is on Program page
     When Admin searches with newly created Program "Name"
-    Then Records of the newly created  "Program Name" is displayed and match the data entered
+    Then Records of the newly created  program is displayed and match the data entered
 
   @TC19 @EditProgramValidation @rerun @try
   Scenario Outline: Verify Edit option and edited Program Details
@@ -289,5 +289,75 @@ Feature: Program Module
     Examples: 
       | testcase                |
       | InvalidProgDescStartsWithSpecialChar|
+      
+ #----------------------------Program Pagination Scenarios Programs-----------------------------
+        
+   
+
+  @TC41 @ProgramPagination
+  Scenario: Verify Admin is able to click Next page link
+    Given Admin is on Program page
+    When Admin clicks Next page link on the program table
+    Then Admin should see the Pagination has "Next" active link
+
+  @TC42 @ProgramPagination
+  Scenario: Verify Admin is able to click  Last page link
+    Given Admin is on Program page
+    When Admin clicks Last page link
+    Then Admin should see the last page record on the table with Next page link are disabled
+
+  @TC43 @ProgramPagination
+  Scenario: Verify Admin is able to click Previous page link
+    Given Admin is on last page of Program page table
+    When Admin clicks Previous page link
+    Then Admin should see the previous page record on the table with pagination has previous page link
+
+  @TC44 @ProgramPagination
+  Scenario: Verify Admin is able to click  First page link
+    Given Admin is on Previous Program page
+    When Admin clicks First page link
+    Then Admin should see the very first page record on the table with Previous page link are disabled
+    
+     #----------------------------Program Sorting Scenarios Programs-----------------------------
+     
+     
+
+  @TC45 @ProgramSorting
+  Scenario: Verify sorting of  Program name in ascending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to Program Name of Program module page for sort ascending
+    Then Admin See the Program Name is sorted in ascending order
+
+  @TC46 @ProgramSorting
+  Scenario: Verify sorting of Program name in Descending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to Program Name of Program module page for sort descend
+    Then Admin See the Program Name is sorted in descending order
+
+  @TC47 @ProgramSorting
+  Scenario: Verify sorting of Program Description in Ascending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program description of Program module page for sort ascending
+    Then Admin See the program description is sorted Ascending order in Program module page
+
+  @TC48 @ProgramSorting
+  Scenario: Verify sorting of Program Description in Descending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program description of Program module page for sort descending
+    Then Admin See the program description is sorted Descending order in Program module page
+
+  @TC49 @ProgramSorting
+  Scenario: Verify sorting of Program Status in Ascending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program Status of Program module page for sort ascending
+    Then Admin See the program Status is sorted Ascending order in Program module page
+
+  @TC50 @ProgramSorting
+  Scenario: Verify sorting of Program Status in Descending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program Status of Program module page for sort descending
+    Then Admin See the program Status is sorted descending order in Program module page
+     
+        
 
    

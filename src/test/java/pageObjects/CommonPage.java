@@ -13,13 +13,15 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import utilities.ElementUtil;
 import utilities.Log;
+import utilities.ElementUtil;
 
 public class CommonPage {
 	protected WebDriver driver;
 	protected ElementUtil util;
-
+	protected int selectedRows;
+	protected int beforeCount;
+	protected int afterCount;
 	//Menu Locators
 	protected By menu_Home = By.id("dashboard");
 	protected By menu_Program = By.xpath("//span[contains(text(),'Program')]");
@@ -43,52 +45,28 @@ public class CommonPage {
 	protected By deleteAllButton = By.xpath(
 			"//button[@class='p-button-danger p-button p-component p-button-icon-only']//span[@class='p-button-icon pi pi-trash']");
 
-	By deleteConfirmationPopUp = By.xpath(
+	protected By deleteConfirmationPopUp = By.xpath(
 			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c118-10 p-dialog p-confirm-dialog p-component ng-star-inserted']");
 	protected By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
 	
-	By toastErrorMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Failed']");
-	By toastErrorMessageDetail = By.xpath("//div[contains(@class, 'p-toast-detail') and text()='programName Must contain only letters and sometimes hyphens']");
-	By invalidError = By.xpath("//small[@class='p-invalid ng-star-inserted']");
-	protected int selectedRows;
-	protected int beforeCount;
-	protected int afterCount;
+	protected By toastErrorMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Failed']");
+	protected By toastErrorMessageDetail = By.xpath("//div[contains(@class, 'p-toast-detail') and text()='programName Must contain only letters and sometimes hyphens']");
+	protected By invalidError = By.xpath("//small[@class='p-invalid ng-star-inserted']");
+	
 
-	/*
-	 * @FindBy(xpath = "//button[@id='logout']") WebElement logout;
-	 * 
-	 * @FindBy(id = "dashboard") WebElement menu_Home;
-	 * 
-	 * @FindBy(xpath = "//span[contains(text(),'Program')]") WebElement
-	 * menu_Program;
-	 * 
-	 * @FindBy(xpath = "//span[contains(text(),'Batch')]") WebElement menu_Batch;
-	 * 
-	 * @FindBy(xpath = "//span[contains(text(),'Class')]") WebElement menu_Class;
-	 */
+	
 
 	public CommonPage(WebDriver driver) {
 		this.driver = driver;
-		PageFactory.initElements(driver, this); // Initialize @FindBy elements
+		PageFactory.initElements(driver, this); 
 		util = new ElementUtil(this.driver);
 	}
-
 
 
 	@FindBy(xpath = "//button[@id='logout']")
 	WebElement logout;
 
-	/*
-	 * @FindBy(id = "dashboard") WebElement menu_Home;
-	 * 
-	 * @FindBy(xpath = "//span[contains(text(),'Program')]") WebElement
-	 * menu_Program;
-	 * 
-	 * @FindBy(xpath = "//span[contains(text(),'Batch')]") WebElement menu_Batch;
-	 * 
-	 * @FindBy(xpath = "//span[contains(text(),'Class')]") WebElement menu_Class;
-	 */
-
+	
 
 	public String getPageTitle() {
 
@@ -97,7 +75,6 @@ public class CommonPage {
 
 	public void logout() {
 		util.doClick(menu_logout);
-		//logout.click();
 	}
 
 	public Object selectOptionNavigationMenuBar(String menuName) throws Exception {
@@ -136,7 +113,7 @@ public class CommonPage {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(toastMessage)));
 		String toastMessageValue = driver.findElement(toastMessage).getText();
-		System.out.println("Toast Message >>"+toastMessageValue);
+		Log.logInfo("Toast Message >>"+toastMessageValue);
 		return toastMessageValue;
 	}
 	
@@ -144,7 +121,7 @@ public class CommonPage {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(toastErrorMessage)));
 		String toastMessageValue = driver.findElement(toastErrorMessage).getText();
-		System.out.println("Toast Message >>"+toastMessageValue);
+		Log.logInfo("Toast Message >>"+toastMessageValue);
 		return toastMessageValue;
 	}
 	
@@ -152,7 +129,7 @@ public class CommonPage {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(toastErrorMessageDetail)));
 		String toastMessageValueContent = driver.findElement(toastErrorMessageDetail).getText();
-		System.out.println("Toast Message >>"+toastMessageValueContent);
+		Log.logInfo("Toast Message >>"+toastMessageValueContent);
 		return toastMessageValueContent;
 	}
 
@@ -193,7 +170,7 @@ public class CommonPage {
 				boolean hasElement = !row.findElements(By.xpath(elementLocator)).isEmpty();
 
 				if (!hasElement) {
-					System.out.println(elementType + " is missing in row: " + (i + 1));
+					Log.logInfo(elementType + " is missing in row: " + (i + 1));
 					allRowsHaveElement = false;
 				}
 			}
@@ -209,15 +186,15 @@ public class CommonPage {
 		List<WebElement> actualHeaderCells = headerRow.findElements(By.tagName("th"));
 
 		if (actualHeaderCells.size() != expectedHeaders.size() + 1) {
-			System.out.println("Mismatch in number of header cells!");
+			Log.logInfo("Mismatch in number of header cells!");
 			return false;
 		}
 
 		for (int i = 1; i < expectedHeaders.size(); i++) {
 			String actualHeaderText = actualHeaderCells.get(i).getText().trim();
-		//	System.out.println(actualHeaderText);
+		
 			if (!actualHeaderText.equals(expectedHeaders.get(i - 1))) {
-				System.out.println("Header mismatch at index " + i + ": expected '" + expectedHeaders.get(i)
+				Log.logInfo("Header mismatch at index " + i + ": expected '" + expectedHeaders.get(i)
 						+ "', but found '" + actualHeaderText + "'");
 				return false;
 			}
@@ -293,15 +270,12 @@ public class CommonPage {
 				}
 			}
 		}
-//		clickdeleteAllButton();
-//		verifyDeleteProgramPopUp();
-//		clickDeleteButtons("yes");
 
 	}
 
-	public void verifyDeleteProgramPopUp() {
+	public boolean verifyDeleteProgramPopUp() {
 
-		util.isElementDisplayed(deleteConfirmationPopUp);
+		return util.isElementDisplayed(deleteConfirmationPopUp);
 
 	}
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2025-02-24 19:24:19.809 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
 2025-02-24 19:24:21.524 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
 2025-02-24 19:24:24.019 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
@@ -1057,3 +1058,5 @@
 2025-02-25 13:21:50.040 INFO [main] [pageObjects.ProgramPage.clickDeleteProgramBtn(ProgramPage.java:400)] - Program to be deleted >>>editprogtestoum
 2025-02-25 13:21:54.144 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
 2025-02-25 13:21:54.145 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+=======
+>>>>>>> origin/master

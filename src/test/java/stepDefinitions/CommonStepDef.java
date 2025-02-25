@@ -11,6 +11,7 @@ import pageObjects.BatchPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.ProgramPage;
+import utilities.Log;
 import utilities.ReadConfig;
 
 public class CommonStepDef {
@@ -35,14 +36,14 @@ public class CommonStepDef {
 		loginPage = new LoginPage(driver);
 		homePage =  (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(), "Admin");
 		
-	//	System.out.println("Home Page Title >>>>"+this.homePage.getPageTitle());
+	//	Log.logInfo("Home Page Title >>>>"+this.homePage.getPageTitle());
 	}
 
 	@Given("Admin is on home page after Login")
 	public void admin_is_on_home_page_after_login() {
 		String homePageTitle = this.homePage.getPageTitle();
 		Assert.assertEquals(homePageTitle, "LMS");
-		System.out.println("Page Title :" +homePageTitle);
+		Log.logInfo("Page Title :" +homePageTitle);
 
 
 	}

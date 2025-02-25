@@ -1,22 +1,17 @@
 package stepDefinitions;
 
-import org.junit.Assert;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static org.testng.Assert.assertEquals;
-
+import org.testng.Assert;
 import java.util.List;
-
 import hooks.TestContext;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import pageObjects.LoginPage;
 import pageObjects.HomePage;
-import utilities.ReadConfig;
 import org.openqa.selenium.Point;
 import utilities.Log;
+import utilities.ReadConfig;
 
 public class HomePageStepDef {
 	WebDriver driver;
@@ -50,8 +45,8 @@ public class HomePageStepDef {
 		int titleY = locationCordinates.getY();
 		int actualX = 0;
 		int actualY = 0;
-		assertEquals(titleX, actualX, "Title is not in the left corner x coordinate is not zero)");
-		assertEquals(titleY, actualY, "Title is not at the top y coordinate is not zero)");
+		Assert.assertEquals(titleX, actualX, "Title is not in the left corner x coordinate is not zero)");
+		Assert.assertEquals(titleY, actualY, "Title is not at the top y coordinate is not zero)");
 
 	}
 
@@ -72,7 +67,7 @@ public class HomePageStepDef {
 		int rightLocation = homePage.lmsTitleLocationRightNavigation();
 		Log.logInfo("The right most Location of LMS title are " + rightLocation);
 		int expectedRightMostLocation = 1470;
-		assertEquals(rightLocation, expectedRightMostLocation, "Title is not in the right corner )");
+		Assert.assertEquals(rightLocation, expectedRightMostLocation, "Title is not in the right corner )");
 
 	}
 

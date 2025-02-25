@@ -1,6 +1,5 @@
 package stepDefinitions;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,13 +8,14 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import hooks.TestContext;
-import io.cucumber.java.en.*;
-import pageObjects.BatchPage;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import pageObjects.CommonPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.ProgramPage;
-import utilities.ExcelReader;
+import utilities.Log;
 import utilities.ReadConfig;
 import utilities.RunTimeData;
 
@@ -77,7 +77,8 @@ public class ProgramStepDef {
 
 	@Then("Admin should see pop up window for program details")
 	public void admin_should_see_pop_up_window_for_program_details() {
-		programPage.verifyAddNewProgramPopUpDisplay();
+
+		Assert.assertEquals(programPage.isAddNewProgramPopUpDisplayed(), true);
 	}
 
 	@Given("Admin is on Program details form")
@@ -99,7 +100,12 @@ public class ProgramStepDef {
 
 	@Then("Admin gets message for mandatory field required")
 	public void admin_gets_message_for_mandatoryField() {
-		programPage.verifyRequiredFieldErrorMessage();
+
+		Map<String, String> resultErrorMsgMap = programPage.verifyRequiredFieldErrorMessage();
+
+		Assert.assertEquals(resultErrorMsgMap.get("progNameErrorMsg"), "Program name is required.");
+		Assert.assertEquals(resultErrorMsgMap.get("progDescErrorMsg"), "Description is required.");
+		Assert.assertEquals(resultErrorMsgMap.get("statusErrorMsg"), "Status is required.");
 	}
 
 	@Then("Admin can see Program Details form disappears")
@@ -165,10 +171,10 @@ public class ProgramStepDef {
 
 	@Then("Admin sees error message for invalid Program Description on the Program Details Pop up")
 	public void admin_gets_error_message_on_the_ProgramDetails_invalidProgramDesc() {
-		Assert.assertEquals(programPage.getErrorMessage(), "This field should start with an alphabet, no special char and min 2 char.");
+		Assert.assertEquals(programPage.getErrorMessage(),
+				"This field should start with an alphabet, no special char and min 2 char.");
 	}
 
-	//
 	@Then("Admin should see the page names as in order on menu bar")
 	public void admin_sees_menuBar() {
 		programPage.menuBarDisplay();
@@ -201,15 +207,16 @@ public class ProgramStepDef {
 		programPage.search(newProgName);
 	}
 
-	@Then("Records of the newly created  {string} is displayed and match the data entered")
-	public void admin_verifies_that_the_details_are_correctly_updated(String newProgram) {
-		programPage.verifySearchResultProgramName(newProgram);
+	@Then("Records of the newly created  program is displayed and match the data entered")
+	public void admin_verifies_that_the_details_are_correctly_updated() {
+
+		Assert.assertEquals(programPage.verifySearchResultProgramName(), (String) RunTimeData.getData("programName"),
+				"Searched Program Name does not match the result!");
 
 	}
 
 	@When("Admin edits the program name and click on save button for {string}")
-	public void admin_edits_the_program_name_and_click_on_save_button(String testCase)
-			throws InterruptedException {
+	public void admin_edits_the_program_name_and_click_on_save_button(String testCase) throws InterruptedException {
 
 		programPage.editTheProgramAndClickSave(testCase);
 
@@ -225,24 +232,23 @@ public class ProgramStepDef {
 
 	@Then("Updated program Name and Desc and Status is seen by the Admin")
 	public void updated_program_name_and_desc_and_status_is_seen_by_the_admin() {
-		
-		// programPage.searchUpdatedProgram(updatedProgram);
+
 		programPage.searchUpdatedProgram((String) RunTimeData.getData("programNameEdit"));
 
-		Map<String, String> resultaMap = programPage
-				.verifyUpdatedProgramDetails(/*
-												 * updatedProgram, updatedProgramDesc, updatedStatus
-												 */);
+		Map<String, String> resultaMap = programPage.verifyUpdatedProgramDetails();
 
 		Assert.assertEquals((String) RunTimeData.getData("programNameEdit"), resultaMap.get("resultProgramNameText"),
 				"Searched Program Name does not match the result!");
-		Assert.assertEquals((String) RunTimeData.getData("programDescEdit"), resultaMap.get("resultProgramDescText"), "Searched Program Desc does not match the result!");
-		Assert.assertEquals((String) RunTimeData.getData("programStatusEdit"), resultaMap.get("resultProgramStatusText"), "Searched Program Status does not match the result!");
+		Assert.assertEquals((String) RunTimeData.getData("programDescEdit"), resultaMap.get("resultProgramDescText"),
+				"Searched Program Desc does not match the result!");
+		Assert.assertEquals((String) RunTimeData.getData("programStatusEdit"),
+				resultaMap.get("resultProgramStatusText"), "Searched Program Status does not match the result!");
 	}
 
 	@Then("Admin should see Search bar with text as {string}")
 	public void admin_should_see_search_bar_with_text_as(String searchBarText) {
-		programPage.verifySearchBarManageProgram(searchBarText);
+
+		Assert.assertEquals(programPage.verifySearchBarManageProgram(searchBarText), true);
 
 	}
 
@@ -287,7 +293,7 @@ public class ProgramStepDef {
 	@Then("Admin should see the footer with total programs")
 	public void admin_should_see_the_footer_as() {
 
-		programPage.verifyFooterOfManageProgram();
+		Assert.assertEquals(programPage.verifyFooterOfManageProgram(), true);
 	}
 
 	@When("Admin clicks on delete button for a program {string}")
@@ -298,7 +304,7 @@ public class ProgramStepDef {
 	@Then("Admin will get confirm deletion popup")
 	public void admin_will_get_confirm_deletion_popup() {
 
-		programPage.verifyDeleteProgramPopUp();
+		Assert.assertEquals(programPage.verifyDeleteProgramPopUp(), true);
 	}
 
 	@Given("Admin is on Confirm deletion form for program {string}")
@@ -329,7 +335,7 @@ public class ProgramStepDef {
 
 	@When("Admin clicks on close X button")
 	public void admin_clicks_X_button_delete() throws Exception {
-		programPage.verifyDeleteProgramPopUp();
+		Assert.assertEquals(programPage.verifyDeleteProgramPopUp(), true);
 		programPage.clickDeleteButtons("close");
 	}
 
@@ -355,11 +361,6 @@ public class ProgramStepDef {
 		programPage.selectCheckboxes(2);
 	}
 
-	@Then("Programs get selected")
-	public void admin_sees_ProgramSelected() throws InterruptedException {
-
-	}
-
 	@When("Admin clicks on {string} button")
 	public void admin_clicks_on_button(String string) throws InterruptedException {
 		programPage.clickYesDeleteBtn();
@@ -371,5 +372,141 @@ public class ProgramStepDef {
 		programPage.clickdeleteAllButton();
 
 	}
+	
+	@When("Admin clicks Next page link on the program table")
+	public void admin_clicks_next_page_link_on_the_program_table() {
+	    programPage.clickOnNextPage();
+	}
+	@Then("Admin should see the Pagination has {string} active link")
+	public void admin_should_see_the_pagination_has_active_link(String string) {
+	    boolean nextPageActive = programPage.nextPageEnabled();
+	    Assert.assertTrue(nextPageActive);
+	    
+	}
+	
+	@When("Admin clicks Last page link")
+	public void admin_clicks_last_page_link() {
+	    programPage.clickOnLastPage();
+	}
+
+	@Then("Admin should see the last page record on the table with Next page link are disabled")
+	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled() {
+		boolean nextPageDisabled = programPage.verifyNextPageBtnDisabled();
+	    Assert.assertTrue(nextPageDisabled);
+	}
+	
+	@Given("Admin is on last page of Program page table")
+	public void admin_is_on_last_page_of_program_page_table() throws Exception {
+		programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar("Program");
+		 programPage.clickOnLastPage();
+	}
+
+	@When("Admin clicks Previous page link")
+	public void admin_clicks_previous_page_link() {
+	    programPage.clickOnPreviuosPage();
+	}
+
+	@Then("Admin should see the previous page record on the table with pagination has previous page link")
+	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link() {
+		boolean prevoiusPageActive = programPage.previousPageEnabled();
+	    Assert.assertTrue(prevoiusPageActive);
+	}
+	
+	@Given("Admin is on Previous Program page")
+	public void admin_is_on_previous_program_page() throws Exception {
+		programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar("Program");
+		 programPage.clickOnLastPage();
+		 programPage.clickOnPreviuosPage();
+	}
+
+	@When("Admin clicks First page link")
+	public void admin_clicks_first_page_link() {
+	    programPage.clickOnFirstPage();
+	}
+
+	@Then("Admin should see the very first page record on the table with Previous page link are disabled")
+	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled() {
+		boolean previousPageActive = programPage.verifyPreviousPageBtnDisabled();
+	    Assert.assertTrue(previousPageActive);
+	}
+
+	@When("Admin clicks on Arrow next to Program Name of Program module page for sort ascending")
+	public void admin_clicks_on_arrow_next_to_program_name_of_program_module_page_for_sort_ascending() {
+		programPage.clickProgramNameSort();
+	}
+
+	@Then("Admin See the Program Name is sorted in ascending order")
+	public void admin_see_the_program_name_is_sorted_in_ascending_order() {
+		List<String> originalList = programPage.getOriginalList("ProgramName");
+		List<String> sortedList = programPage.getSortedList(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString() );
+		Assert.assertTrue(originalList.equals(sortedList));
+}
+	@When("Admin clicks on Arrow next to Program Name of Program module page for sort descend")
+	public void admin_clicks_on_arrow_next_to_program_name_of_program_module_page_for_sort_descend() {
+		programPage.clickProgramNameSortDescend();
+	}
+	
+	@Then("Admin See the Program Name is sorted in descending order")
+	public void admin_see_the_program_name_is_sorted_in_descending_order() {
+		List<String> originalList = programPage.getOriginalList("ProgramName");
+		List<String> sortedList = programPage.getSortedListDescending(originalList);
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program description of Program module page for sort ascending")
+	public void admin_clicks_on_arrow_next_to_program_description_of_program_module_page_for_sort_ascending() {
+	    programPage.clickProgramDescriptionSort();
+	}
+
+	@Then("Admin See the program description is sorted Ascending order in Program module page")
+	public void admin_see_the_program_description_is_sorted_ascending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramDescription");
+		List<String> sortedList = programPage.getSortedList(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program description of Program module page for sort descending")
+	public void admin_clicks_on_arrow_next_to_program_description_of_program_module_page_for_sort_descending() {
+		programPage.clickProgramDescriptionSortDes();
+	}
+
+	@Then("Admin See the program description is sorted Descending order in Program module page")
+	public void admin_see_the_program_description_is_sorted_descending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramDescription");
+		List<String> sortedList = programPage.getSortedListDescending(originalList);
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program Status of Program module page for sort ascending")
+	public void admin_clicks_on_arrow_next_to_program_status_of_program_module_page_for_sort_ascending() {
+		 programPage.clickProgramStatusSort();
+	}
+
+	@Then("Admin See the program Status is sorted Ascending order in Program module page")
+	public void admin_see_the_program_status_is_sorted_ascending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramStatus");
+		List<String> sortedList = programPage.getSortedList(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+	@When("Admin clicks on Arrow next to program Status of Program module page for sort descending")
+	public void admin_clicks_on_arrow_next_to_program_status_of_program_module_page_for_sort_descending() {
+		 programPage.clickProgramStatusSortDes();
+	}
+
+	@Then("Admin See the program Status is sorted descending order in Program module page")
+	public void admin_see_the_program_status_is_sorted_descending_order_in_program_module_page() {
+		List<String> originalList = programPage.getOriginalList("ProgramStatus");
+		List<String> sortedList = programPage.getSortedListDescending(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
+	}
+	
+
 
 }

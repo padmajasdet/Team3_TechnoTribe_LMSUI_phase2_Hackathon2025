@@ -46,7 +46,7 @@ public class ClassStepDef {
 		loginPage = new LoginPage(driver);
 		homePage = (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(),
 				"Admin");
-		System.out.println("DashBoard Url is " + driver.getCurrentUrl());
+		Log.logInfo("DashBoard Url is " + driver.getCurrentUrl());
 
 	}
 
@@ -169,7 +169,7 @@ public class ClassStepDef {
 			throws Exception {
 
 		if (classPage.batchnamedropdownDisplayed()) {
-			System.out.println("batch name displayed:     " + classPage.batchnamedropdownDisplayed());
+			Log.logInfo("batch name displayed:     " + classPage.batchnamedropdownDisplayed());
 
 			classPage.addingMandatoryFields(batchName.trim(), classTopic.trim(), classDescription.trim(), month.trim(),
 					date.trim(), staffName.trim(), Status.trim());
@@ -179,7 +179,7 @@ public class ClassStepDef {
 									month.trim(), date.trim(), staffName.trim(), Status.trim())
 							.equals(expectedMsg.trim()));
 		} else
-			System.out.println("Add New Class pop up didnt open");
+			Log.logInfo("Add New Class pop up didnt open");
 			
 		
 
@@ -260,7 +260,7 @@ public class ClassStepDef {
 	@Then("Admin should see weekends dates are disabled to select")
 	public void admin_should_see_weekends_dates_are_disabled_to_select() {
 		//classPage.weekendDaysDisabled(); 
-		System.out.println(classPage.areWeekendDatesDisabled());
+		Log.logInfo(String.valueOf(classPage.areWeekendDatesDisabled()));
 	}
 	/*------------------------------editpopup------------------------------------------*/
 	@When("Admin clicks on the edit icon")
@@ -378,7 +378,7 @@ public class ClassStepDef {
 			public void admin_See_the_Batch_Name_is_sorted_Ascending_order_in_Class_module_page_for_sort() {
 				List<String> originalList = classPage.getOriginalList("BatchName");
 				List<String> sortedList = classPage.getSortedList(originalList);
-				System.out.println("sorted name list" + sortedList.toString() );
+				Log.logInfo("sorted name list" + sortedList.toString() );
 				Assert.assertTrue(originalList.equals(sortedList));
 	}
 
@@ -393,7 +393,7 @@ public class ClassStepDef {
 	public void admin_See_the_Batch_Name_is_sorted_Descending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("BatchName");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -407,7 +407,7 @@ public class ClassStepDef {
 	public void admin_See_the_Class_Topic_is_sorted_Ascending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("ClassTopic");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -422,7 +422,7 @@ public class ClassStepDef {
 
 		List<String> originalList = classPage.getOriginalList("ClassTopic");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -437,7 +437,7 @@ public class ClassStepDef {
 	public void admin_See_the_Class_Description_is_sorted_Ascending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("Classdescription");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -452,7 +452,7 @@ public class ClassStepDef {
 	public void admin_See_the_Class_Description_is_sorted_Descending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("ClassDescription");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -466,7 +466,7 @@ public class ClassStepDef {
 	public void admin_see_the_status_is_sorted_ascending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("Status");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
 
@@ -479,7 +479,7 @@ public class ClassStepDef {
 	public void admin_see_the_status_is_sorted_descending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("Status");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -494,7 +494,7 @@ public class ClassStepDef {
 	public void admin_see_the_staff_name_is_sorted_ascending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("StaffName");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
 
@@ -507,7 +507,7 @@ public class ClassStepDef {
 	public void admin_see_the_StaffName_is_sorted_descending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("StaffName");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -522,13 +522,13 @@ public class ClassStepDef {
 	public void admin_see_the_ClassDate_is_sorted_ascending_order_in_class_module_page() {
 		List<Date> originalList = classPage.getClassDatesOriginalList();
 		List<Date> sortedList = classPage.getClassDatesSortedList();
-		System.out.println("sorted name list" + sortedList);
-		System.out.println("original list name list" + originalList);
+		Log.logInfo("sorted name list" + sortedList);
+		Log.logInfo("original list name list" + originalList);
 		Assert.assertTrue(originalList.equals(sortedList));
 		// if ((originalList.get(0)).equals(sortedList.get(0))) {
-		// System.out.println("The lists are identical.");
+		// Log.logInfo("The lists are identical.");
 		// } else {
-		// System.out.println("The lists are different.");
+		// Log.logInfo("The lists are different.");
 		// }
 	}
 
@@ -541,7 +541,7 @@ public class ClassStepDef {
 	public void admin_see_the_ClassDate_is_sorted_descending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("ClassDate");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
 	@When("Admin clicks on Logout link on Manage class page")
