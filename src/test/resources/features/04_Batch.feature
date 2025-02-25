@@ -1,6 +1,6 @@
 #Author: Mathumathi Balakrishnan
 
-@batch @smoke
+@batch 
 Feature: Batch Page
 
 Background:
