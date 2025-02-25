@@ -122,8 +122,8 @@ Feature: Program Module
   @TC19 @EditProgramValidation @rerun @try
   Scenario Outline: Verify Edit option and edited Program Details
     Given Admin is on Program page
-    When Admin edits the program "Name" and click on save button for "<testcase>"
-    Then Updated program "Name" and "Desc" and "Status" is seen by the Admin
+    When Admin edits the program name and click on save button for "<testcase>"
+    Then Updated program Name and Desc and Status is seen by the Admin
 
     Examples: 
       | testcase           |
