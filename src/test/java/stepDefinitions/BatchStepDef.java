@@ -109,9 +109,11 @@ public class BatchStepDef {
 		batchPage.selectProgramNameDD();
 		batchPage.selectProgramNameListBox("onlyMandatory");
 	}
-
+	
+	//THISSS @TCB14
 	@Then("Admin should see selected program name in the batch name prefix box")
 	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box() {
+
 		Assert.assertEquals((String) RunTimeData.getData("BatchName_All"), batchPage.getBatchNamePrefix());
 	}
 

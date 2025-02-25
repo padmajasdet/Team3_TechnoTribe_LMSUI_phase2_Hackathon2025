@@ -5,7 +5,7 @@ Feature: Home Page
   Background: Admin gives the correct LMS portal URL
     Given Admin gives the correct LMS portal URL
 
-  @Scenario1_homePage
+  @Scenario1_homePage @smoke
   Scenario: Verify LMS title
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
@@ -65,19 +65,19 @@ Feature: Home Page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see class in the 5th place
 
-  @Scenario11_homePage
+  @Scenario11_homePage 
   Scenario: verify pie-chart presence
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see piechart
 
-  @Scenario12_homePage
+  @Scenario12_homePage @smoke
   Scenario: Verify user details
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then Admin should see welcome message with user name and role
 
-  @Scenario13_homePage
+  @Scenario13_homePage @smoke
   Scenario: Verify bar chart
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
@@ -124,7 +124,7 @@ Feature: Home Page
     Given Admin lands on login page
     When Admin enter valid data in all field and clicks login button
     Then admin should see first page icon disabled
-    #
+
      @Scenario21_homePage
   Scenario: Verify staff data page split
     Given Admin lands on login page

@@ -5,6 +5,8 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import utilities.Log;
 import utilities.ReadConfig;
+import utilities.RunTimeData;
+
 import java.io.ByteArrayInputStream;
 
 import org.openqa.selenium.OutputType;
@@ -83,6 +85,10 @@ public class BaseClass {
 	@AfterAll
 	public static void externalFIleOrAppTearDown() {
 		try {
+			
+			//empty dataMap
+			RunTimeData.emptyDataMap();
+			
 			// Close the Excel file
 			ExcelReader.closeExcel();
 			System.out.println("Excel file closed successfully.");

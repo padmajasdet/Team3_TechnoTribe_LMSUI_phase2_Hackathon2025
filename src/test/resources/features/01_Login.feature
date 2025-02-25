@@ -6,7 +6,7 @@ Feature: Login Page
 		Given The browser is open
 	  And Admin gives the correct LMS portal URL
 	
-	@TTLPH2-16 @smoke
+	@TTLPH2-16 
   Scenario: Verify Admin is able to land on login page
     Then Admin lands on login page
 

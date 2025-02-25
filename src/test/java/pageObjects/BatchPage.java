@@ -108,6 +108,8 @@ public class BatchPage extends CommonPage {
 
 	public void addBatchClick() {
 		util.doClick(addNewBatch);
+		System.out.println("Clicked on addNewBatch");
+
 	}
 
 	public void homeMenuClick() {
@@ -116,6 +118,7 @@ public class BatchPage extends CommonPage {
 
 	public void batchMenuClick() {
 		util.doClick(batchMenu);
+		System.out.println("Clicked on Batch Menu");
 	}
 
 	public void closeButtonClick() {
@@ -185,6 +188,7 @@ public class BatchPage extends CommonPage {
 	}
 
 	public void selectProgramNameListBox(String testcaseName) throws Exception {
+		
 		String excelProgramName = selectDataFromExcel(testcaseName, "ProgramName");
 		String existingProgram = null;
 		if (excelProgramName.equalsIgnoreCase("chaining")) {
@@ -213,7 +217,6 @@ public class BatchPage extends CommonPage {
 			}
 
 		}
-
 	}
 
 	public String selectDataFromExcel(String testcaseName, String columnName) {
@@ -261,6 +264,8 @@ public class BatchPage extends CommonPage {
 	}
 
 	public void enterAllDetails(String saveCancel, String testcaseName) {
+		
+		System.out.println("Inside enterAllDetails method in Batch Page");
 		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		selectProgramNameDD();
 		try {
@@ -273,11 +278,18 @@ public class BatchPage extends CommonPage {
 		String newBatchName = "";
 		if (batchNameStr != null && !batchNameStr.trim().isEmpty()) {
 			try {
-				int batchNumber = Integer.parseInt(batchNameStr.split("\\.")[0]); // Convert to integer
-				batchNumber++; // Increment only if it's not empty
-				newBatchName = String.valueOf(batchNumber); // Assign incremented value
+				// Convert to integer
+				int batchNumber = Integer.parseInt(batchNameStr.split("\\.")[0]); 
+				
+				// Increment only if it's not empty
+				batchNumber++; 
+				
+				// Assign incremented value
+				newBatchName = String.valueOf(batchNumber); 
 			} catch (NumberFormatException e) {
-				newBatchName = batchNameStr; // If parsing fails, retain the original value
+				
+				// If parsing fails, retain the original value
+				newBatchName = batchNameStr; 
 			}
 		}
 		// Only enter a value if newBatchName is not empty
@@ -383,7 +395,9 @@ public class BatchPage extends CommonPage {
 		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		String descriptionStr = testData.get("Description");
 		String descFinal;
-		if (descriptionStr.matches("\\d+(\\.\\d+)?")) { // Check if it's numeric
+		
+		// Check if it's numeric
+		if (descriptionStr.matches("\\d+(\\.\\d+)?")) { 
 			int desc = Integer.parseInt(descriptionStr.split("\\.")[0]);
 			descFinal = String.valueOf(desc);
 		} else {

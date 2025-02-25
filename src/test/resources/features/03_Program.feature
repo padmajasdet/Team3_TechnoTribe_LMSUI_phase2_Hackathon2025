@@ -10,7 +10,7 @@ Feature: Program Module
     When Admin clicks "Program" on the navigation bar
     Then Admin should be navigated to Program page
 
-  @TC2 @MenuBar
+  @TC2 @MenuBar @smoke
   Scenario: Verify Logout displayed in menu bar
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -34,7 +34,7 @@ Feature: Program Module
     When Admin clicks "Program" on the navigation bar
     Then Admin should see the Manage Program "Manage Program" Heading
 
-  @TC6 @ManageProgramPageValidation
+  @TC6 @ManageProgramPageValidation @smoke
   Scenario: Verify view details of programs
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -101,7 +101,7 @@ Feature: Program Module
     When Admin clicks "Program" on the navigation bar
     Then Admin should see sub menu in menu bar as "Add New Program"
 
-  @TC17 @AddNewProgram @smoke @try
+  @TC17 @AddNewProgram @smoke
   Scenario Outline: Verify Admin is able to save the new program details and search validation
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -113,13 +113,13 @@ Feature: Program Module
       | testcase       |
       | validInputData |
 
-  @TC18 @SearchProgramValidation
+  @TC18 @SearchProgramValidation @smoke
   Scenario: Verify created Program details
     Given Admin is on Program page
     When Admin searches with newly created Program "Name"
     Then Records of the newly created  program is displayed and match the data entered
 
-  @TC19 @EditProgramValidation @rerun @try
+  @TC19 @EditProgramValidation @smoke
   Scenario Outline: Verify Edit option and edited Program Details
     Given Admin is on Program page
     When Admin edits the program name and click on save button for "<testcase>"
@@ -168,11 +168,6 @@ Feature: Program Module
     Then Admin can see Program Details form disappears
 
   #----------------------------Delete Program-----------------------------
-  #@TC26 @DeleteProgram
-  #Scenario: Verify Admin is able to delete program
-    #Given Admin is on Confirm deletion form for program "Name"
-    #When Admin clicks on Yes button
-    #Then Admin can see "Successful Program Deleted" message
 
   @TC27 @DeleteProgram
   Scenario: Verify Admin is able to click 'No'
@@ -306,13 +301,13 @@ Feature: Program Module
     When Admin clicks Last page link
     Then Admin should see the last page record on the table with Next page link are disabled
 
-  @TC43 @ProgramPagination
+  @TC43 @ProgramPagination @smoke
   Scenario: Verify Admin is able to click Previous page link
     Given Admin is on last page of Program page table
     When Admin clicks Previous page link
     Then Admin should see the previous page record on the table with pagination has previous page link
 
-  @TC44 @ProgramPagination
+  @TC44 @ProgramPagination @smoke
   Scenario: Verify Admin is able to click  First page link
     Given Admin is on Previous Program page
     When Admin clicks First page link
@@ -322,13 +317,13 @@ Feature: Program Module
      
      
 
-  @TC45 @ProgramSorting
+  @TC45 @ProgramSorting  @smoke
   Scenario: Verify sorting of  Program name in ascending order
     Given Admin is on Program page
     When Admin clicks on Arrow next to Program Name of Program module page for sort ascending
     Then Admin See the Program Name is sorted in ascending order
 
-  @TC46 @ProgramSorting
+  @TC46 @ProgramSorting @smoke
   Scenario: Verify sorting of Program name in Descending order
     Given Admin is on Program page
     When Admin clicks on Arrow next to Program Name of Program module page for sort descend

@@ -14,4 +14,8 @@ public class RunTimeData {
 	public static Object getData(String key) {
 		return dataMap.get(key);
 	}
+	
+	public static void emptyDataMap() {
+		dataMap.clear();
+	}
 }
