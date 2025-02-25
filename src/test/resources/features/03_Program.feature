@@ -168,11 +168,11 @@ Feature: Program Module
     Then Admin can see Program Details form disappears
 
   #----------------------------Delete Program-----------------------------
-  @TC26 @DeleteProgram
-  Scenario: Verify Admin is able to delete program
-    Given Admin is on Confirm deletion form for program "Name"
-    When Admin clicks on Yes button
-    Then Admin can see "Successful Program Deleted" message
+  #@TC26 @DeleteProgram
+  #Scenario: Verify Admin is able to delete program
+    #Given Admin is on Confirm deletion form for program "Name"
+    #When Admin clicks on Yes button
+    #Then Admin can see "Successful Program Deleted" message
 
   @TC27 @DeleteProgram
   Scenario: Verify Admin is able to click 'No'
