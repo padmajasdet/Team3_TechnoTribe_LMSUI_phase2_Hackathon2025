@@ -1,0 +1,215 @@
+2025-02-24 19:24:19.809 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:21.524 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:24.019 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:24.020 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:24.335 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:25.931 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:32.072 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:32.072 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:32.272 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:33.626 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:35.971 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:35.971 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:36.164 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:37.362 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:40.542 INFO [main] [pageObjects.ProgramPage.menuBarDisplay(ProgramPage.java:147)] - Button text: Home
+2025-02-24 19:24:40.548 INFO [main] [pageObjects.ProgramPage.menuBarDisplay(ProgramPage.java:147)] - Button text: Program
+2025-02-24 19:24:40.557 INFO [main] [pageObjects.ProgramPage.menuBarDisplay(ProgramPage.java:147)] - Button text: Batch
+2025-02-24 19:24:40.563 INFO [main] [pageObjects.ProgramPage.menuBarDisplay(ProgramPage.java:147)] - Button text: Class
+2025-02-24 19:24:40.570 INFO [main] [pageObjects.ProgramPage.menuBarDisplay(ProgramPage.java:147)] - Button text: Logout
+2025-02-24 19:24:40.571 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:40.571 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:40.755 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:42.063 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:43.962 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:43.963 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:44.135 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:45.325 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:47.952 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:47.952 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:48.112 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:49.235 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:52.127 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:52.128 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:52.321 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:53.513 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:24:57.816 INFO [main] [pageObjects.ProgramPage.verifySearchBarManageProgram(ProgramPage.java:466)] - Search bar text -Search...
+2025-02-24 19:24:57.837 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:24:57.837 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:24:58.039 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:24:59.276 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:01.745 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:01.746 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:01.920 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:03.265 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:07.166 INFO [main] [pageObjects.ProgramPage.verifyCheckBoxUnchecked(ProgramPage.java:474)] - Checkbox is unchecked
+2025-02-24 19:25:07.167 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:07.167 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:07.317 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:08.678 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:11.690 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:11.690 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:11.905 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:13.161 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:15.578 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:15.578 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:15.713 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:16.946 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:26.241 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:26.241 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:26.522 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:27.891 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:33.693 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:33.694 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:34.170 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:35.430 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:37.878 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:37.879 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:38.046 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:39.501 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:42.971 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:42.971 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:43.176 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:25:44.310 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:25:47.561 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=Advanced level C, ProgramName=Csharp, testcase=validInputData, ProgramStatus=Active}
+2025-02-24 19:25:47.561 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :Csharpn
+2025-02-24 19:25:58.503 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:25:58.760 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:25:59.121 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:00.477 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:04.102 INFO [main] [pageObjects.ProgramPage.search(ProgramPage.java:396)] - Program to search>>Csharpn
+2025-02-24 19:26:04.531 INFO [main] [pageObjects.ProgramPage.verifySearchResultProgramName(ProgramPage.java:431)] - Search result >>Csharpn
+2025-02-24 19:26:04.532 INFO [main] [pageObjects.ProgramPage.verifySearchResultProgramName(ProgramPage.java:433)] - Search result validation passed: Csharpn
+2025-02-24 19:26:04.532 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:04.532 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:04.763 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:05.964 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:10.048 INFO [main] [pageObjects.ProgramPage.search(ProgramPage.java:396)] - Program to search>>Csharpn
+2025-02-24 19:26:10.618 INFO [main] [pageObjects.ProgramPage.editTheProgramAndClickSave(ProgramPage.java:241)] - Program name to update from excel >>editprogtest
+2025-02-24 19:26:12.052 INFO [main] [pageObjects.ProgramPage.editTheProgramAndClickSave(ProgramPage.java:258)] - Program updated successfully
+2025-02-24 19:26:12.052 INFO [main] [pageObjects.ProgramPage.editTheProgramAndClickSave(ProgramPage.java:259)] - Updated Program Name: editprogtestk
+2025-02-24 19:26:12.742 INFO [main] [pageObjects.ProgramPage.verifyUpdatedProgramDetails(ProgramPage.java:453)] - Search result Name >>editprogtestk
+2025-02-24 19:26:12.743 INFO [main] [pageObjects.ProgramPage.verifyUpdatedProgramDetails(ProgramPage.java:454)] - Search result Desc >>Edit Program Description
+2025-02-24 19:26:12.743 INFO [main] [pageObjects.ProgramPage.verifyUpdatedProgramDetails(ProgramPage.java:458)] - Search result validation passed: 
+2025-02-24 19:26:12.743 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:12.744 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:12.998 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:14.237 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:25.306 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:25.307 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:25.637 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:26.878 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:30.016 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:30.016 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:30.226 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:31.384 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:38.238 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:38.238 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:38.437 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:39.651 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:42.010 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:42.010 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:42.167 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:43.454 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:46.546 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:46.546 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:46.719 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:47.911 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:52.978 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:26:52.979 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:26:53.248 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:26:54.403 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:26:58.294 INFO [main] [pageObjects.ProgramPage.search(ProgramPage.java:396)] - Program to search>>Csharpn
+2025-02-24 19:26:58.430 INFO [main] [pageObjects.ProgramPage.clickDeleteProgramBtn(ProgramPage.java:328)] - Program to be deleted >>>Csharpn
+2025-02-24 19:27:08.499 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:27:08.748 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:27:09.171 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:27:10.824 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:27:14.827 INFO [main] [pageObjects.ProgramPage.search(ProgramPage.java:396)] - Program to search>>Csharpn
+2025-02-24 19:27:14.931 INFO [main] [pageObjects.ProgramPage.clickDeleteProgramBtn(ProgramPage.java:328)] - Program to be deleted >>>Csharpn
+2025-02-24 19:27:25.016 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:27:25.260 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:27:25.657 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:27:26.901 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:27:30.987 INFO [main] [pageObjects.ProgramPage.search(ProgramPage.java:396)] - Program to search>>Csharpn
+2025-02-24 19:27:31.043 INFO [main] [pageObjects.ProgramPage.clickDeleteProgramBtn(ProgramPage.java:328)] - Program to be deleted >>>Csharpn
+2025-02-24 19:27:41.089 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:27:41.326 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:27:41.705 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:27:43.034 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:27:57.280 INFO [main] [pageObjects.ProgramPage.verifyZeroSearchResultsAfterDeletion(ProgramPage.java:589)] - Results list size ---0
+2025-02-24 19:27:57.281 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:27:57.282 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:27:57.690 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:27:58.922 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:28:04.262 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:28:04.263 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:28:04.514 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:28:05.687 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:28:17.501 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:28:17.502 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:28:17.805 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:28:19.073 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:28:27.752 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:28:27.752 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:28:28.089 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:28:29.295 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:28:37.686 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:28:37.686 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:28:37.931 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:28:39.140 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:28:50.769 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:28:50.769 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:28:51.173 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:28:52.390 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:28:54.951 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=UI Hackathon Desc, ProgramName=J008985v, testcase=InvalidProgName, ProgramStatus=Active}
+2025-02-24 19:28:54.952 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :J008985v
+2025-02-24 19:28:59.002 INFO [main] [pageObjects.ProgramPage.verifyErrorMessage(ProgramPage.java:690)] - Validation error displayed as expected: Failed
+2025-02-24 19:28:59.002 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:28:59.004 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:28:59.237 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:29:00.320 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:29:02.924 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=UI Hackathon%$#@, ProgramName=InvalidProgDesc, testcase=InvalidProgDesc, ProgramStatus=Active}
+2025-02-24 19:29:02.924 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :InvalidProgDesc
+2025-02-24 19:29:06.909 INFO [main] [pageObjects.ProgramPage.verifyErrorMessage(ProgramPage.java:690)] - Validation error displayed as expected: Failed
+2025-02-24 19:29:06.910 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:29:06.910 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:29:07.134 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:29:08.362 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:29:11.294 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=UI Hackathon, ProgramName=technoTribejr, testcase=InvalidExistingProgBug, ProgramStatus=Active}
+2025-02-24 19:29:11.294 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :technoTribejr
+2025-02-24 19:29:15.308 INFO [main] [pageObjects.ProgramPage.verifyErrorMessage(ProgramPage.java:690)] - Validation error displayed as expected: Failed
+2025-02-24 19:29:15.308 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:29:15.309 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:29:15.543 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:29:16.817 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:29:23.724 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=UI Hackathon, ProgramName=technoTribejve, testcase=InvalidExistingProgName, ProgramStatus=Active}
+2025-02-24 19:29:23.724 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :technoTribejve
+2025-02-24 19:29:24.650 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:29:24.650 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:29:24.832 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:29:25.994 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:29:28.160 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=Test Description, ProgramName=, testcase=InvalidBlankProgName, ProgramStatus=Active}
+2025-02-24 19:29:28.161 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :
+2025-02-24 19:29:28.161 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:195)] - Program Name is missing or empty
+2025-02-24 19:29:29.045 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:29:29.045 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:29:29.264 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:29:30.481 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:29:32.933 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=, ProgramName=Ruby, testcase=InvalidBlankProgDescription, ProgramStatus=Active}
+2025-02-24 19:29:32.933 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :Ruby
+2025-02-24 19:29:33.066 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:202)] - Program Description is missing or empty
+2025-02-24 19:29:33.705 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:29:33.705 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:29:33.923 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:29:35.074 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:29:38.518 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=Test Description, ProgramName=rgdqwe232444444444444455555, testcase=InvalidProgramNameTooLong, ProgramStatus=Active}
+2025-02-24 19:29:38.519 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :rgdqwe232444444444444455555
+2025-02-24 19:29:39.506 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:29:39.506 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-24 19:29:39.747 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-24 19:29:41.003 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-24 19:29:43.948 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:179)] - Program data from excel --{=, ProgramDescription=125.0, ProgramName=Ruby, testcase=InvalidProgDescStartsWithSpecialChar, ProgramStatus=Active}
+2025-02-24 19:29:43.949 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program Name Input :Ruby
+2025-02-24 19:29:44.865 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-24 19:29:44.866 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver

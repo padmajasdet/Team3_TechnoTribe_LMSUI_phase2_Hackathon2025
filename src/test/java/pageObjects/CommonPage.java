@@ -48,6 +48,7 @@ public class CommonPage {
 	
 	By toastErrorMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Failed']");
 	By toastErrorMessageDetail = By.xpath("//div[contains(@class, 'p-toast-detail') and text()='programName Must contain only letters and sometimes hyphens']");
+	By invalidError = By.xpath("//small[@class='p-invalid ng-star-inserted']");
 	protected int selectedRows;
 	protected int beforeCount;
 	protected int afterCount;
@@ -121,6 +122,13 @@ public class CommonPage {
 			throw new Exception("Something went wrong!");
 		}
 
+	}
+	
+	public String getErrorMessage() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(invalidError)));
+		String err = driver.findElement(invalidError).getText();
+		return err;
 	}
 
 	public String getToast() {

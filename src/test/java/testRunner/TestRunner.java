@@ -11,9 +11,14 @@ import utilities.ReadConfig;
 @CucumberOptions(features = { "src/test/resources/features/" }, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
+<<<<<<< Updated upstream
 
 			//	tags="@smoke",
 				//tags="@TC17 or @TC26",
+=======
+				//tags="@try",
+				//tags="@TC36",
+>>>>>>> Stashed changes
 
 
 				dryRun = false, 

@@ -136,13 +136,38 @@ public class ProgramStepDef {
 
 	}
 	
-	@Then("Admin gets message {string} on Program Details Pop up")
-	public void admin_gets_ErrorMessageInForm(String expErrorMsg) {
-		programPage.verifyProgramNameAlreadyExistsErrorMessage(expErrorMsg);
-		
-
+	@Then("Admin gets error message for existing Program name on the Program Details Pop up")
+	public void admin_gets_error_message_on_existing_ProgName() {
+		Assert.assertEquals(programPage.getErrorMessage(), "Program name is already exist.");
+	}
+	
+	@Then("Admin gets error message on the Program Details Pop up")
+	public void admin_gets_error_message_on_the_ProgramDetails_mandatory_field() {
+		Assert.assertEquals(programPage.getErrorMessage(), "Description is required.");
+	}
+	
+	@Then("Admin gets error message for blank Program Name on the Program Details Pop up")
+	public void admin_gets_error_message_on_the_ProgramDetails_ProgramName() {
+		Assert.assertEquals(programPage.getErrorMessage(), "Program name is required.");
+	}
+	
+	@Then("Admin gets error message for blank Status on the Program Details Pop up")
+	public void admin_gets_error_message_on_the_ProgramDetails_ProgramStatus() {
+		Assert.assertEquals(programPage.getErrorMessage(), "Status is required.");
 	}
 
+	
+	@Then("Admin sees error message for invalid Program Name on the Program Details Pop up")
+	public void admin_gets_error_message_on_the_ProgramDetails_invalidProgramName() {
+		Assert.assertEquals(programPage.getErrorMessage(), "This field should start with an alphabet, no special char and min 2 char.");
+	}
+	
+	@Then("Admin sees error message for invalid Program Description on the Program Details Pop up")
+	public void admin_gets_error_message_on_the_ProgramDetails_invalidProgramDesc() {
+		Assert.assertEquals(programPage.getErrorMessage(), "This field should start with an alphabet and min 2 char.");
+	}
+	
+	//
 	@Then("Admin should see the page names as in order on menu bar")
 	public void admin_sees_menuBar() {
 		programPage.menuBarDisplay();
