@@ -1,9 +1,12 @@
 package stepDefinitions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+
 import hooks.TestContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,6 +17,7 @@ import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import utilities.Log;
 import utilities.ReadConfig;
+import utilities.RunTimeData;
 
 public class BatchStepDef {
 
@@ -24,6 +28,7 @@ public class BatchStepDef {
 	BatchPage batchPage;
 	HomePage homePage;
 	CommonPage commonPage;
+	List<String> deleteSuccessMessage;
 
 	public BatchStepDef(TestContext context) {
 		this.context = context;
@@ -100,7 +105,7 @@ public class BatchStepDef {
 	}
 
 	@When("Admin selects program name present in the dropdown")
-	public void admin_selects_program_name_present_in_the_dropdown() {
+	public void admin_selects_program_name_present_in_the_dropdown() throws Exception {
 		batchPage.selectProgramNameDD();
 		batchPage.selectProgramNameListBox("onlyMandatory");
 	}
@@ -153,7 +158,7 @@ public class BatchStepDef {
 	}
 
 	@When("Admin enters alphabets in batch name prefix box")
-	public void admin_enters_alphabets_in_batch_name_prefix_box() {
+	public void admin_enters_alphabets_in_batch_name_prefix_box() throws Exception {
 		batchPage.enterBatchNamePrefix();
 	}
 
@@ -241,6 +246,8 @@ public class BatchStepDef {
 
 	@When("Admin edit the valid data to all the mandatory fields and click save button")
 	public void admin_edit_the_valid_data_to_all_the_mandatory_fields_and_click_save_button() {
+		batchPage.enterSearch((String)RunTimeData.getData("BatchName_All"));
+		batchPage.clickAction("edit");
 		batchPage.editAllDetails("Save", "editAll");
 	}
 
@@ -320,7 +327,11 @@ public class BatchStepDef {
 
 	@Then("Selected Batch should be deleted")
 	public void selected_batch_should_be_deleted() {
-		Assert.assertTrue(commonPage.validateCount());
+	
+		for (int i=0; i<deleteSuccessMessage.size(); i++) {
+			Assert.assertEquals(deleteSuccessMessage.get(i), "Successful");
+		}
+	//	Assert.assertTrue(commonPage.validateCount());
 	}
 
 	@When("Admin clicks on the delete icon for multiple row under the Manage batch header")
@@ -334,7 +345,7 @@ public class BatchStepDef {
 
 	@When("Admin enters the batch name in the search text box and edit the valid data and click save button")
 	public void admin_enters_the_batch_name_in_the_search_text_box_and_edit_the_valid_data_and_click_save_button() {
-		batchPage.enterSearch(BatchPage.getBatchName1());
+		batchPage.enterSearch((String)RunTimeData.getData("BatchName_Mandatory"));
 		batchPage.clickAction("edit");
 		batchPage.editAllDetails("Save", "editAll");
 	}
@@ -357,16 +368,30 @@ public class BatchStepDef {
 
 	@When("Admin enters the batch name in the search text box and click on delete icon")
 	public void admin_enters_the_batch_name_in_the_search_text_box_and_click_on_delete_icon() throws Exception {
-		batchPage.enterSearch(BatchPage.getBatchName1());
+		batchPage.enterSearch((String)RunTimeData.getData("BatchName_All"));
 		batchPage.clickAction("delete");
 		commonPage.clickDeleteButtons("yes");
 	}
 
 	@When("Admin enters the batch name in the search and click on delete icon")
 	public void admin_enters_the_batch_name_in_the_search_and_click_on_delete_icon() throws Exception {
-		batchPage.enterSearch(BatchPage.getBatchName());
-		batchPage.clickAction("delete");
-		commonPage.clickDeleteButtons("yes");
+		
+		List<String> batches = new ArrayList<String>();
+		batches.add((String)RunTimeData.getData("BatchName_All"));
+		batches.add((String)RunTimeData.getData("BatchName_Mandatory"));
+		
+		 deleteSuccessMessage = new ArrayList<String>();
+		
+		for(String batch:batches ) {
+			
+			batchPage.enterSearch((String)RunTimeData.getData("BatchName_All"));
+			batchPage.clickAction("delete");
+			commonPage.clickDeleteButtons("yes");
+		
+			deleteSuccessMessage.add(batchPage.getToast());
+		}
+		
+		
 	}
 
 	// Pagination step def done by Maya

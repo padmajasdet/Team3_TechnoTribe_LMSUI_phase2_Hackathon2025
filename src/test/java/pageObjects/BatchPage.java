@@ -16,6 +16,7 @@ import org.testng.Assert;
 import utilities.ElementUtil;
 import utilities.ExcelReader;
 import utilities.ReadConfig;
+import utilities.RunTimeData;
 
 public class BatchPage {
 
@@ -179,15 +180,46 @@ public class BatchPage {
 		util.doClick(addBatchProgramNameDD);
 	}
 
-	public void selectProgramNameListBox(String testcaseName) {
+	public void selectProgramNameListBox(String testcaseName) throws Exception {
 		String excelProgramName = selectDataFromExcel(testcaseName, "ProgramName");
-		// Check if it should be replaced with the chain variable
+//		// Check if it should be replaced with the chain variable
+		
+		String existingProgram = null;
 		if (excelProgramName.equalsIgnoreCase("chaining")) {
-			excelProgramName = ProgramPage.getProgramName(); // Use chain variable
+//			excelProgramName = ProgramPage.getProgramName(); // Use chain variable
+//	
+//		}
+
+			 existingProgram = (String) RunTimeData.getData("programNameEdit");
+
+			System.out.println("ProgramName at run time received in line 193 in EditProgramPage = " + existingProgram);
+
+			while (existingProgram == null) {
+				Thread.sleep(1000);
+				// Then fetch data again
+				existingProgram = (String) RunTimeData.getData("programNameEdit");
+			}
 		}
-		WebElement programNameListBox = driver.findElement(
-				By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='" + excelProgramName + "']"));
-		programNameListBox.click();
+
+		By optionList = By.xpath("//ul[@role='listbox']");
+		if (util.isElementDisplayed(optionList)) {
+
+			System.out.println("Option Section is visible");
+
+			By option = By.xpath("//li[@role='option' and @aria-label='" + existingProgram + "']");
+			if (util.getElementSize(option) == 1) {
+				System.out.println("Option is found");
+
+				util.doClick(option);
+			}
+
+			// programNameListBox.click();
+		}
+
+//		WebElement programNameListBox = driver.findElement(
+//
+//				By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='" + existingProgram + "']"));
+//		programNameListBox.click();
 	}
 
 	public String selectDataFromExcel(String testcaseName, String columnName) {
@@ -195,7 +227,7 @@ public class BatchPage {
 		return testData.get(columnName);
 	}
 
-	public void enterBatchNamePrefix() {
+	public void enterBatchNamePrefix() throws Exception {
 		selectProgramNameDD();
 		selectProgramNameListBox("invalidBatchNamePrefix");
 		util.doSendKeys(addBatchFirstName, selectDataFromExcel("invalidBatchNamePrefix", "BatchNamePrefix"));
@@ -285,15 +317,16 @@ public class BatchPage {
 				if (toastMessage.equalsIgnoreCase("Successful")) {
 					if (testcaseName.equalsIgnoreCase("validAll")) {
 						System.out.println("Batch created successfully - chaining");
-						String finalBatchName = ProgramPage.getProgramName() + newBatchName;
-						System.out.println("Batch Name: " + finalBatchName);
-						setBatchName(finalBatchName);
+						String finalBatchName = (String)RunTimeData.getData("programNameEdit") + newBatchName;
+						System.out.println("BatchName_All: " + finalBatchName);
+						RunTimeData.setData("BatchName_All", finalBatchName);
 					} else {
 
 						System.out.println("Batch created successfully - " + toastMessage);
-						String finalBatchName1 = finalBatchNamePrefix + newBatchName;
-						System.out.println("Batch Name: " + finalBatchName1);
-						setBatchName1(finalBatchName1);
+						String finalBatchName1 = (String)RunTimeData.getData("programNameEdit") + newBatchName;
+						
+						System.out.println("BatchName_Mandatory: " + finalBatchName1);
+						RunTimeData.setData("BatchName_Mandatory", finalBatchName1);
 
 					}
 				} else {
@@ -517,6 +550,7 @@ public class BatchPage {
 		js.executeScript("document.elementFromPoint(0, 0).click();");
 		WebElement Searchtext = wait.until(ExpectedConditions.presenceOfElementLocated(searchBox));
 		util.doClick(Searchtext);
+		Searchtext.clear();
 		System.out.println("Batch name is: " + search);
 		Searchtext.sendKeys(search);
 	}
