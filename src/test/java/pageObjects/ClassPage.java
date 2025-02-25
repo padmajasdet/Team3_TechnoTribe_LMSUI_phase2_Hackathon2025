@@ -132,8 +132,8 @@ public class ClassPage extends CommonPage {
 
 	// date picker
 	private By datePicker = By.xpath("//input[@id='icon']");
-	private By nextMonth = By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']");
-	private By Currentmonth = By.xpath("//span[@class='p-datepicker-month ng-tns-c92-13 ng-star-inserted']");
+	private By nextMonth = By.xpath("//span[contains(@class,'p-datepicker-next-icon')]");
+	private By Currentmonth = By.xpath("//span[contains(@class,'p-datepicker-month')]");
 
 	private By calendarTextField = By.xpath("//input[@id='icon']");
 	private By selectDateCalenderBtn = By.xpath("//button[@ng-reflect-icon='pi pi-calendar']");
@@ -272,18 +272,18 @@ public class ClassPage extends CommonPage {
 
 	}
 
-	public String addingMandatoryFields(String batchName, String ClassTopic, String ClassDescription, String month,
+	public String addingMandatoryFields(String batchName, String ClassTopic,
+			String ClassDescription, /* String month, */
 			String date, String StaffName, String Status) throws Exception {
 
-		
+		//OPen Class Details
 		elementUtil.clickElementByJS(classBtn, driver);
 		Thread.sleep(1000);
 		elementUtil.clickElementByJS(addNewClassBtn, driver);
-		//js.executeScript("arguments[0].click();", classBtn);
-		//js.executeScript("arguments[0].click();", addNewClassBtn);
 		Thread.sleep(3000);
+
+		//Batch Name
 		elementUtil.clickElementByJS(batchNameTextArea, driver);
-		// elementUtil.doSendKeys(batchNameDrpdw, batchName);
 		elementUtil.doSendKeys(batchNameTextArea, batchName);
 
 		// Enter Class Topic
@@ -295,21 +295,46 @@ public class ClassPage extends CommonPage {
 		elementUtil.doSendKeys(ClassDescriptionTextbox, ClassDescription);
 
 		// Select Class Dates
-		elementUtil.doClick(datePicker); // clicking on date box. Calendar pops up
-
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("(//div[contains(@class,'p-datepicker-group')])[1]")));
-
-		while (!elementUtil.getElementText(Currentmonth).contains(month)) {
-			wait.until(ExpectedConditions.visibilityOfElementLocated(
-					By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']")));
+		//elementUtil.doClick(datePicker); // clicking on date box. Calendar pops up
+//		elementUtil.doSendKeys(datePicker, date);
+//		elementUtil.pressKey(driver, Keys.ENTER);
+		do {
+			//Keep clicking on date field
+			elementUtil.doClick(datePicker);
+			//as long as the calendar is not displayed
+		}while(!elementUtil.isElementDisplayed(By.xpath("//table[contains(@class,'p-datepicker-calendar')]")));
+		
+		
+		/*
+		 * WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		 * wait.until(ExpectedConditions .visibilityOfElementLocated(By.xpath(
+		 * "(//div[contains(@class,'p-datepicker-group')])[1]")));
+		 */
+		
+		String month = getMonthNameFromDate(date);
+		
+		while (!elementUtil.getElementText(Currentmonth).equalsIgnoreCase(month)) {
+			/*
+			 * wait.until(ExpectedConditions.visibilityOfElementLocated( By.
+			 * xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']"
+			 * )));
+			 */
 			elementUtil.clickElementByJS(nextMonth, driver);
 		}
-
-		actions.contextClick(elementUtil.getElement(calendarTextField)).perform();
-		elementUtil.doClick(calendarTextField);
-		elementUtil.doSendKeys(calendarTextField, date);
+		
+		String dateString = date.split("/")[1];
+		
+		//Get Locator of input date
+		By dateLocator = By.xpath("//span[text()='"+dateString+"']");
+		if(elementUtil.getElementSize(dateLocator)>1) {
+			elementUtil.getElements(dateLocator).get(1).click();
+		}else elementUtil.doClick(dateLocator);
+		
+		/*
+		 * actions.contextClick(elementUtil.getElement(calendarTextField)).perform();
+		 * elementUtil.doClick(calendarTextField);
+		 * elementUtil.doSendKeys(calendarTextField, date);
+		 */ 
 
 		// Enter Staff Name
 		elementUtil.scrollIntoView(staffName);
@@ -329,6 +354,24 @@ public class ClassPage extends CommonPage {
 		
 		
 	}
+	
+    // Method to extract month name from the date string
+    public static String getMonthNameFromDate(String date) {
+        // Split the date string by "/"
+        String[] parts = date.split("/");
+
+        // The first part is the month (MM)
+        int monthNumber = Integer.parseInt(parts[0]);
+
+        // Array of month names
+        String[] months = {
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        };
+
+        // Return the corresponding month name (adjusting for 0-indexed array)
+        return months[monthNumber - 1];
+    }
 
 	public boolean isSortingbuttonDisplayed(List<WebElement> elements) {
 		boolean flag = true;

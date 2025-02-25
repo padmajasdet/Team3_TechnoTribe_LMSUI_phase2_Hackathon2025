@@ -163,27 +163,28 @@ public class ClassStepDef {
 
 	}
 
-	@When("Admin enters mandatory fields {string} {string} {string} {string} {string}  {string} {string} {string} in the form and clicks on save button")
-	public void admin_enters_mandatory_fields_in_the_form_and_clicks_on_save_button(String batchName, String classTopic,
-			String classDescription, String month, String date, String staffName, String Status, String expectedMsg)
-			throws Exception {
+	@When("Admin enters mandatory fields {string}, {string}, {string}, {string}, {string}, {string}, {string} in the form and clicks on save button")
+	public void admin_enters_mandatory_fields_in_the_form_and_clicks_on_save_button(String batchName, String classTopic, String classDescription, String date, String staffName, String Status, String expectedSuccessMsg) throws Exception {
 
 		if (classPage.batchnamedropdownDisplayed()) {
 			Log.logInfo("batch name displayed:     " + classPage.batchnamedropdownDisplayed());
 
-			classPage.addingMandatoryFields(batchName.trim(), classTopic.trim(), classDescription.trim(), month.trim(),
-					date.trim(), staffName.trim(), Status.trim());
-			Assert.assertTrue(
-					classPage
-							.addingMandatoryFields(batchName.trim(), classTopic.trim(), classDescription.trim(),
-									month.trim(), date.trim(), staffName.trim(), Status.trim())
-							.equals(expectedMsg.trim()));
+			String actualSuccessMsg = classPage.addingMandatoryFields(batchName.trim(), classTopic.trim(), classDescription.trim(), date.trim(), staffName.trim(), Status.trim());
+			
+			Assert.assertEquals(expectedSuccessMsg, actualSuccessMsg);
 		} else
+<<<<<<< Updated upstream
 			Log.logInfo("Add New Class pop up didnt open");
+=======
+			System.out.println("Add New Class pop up didnt open");
+	}
+
+		
+>>>>>>> Stashed changes
 			
 		
 
-	}
+	
 
 	@Then("Admin gets message Class added Successfully")
 	public void admin_gets_message_Class_added_Successfully() {

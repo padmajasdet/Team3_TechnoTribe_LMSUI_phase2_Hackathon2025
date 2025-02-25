@@ -109,11 +109,17 @@ public class BatchStepDef {
 		batchPage.selectProgramNameDD();
 		batchPage.selectProgramNameListBox("onlyMandatory");
 	}
-
+	
+	//THISSS @TCB14
 	@Then("Admin should see selected program name in the batch name prefix box")
 	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box() {
-		Assert.assertEquals(batchPage.selectDataFromExcel("onlyMandatory", "ProgramName"),
-				batchPage.getBatchNamePrefix());
+		
+		String existingProgram = (String) RunTimeData.getData("programNameEdit");
+		
+		/*Assert.assertEquals(batchPage.selectDataFromExcel("onlyMandatory", "ProgramName"),
+				batchPage.getBatchNamePrefix()); */
+		Assert.assertEquals(existingProgram, batchPage.getBatchNamePrefix());		
+	
 	}
 
 	@When("Admin enters the valid data to all the mandatory fields and click cancel button")

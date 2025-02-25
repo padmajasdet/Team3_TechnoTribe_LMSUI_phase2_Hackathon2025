@@ -34,12 +34,6 @@ public class ProgramPage extends CommonPage {
 	ReadConfig readConfig;
 	Actions actions;
 
-//	public static String NewProgramName;
-//	public static String UpdatedProgramName;
-//	public static String UpdatedProgramDesc;
-//	public static String UpdatedProgramStatus;
-
-	private String filePath; // Excel file location
 	private String sheetName = "Program";
 
 	Map<String, String> programData;
@@ -51,7 +45,6 @@ public class ProgramPage extends CommonPage {
 		PageFactory.initElements(driver, this);
 		util = new ElementUtil(this.driver);
 		readConfig = new ReadConfig();
-		filePath = readConfig.getExcelPath();
 		actions = new Actions(driver);
 	}
 
@@ -168,13 +161,9 @@ public class ProgramPage extends CommonPage {
 		return util.isElementDisplayed(addNewProgramPopUp);
 	}
 
-	/*
-	 * public static char getRandomCharacter() { Random random = new Random();
-	 * return (char) ('b' + random.nextInt(26)); }
-	 */
 
-	public static String generateRandomString(int length) {
-		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // You can include lowercase or digits if needed
+	public String generateRandomString(int length) {
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
 		Random random = new Random();
 		StringBuilder result = new StringBuilder(length);
 
@@ -188,7 +177,6 @@ public class ProgramPage extends CommonPage {
 
 	public void fillProgramForm(String testCase) throws Exception {
 
-		// programData = ExcelReader.getTestData(filePath, sheetName, testCase);
 		programData = ExcelReader.getTestData(sheetName, testCase);
 
 		log.info("Program data from excel --" + programData);
@@ -198,10 +186,9 @@ public class ProgramPage extends CommonPage {
 		String status = programData.get("ProgramStatus");
 
 		if (testCase.equalsIgnoreCase("validInputData")) {
-			// programName = programName + getRandomCharacter();
 			programName = programName + generateRandomString(3);
-
 		}
+
 
 		log.info("Program Name Input :" + programName);
 

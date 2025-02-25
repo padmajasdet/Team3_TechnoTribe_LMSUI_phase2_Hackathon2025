@@ -1,0 +1,33 @@
+<<<<<<< Updated upstream
+=======
+2025-02-25 00:00:09.658 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 00:00:11.824 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 00:00:18.061 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program data from excel --{=, ProgramDescription=Advanced level SAP, ProgramName=technoTribeProg, testcase=validInputData, ProgramStatus=Active}
+2025-02-25 00:00:18.062 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:200)] - Program Name Input :technoTribeProgabe
+2025-02-25 00:00:19.298 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 00:00:19.300 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 00:00:19.596 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 00:00:20.808 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 00:00:28.237 INFO [main] [pageObjects.ProgramPage.editTheProgramAndClickSave(ProgramPage.java:271)] - Program name to update from excel >>editprogtest
+2025-02-25 00:00:30.562 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 00:00:30.562 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 00:00:30.828 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 00:00:32.019 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 00:00:39.665 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 00:00:39.964 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 00:24:50.339 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 00:24:52.071 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 00:24:55.788 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:190)] - Program data from excel --{=, ProgramDescription=Advanced level SAP, ProgramName=technoTribeProg, testcase=validInputData, ProgramStatus=Active}
+2025-02-25 00:24:55.788 INFO [main] [pageObjects.ProgramPage.fillProgramForm(ProgramPage.java:200)] - Program Name Input :technoTribeProgwjm
+2025-02-25 00:24:57.025 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 00:24:57.027 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 00:24:57.335 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 00:24:58.549 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 00:25:03.436 INFO [main] [pageObjects.ProgramPage.editTheProgramAndClickSave(ProgramPage.java:271)] - Program name to update from excel >>editprogtest
+2025-02-25 00:25:05.911 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 00:25:05.911 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+2025-02-25 00:25:06.136 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Initializing WebDriver
+2025-02-25 00:25:07.336 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Navigating to: https://feb-ui-hackathon-bbfd38d67ea9.herokuapp.com/
+2025-02-25 00:25:14.414 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Screenshots for failed
+2025-02-25 00:25:14.415 INFO [main] [utilities.Log.logInfo(Log.java:13)] - Closing WebDriver
+>>>>>>> Stashed changes

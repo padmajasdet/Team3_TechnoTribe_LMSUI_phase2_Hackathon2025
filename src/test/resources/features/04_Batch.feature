@@ -79,7 +79,7 @@ Scenario: Validate all the fields exist in pop up
 	Given Admin is on the Batch Details Pop Up WIndow
 	Then The pop up should include the fields Batch Name,Number of classes and Description as text box,Program Name as drop down Status as radio button
 
-@TCB14 @addBatchPageValidation
+@TCB14 @addBatchPageValidation @try @worked
 Scenario: Validate batchname prefix selected program name
 	Given Admin is on the Batch Details Pop Up WIndow
 	When Admin selects program name present in the dropdown

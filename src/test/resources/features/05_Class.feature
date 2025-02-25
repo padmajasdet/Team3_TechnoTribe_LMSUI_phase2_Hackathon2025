@@ -40,11 +40,11 @@ Feature: Class page validation
   @TTLPH2-108
   Scenario Outline: Check if class is created when only mandatory fields are entered with valid data
   #Given clicks add new class under the class menu bar
-  When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
+  When Admin enters mandatory fields "<BatchName>", "<ClassTopic>", "<ClassDescription>", "<date>", "<StaffName>", "<Status>", "<SuccessMsg>" in the form and clicks on save button
   Then Admin gets message Class added Successfully
   Examples:
-   | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status |  | SuccessMsg |  |
-  | SMPO33    |  | Java       |  | Core Java        |  | February |  | 02/28/2025 |  | Sarnaya   |  | Active |  | Successful |  |
+  | BatchName |ClassTopic |ClassDescription |date        |StaffName |Status |SuccessMsg |
+  | SMPO33    |Java       |Core Java        | 02/28/2025 |Sarnaya   |Active |Successful |
   #@TTLPH2-195
   # Scenario Outline: Check if class is created when invalid data is  entered in Class Details form
   #Given clicks add new class under the class menu bar
