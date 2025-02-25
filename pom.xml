@@ -182,11 +182,19 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
-					<includes>
+					<!--<includes>
 						<include>**/TestRunner.java</include>
 					</includes>
 					<parallel>methods</parallel>
-					<threadCount>4</threadCount>
+					<threadCount>4</threadCount>-->
+					<properties>
+			            <dataproviderthreadcount>3</dataproviderthreadcount>
+			            <parallel>all</parallel>
+			            <threadcount>3</threadcount>
+		            </properties>	
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/TestNG/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 		</plugins>
