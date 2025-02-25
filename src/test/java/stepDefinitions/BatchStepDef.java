@@ -112,7 +112,7 @@ public class BatchStepDef {
 
 	@Then("Admin should see selected program name in the batch name prefix box")
 	public void admin_should_see_selected_program_name_in_the_batch_name_prefix_box() {
-		Assert.assertEquals(batchPage.selectDataFromExcel("onlyMandatory", "ProgramName"),
+		Assert.assertEquals((String)RunTimeData.getData("BatchName_All"),
 				batchPage.getBatchNamePrefix());
 	}
 
@@ -352,7 +352,7 @@ public class BatchStepDef {
 
 	@When("Admin enters the batch name in the search text box")
 	public void admin_enters_the_batch_name_in_the_search_text_box() {
-		batchPage.enterSearch(BatchPage.getBatchName1());
+		batchPage.enterSearch((String)RunTimeData.getData("BatchName_All"));
 	}
 
 	@Then("Admin should see the filtered batches in the data table")
@@ -384,16 +384,21 @@ public class BatchStepDef {
 		
 		for(String batch:batches ) {
 			
-			batchPage.enterSearch((String)RunTimeData.getData("BatchName_All"));
+			batchPage.enterSearch(batch);
 			batchPage.clickAction("delete");
 			commonPage.clickDeleteButtons("yes");
 		
-			deleteSuccessMessage.add(batchPage.getToast());
+			deleteSuccessMessage.add(commonPage.getToast());
 		}
 		
 		
 	}
 
+	@Then("Selected batches should get deleted")
+	public void selected_batches_should_get_deleted() {
+		Assert.assertTrue(commonPage.validateCount());
+	}
+	
 	// Pagination step def done by Maya
 	@When("Admin clicks next page link on the data table")
 	public void admin_clicks_next_page_link_on_the_data_table() {

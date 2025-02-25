@@ -569,8 +569,8 @@ public class BatchPage {
 				if (batchRows.size() > 0) {
 					for (WebElement row : batchRows) {
 						String rowText = row.getText();
-						System.out.println("search text is: " + getBatchName1());
-						if (rowText.contains(getBatchName1())) {
+						System.out.println("search text is: " + (String)RunTimeData.getData("BatchName_All"));
+						if (rowText.contains((String)RunTimeData.getData("BatchName_All"))) {
 							flag = true;
 							break;
 						}

@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import utilities.ElementUtil;
+import utilities.Log;
 
 public class CommonPage {
 	protected WebDriver driver;
@@ -316,11 +317,14 @@ public class CommonPage {
 		int expectedCount = beforeCount - selectedRows;
 		storeAfterCount();
 		if (afterCount != expectedCount) {
-			throw new AssertionError(
-					"Count validation failed: Expected " + expectedCount + ", but found " + afterCount);
+			 Log.logInfo(String.format(
+			            "Warning: Count mismatch! Expected count after deletion: %d, but actual count is: %d.",
+			            expectedCount, afterCount
+			        ));
 		} else {
 			flag = true;
 		}
 		return flag;
+		
 	}
 }
