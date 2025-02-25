@@ -225,7 +225,7 @@ Scenario: Validate multiple row delete with checkbox
 	When Admin clicks on the delete icon for multiple row under the Manage batch header
 	Then Selected batches should get deleted
 	
-#---------------------------------Pagination by MAYA---------------------------------------#
+#---------------------------------Pagination done by MAYA---------------------------------------#
 
 @TCB35 @paginationValidation
 Scenario: Validate next page link
