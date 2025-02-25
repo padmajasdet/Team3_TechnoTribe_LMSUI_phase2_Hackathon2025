@@ -8,11 +8,10 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import utilities.ReadConfig;
 
-@CucumberOptions(features = { "src/test/resources/features/" }, 
+@CucumberOptions(features = {"src/test/resources/features/"}, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-
-			//	tags="@smoke",
+				tags="@smoke",
 				//tags="@TC17 or @TC26",
 
 
