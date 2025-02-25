@@ -47,29 +47,6 @@
 		</dependency>
 
 
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<!--<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.11.0</version>
-		</dependency>-->
-
-
-   <!--  Explicitly Exclude Old Versions 
-    <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.11.0</version>
-        <scope>runtime</scope>
-    </dependency>-->
-		<!--
-		https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber5-jvm -->
-		<!--<dependency>
-			<groupId>io.qameta.allure</groupId>
-			<artifactId>allure-cucumber7-jvm</artifactId>
-			<version>2.29.1</version>
-		</dependency>-->
-
 		<!--
 		https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber5-adapter -->
 		<dependency>
@@ -148,11 +125,13 @@
 			<scope>provided</scope>
 		</dependency>
 
-<!-- this is used so that no conflict is faced while generating both extent report and chain  test report
+		<!-- this is used so that no conflict is faced while generating both
+		extent report and chain  test report
 [1;31mFailures:  [m
-[ERROR]  [1;31m  TestRunner>AbstractTestNGCucumberTests.setUpClass:27 » Cucumber java.lang.NoSuchFieldError: Class freemarker.template.Configuration does not have member field 'freemarker.template.Version VERSION_2_3_33' [m
-[ERROR]  [1;31m  TestRunnerFailed>AbstractTestNGCucumberTests.setUpClass:27 » Runtime java.nio.file.NoSuchFileException: target/rerun.txt [m
-[INFO]
+[ERROR]  [1;31m  TestRunner>AbstractTestNGCucumberTests.setUpClass:27 » Cucumber
+		java.lang.NoSuchFieldError: Class freemarker.template.Configuration does
+		not have member field 'freemarker.template.Version VERSION_2_3_33' [m
+
 -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
@@ -161,16 +140,16 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
 		<dependency>
-		    <groupId>io.qameta.allure</groupId>
-		    <artifactId>allure-testng</artifactId>
-		    <version>2.29.0</version>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-testng</artifactId>
+			<version>2.29.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.languagetool/language-en -->
 		<dependency>
-   <groupId>org.languagetool</groupId>
-   <artifactId>language-en</artifactId>
-   <version>6.4</version>
-</dependency>
+			<groupId>org.languagetool</groupId>
+			<artifactId>language-en</artifactId>
+			<version>6.4</version>
+		</dependency>
 
 
 	</dependencies>
@@ -194,11 +173,11 @@
 		            </properties>	
 					<suiteXmlFiles>
 						<suiteXmlFile>src/test/resources/TestNG/testng.xml</suiteXmlFile>
+					<!--<suiteXmlFiles>
+						<suiteXmlFile>testngcrossbrowser.xml</suiteXmlFile>-->
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

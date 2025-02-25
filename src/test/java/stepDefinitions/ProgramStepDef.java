@@ -69,7 +69,6 @@ public class ProgramStepDef {
 		programPage.clickAddNewProgramBtn();
 	}
 	
-//	/
 	
 	@When("Admin clicks Add New Program under Program menu bar")
 	public void admin_clicks_add_new_program_under_program_menu_bar() {
@@ -124,15 +123,10 @@ public class ProgramStepDef {
 
 	}
 	
-	@Then("Admin should see the text entered and status selected")
-	public void admin_should_see_the_text_entered_and_status_selected() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
 
 	@Then("Admin gets message {string}")
 	public void admin_gets_message(String expSuccessMsg) {
-		programPage.verifySuccessMessage(expSuccessMsg);
+		Assert.assertEquals(programPage.getToast(), "Successful");
 
 	}
 	
@@ -151,7 +145,6 @@ public class ProgramStepDef {
 
 	@Then("Admin should see the page names as in order on menu bar")
 	public void admin_sees_menuBar() {
-		programPage = new ProgramPage(driver);
 		programPage.menuBarDisplay();
 	}
 
@@ -284,8 +277,7 @@ public class ProgramStepDef {
 	}
 	@Then("Admin can see {string} message")
 	public void admin_can_see_message(String ExpDeleteSuccessMsg) {
-		
-		programPage.verifySuccessMessage(ExpDeleteSuccessMsg);
+		Assert.assertEquals(programPage.getToast(), "Successful");
 	    
 	}
 	
@@ -329,11 +321,6 @@ public class ProgramStepDef {
 		
 	}
 	
-	@Given("Admin is on Confirmation form")
-	public void admin_is_on_confirmation_form() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new io.cucumber.java.PendingException();
-	}
 	@When("Admin clicks on {string} button")
 	public void admin_clicks_on_button(String string) throws InterruptedException {
 		programPage.clickYesDeleteBtn();

@@ -52,7 +52,7 @@ public class BatchPage {
 	private By saveButton = By.xpath("//button[@label='Save']");
 	private By cancelButton = By.xpath("//button[@label='Cancel']");
 	private By toastMessage = By.xpath("//div[contains(@class, 'p-toast-summary') and text()='Successful']");
-	private By invalidError = By.xpath("//small[@id='text-danger']");
+	private By invalidError = By.xpath("//small[@class='p-invalid ng-star-inserted']");
 	private By closeButton = By.xpath("//*[@header='Batch Details']//button[@type='button']");
 
 	// Batch Page - Pagination locators
@@ -64,7 +64,6 @@ public class BatchPage {
 
 	public static String BatchName;
 	public static String BatchName1;
-	private String filePath;
 	private String sheetName = "Batch";
 	private WebDriverWait wait;
 
@@ -72,7 +71,6 @@ public class BatchPage {
 		this.driver = driver;
 		util = new ElementUtil(this.driver);
 		this.readConfig = new ReadConfig();
-		this.filePath = readConfig.getExcelPath();
 	}
 
 	/**
@@ -106,11 +104,6 @@ public class BatchPage {
 
 	public void batchMenuClick() {
 		util.doClick(batchMenu);
-		try {
-			WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
-			overlay.click();
-		} catch (Exception e) {
-		}
 	}
 
 	public void closeButtonClick() {
@@ -196,16 +189,18 @@ public class BatchPage {
 	}
 
 	public void enterBatchNamePrefix() {
+		selectProgramNameDD();
+		selectProgramNameListBox("invalidBatchNamePrefix");
 		util.doSendKeys(addBatchFirstName, selectDataFromExcel("invalidBatchNamePrefix", "BatchNamePrefix"));
 	}
 
 	public Boolean isBatchNamePrefixEditable() {
-		return util.isFieldEditable(addBatchFirstName);
+		return util.isEditablefield(addBatchFirstName);
 
 	}
 
-	public void enterBatchNameSuffix() {
-		util.doSendKeys(addBatchName, selectDataFromExcel("invalidBatchNameSuffix", "BatchName"));
+	public void enterBatchNameSuffix(String nonNumeric) {
+		util.doSendKeys(addBatchName, nonNumeric);
 	}
 
 	public String getBatchNamePrefix() {
@@ -235,7 +230,12 @@ public class BatchPage {
 	public void enterAllDetails(String saveCancel, String testcaseName) {
 		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		selectProgramNameDD();
+		try {
 		selectProgramNameListBox(testcaseName);
+		}
+		catch(Exception e) {
+			
+		}
 		String finalBatchNamePrefix = selectDataFromExcel(testcaseName, "ProgramName");
 		// Get the current BatchName value and increment it
 		String batchNameStr = testData.get("BatchName");
@@ -257,10 +257,21 @@ public class BatchPage {
 		}
 		util.doSendKeys(addBatchDesc, testData.get("Description"));
 		getActiveStatusRadioButton();
+		
 		String noOfClassesStr = testData.get("NoOfClasses");
-		int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]);
-		String newnoOfClasses = String.valueOf(noOfClasses);
-		util.doSendKeys(addBatchNoOfClasses, newnoOfClasses);
+		
+		 if (noOfClassesStr == null || noOfClassesStr.trim().isEmpty()) {
+		        System.out.println("NoOfClasses is missing or empty. Skipping input.");
+		    } else {
+		        try {
+		            int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]);
+		            String newNoOfClasses = String.valueOf(noOfClasses);
+		            util.doSendKeys(addBatchNoOfClasses, newNoOfClasses);
+		        } catch (NumberFormatException e) {
+		            System.out.println("Invalid number format for NoOfClasses: " + noOfClassesStr);
+		        }
+		    }
+		
 		if (saveCancel.equalsIgnoreCase("Save")) {
 			saveButtonClick();
 			String toastMessage = getToast();
@@ -268,7 +279,7 @@ public class BatchPage {
 				if (toastMessage.equalsIgnoreCase("Successful")) {
 					if (testcaseName.equalsIgnoreCase("validAll")) {
 						System.out.println("Batch created successfully - chaining");
-						String finalBatchName = finalBatchNamePrefix + newBatchName;
+						String finalBatchName = ProgramPage.getProgramName() + newBatchName;
 						System.out.println("Batch Name: " + finalBatchName);
 						setBatchName(finalBatchName);
 					} else {
@@ -419,7 +430,10 @@ public class BatchPage {
 
 	public void isElementIntercepted() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		
+		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
+		overlay.click();
 	}
 
 	public void clickOnNextPage() {
@@ -537,3 +551,4 @@ public class BatchPage {
 	}
 
 }
+

@@ -2,7 +2,6 @@ package stepDefinitions;
 
 import java.util.Arrays;
 import java.util.List;
-
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import hooks.TestContext;
@@ -13,6 +12,7 @@ import pageObjects.BatchPage;
 import pageObjects.CommonPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
+import utilities.Log;
 import utilities.ReadConfig;
 
 public class BatchStepDef {
@@ -36,6 +36,7 @@ public class BatchStepDef {
 
 	@Then("Admin should be in the Manage Batch Page")
 	public void admin_should_be_in_the_manage_batch_page() {
+		Log.logInfo("Admin is on ManageBatch page");
 		Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
 	}
 
@@ -113,7 +114,6 @@ public class BatchStepDef {
 	@When("Admin enters the valid data to all the mandatory fields and click cancel button")
 	public void admin_enters_the_valid_data_to_all_the_mandatory_fields_and_click_cancel_button() {
 		batchPage.enterAllDetails("Cancel", "onlyMandatory");
-
 	}
 
 	@Then("Admin can see the batch details popup closes without creating any batch")
@@ -138,6 +138,7 @@ public class BatchStepDef {
 	@Then("Admin should get a successful message")
 	public void admin_should_get_a_successful_message() {
 		Assert.assertEquals(batchPage.getToast(), "Successful");
+		Log.logInfo("Batch created successfully");
 	}
 
 	@When("Admin clicks on {string} under the {string} menu bar")
@@ -154,7 +155,6 @@ public class BatchStepDef {
 	@When("Admin enters alphabets in batch name prefix box")
 	public void admin_enters_alphabets_in_batch_name_prefix_box() {
 		batchPage.enterBatchNamePrefix();
-
 	}
 
 	@Then("Admin should see empty text box")
@@ -162,14 +162,14 @@ public class BatchStepDef {
 		Assert.assertEquals(batchPage.isBatchNamePrefixEditable(), false);
 	}
 
-	@When("Admin leaves blank one of the mandatory fields")
-	public void admin_leaves_blank_one_of_the_mandatory_fields() {
-		batchPage.enterAllDetails("Save", "missingOneMandatory");
+	@When("Admin leaves blank one of the {string}")
+	public void admin_leaves_blank_one_of_the(String testcase) {
+		batchPage.enterAllDetails("Save", testcase);
 	}
 
-	@Then("Admin should get a error message on the respective mandatory field")
-	public void admin_should_get_a_error_message_on_the_respective_mandatory_field() {
-		Assert.assertEquals(batchPage.getErrorMessage(), "Batch Name is required.");
+	@Then("Admin should get a {string} on the respective mandatory field")
+	public void admin_should_get_a_on_the_respective_mandatory_field(String expectedErrorMessage) {
+		Assert.assertEquals(batchPage.getErrorMessage(), expectedErrorMessage);
 	}
 
 	@When("Admin clicks on the close icon")
@@ -182,9 +182,9 @@ public class BatchStepDef {
 		Assert.assertEquals(batchPage.getManageBatchText(), "Manage Batch");
 	}
 
-	@When("Admin enters alphabets in batch name suffix box")
-	public void admin_enters_alphabets_in_batch_name_suffix_box() {
-		batchPage.enterBatchNameSuffix();
+	@When("Admin enters {string} values in batch name suffix box")
+	public void admin_enters_values_in_batch_name_suffix_box(String invalidBatchNameSuffix) {
+		batchPage.enterBatchNameSuffix(invalidBatchNameSuffix);
 	}
 
 	@Then("Admin should get error message below the text box of respective field")
@@ -242,12 +242,12 @@ public class BatchStepDef {
 	@When("Admin edit the valid data to all the mandatory fields and click save button")
 	public void admin_edit_the_valid_data_to_all_the_mandatory_fields_and_click_save_button() {
 		batchPage.editAllDetails("Save", "editAll");
-
 	}
 
 	@Then("Admin should get a successful message for editing the batch")
 	public void admin_should_get_a_successful_message_for_editing_the_batch() {
 		Assert.assertEquals(batchPage.getToast(), "Successful");
+		Log.logInfo("Batch updated successfully");
 	}
 
 	@Then("Admin should see batch name value field is disabled for editing")
@@ -286,6 +286,7 @@ public class BatchStepDef {
 	@Then("Admin should see the successful message and the batch should be deleted")
 	public void admin_should_see_the_successful_message_and_the_batch_should_be_deleted() {
 		Assert.assertEquals(batchPage.getToast(), "Successful");
+		Log.logInfo("Batch deleted successfully");
 	}
 
 	@When("Admin clicks on the delete icon and click no button")
@@ -317,8 +318,8 @@ public class BatchStepDef {
 		batchPage.batchMenuClick();
 	}
 
-	@Then("The respective row in the table should be deleted")
-	public void the_respective_row_in_the_table_should_be_deleted() {
+	@Then("Selected Batch should be deleted")
+	public void selected_batch_should_be_deleted() {
 		Assert.assertTrue(commonPage.validateCount());
 	}
 
@@ -333,14 +334,14 @@ public class BatchStepDef {
 
 	@When("Admin enters the batch name in the search text box and edit the valid data and click save button")
 	public void admin_enters_the_batch_name_in_the_search_text_box_and_edit_the_valid_data_and_click_save_button() {
-		batchPage.enterSearch(batchPage.getBatchName1());
+		batchPage.enterSearch(BatchPage.getBatchName1());
 		batchPage.clickAction("edit");
 		batchPage.editAllDetails("Save", "editAll");
 	}
 
 	@When("Admin enters the batch name in the search text box")
 	public void admin_enters_the_batch_name_in_the_search_text_box() {
-		batchPage.enterSearch(batchPage.getBatchName1());
+		batchPage.enterSearch(BatchPage.getBatchName1());
 	}
 
 	@Then("Admin should see the filtered batches in the data table")
@@ -348,11 +349,73 @@ public class BatchStepDef {
 		Assert.assertEquals(true, batchPage.validateSearch());
 	}
 
+	@Given("Admin is on the Batch page for logout")
+	public void admin_is_on_the_batch_page_for_logout() {
+		batchPage.batchMenuClick();
+		batchPage.isElementIntercepted();
+	}
+
 	@When("Admin enters the batch name in the search text box and click on delete icon")
 	public void admin_enters_the_batch_name_in_the_search_text_box_and_click_on_delete_icon() throws Exception {
-		batchPage.enterSearch(batchPage.getBatchName1());
+		batchPage.enterSearch(BatchPage.getBatchName1());
 		batchPage.clickAction("delete");
 		commonPage.clickDeleteButtons("yes");
+	}
+
+	@When("Admin enters the batch name in the search and click on delete icon")
+	public void admin_enters_the_batch_name_in_the_search_and_click_on_delete_icon() throws Exception {
+		batchPage.enterSearch(BatchPage.getBatchName());
+		batchPage.clickAction("delete");
+		commonPage.clickDeleteButtons("yes");
+	}
+
+	// Pagination step def done by Maya
+	@When("Admin clicks next page link on the data table")
+	public void admin_clicks_next_page_link_on_the_data_table() {
+		batchPage.clickOnNextPage();
+	}
+
+	@Then("Admin should see the Next enabled link")
+	public void admin_should_see_the_next_enabled_link() {
+		boolean nextPageActive = batchPage.nextPageEnabled();
+		Assert.assertTrue(nextPageActive);
+
+	}
+
+	@When("Admin clicks last page link on the data table")
+	public void admin_clicks_last_page_link_on_the_data_table() {
+		batchPage.clickOnLastPage();
+	}
+
+	@Then("Admin should see the last page link with next page link disabled on the table")
+	public void admin_should_see_the_last_page_link_with_next_page_link_disabled_on_the_table() {
+		boolean nextPageDisabled = batchPage.verifyNextPageBtnDisabled();
+		boolean lastPageDisplayed = batchPage.lastPageDisplayed();
+		Assert.assertTrue(nextPageDisabled);
+		Assert.assertTrue(lastPageDisplayed);
+	}
+
+	@When("Admin clicks previous page link on the data table")
+	public void admin_clicks_previous_page_link_on_the_data_table() {
+		batchPage.clickOnThirdPage();
+		batchPage.clickOnPreviuosPage();
+	}
+
+	@Then("Admin should see the previous page on the table")
+	public void admin_should_see_the_previous_page_on_the_table() {
+		boolean previousPageActive = batchPage.previousPageEnabled();
+		Assert.assertTrue(previousPageActive);
+	}
+
+	@When("Admin clicks first page link on the data table")
+	public void admin_clicks_first_page_link_on_the_data_table() {
+		batchPage.clickOnFirstPage();
+	}
+
+	@Then("Admin should see the very first page on the data table")
+	public void admin_should_see_the_very_first_page_on_the_data_table() {
+		String pageText = batchPage.firstPageValidation();
+		Assert.assertTrue(pageText.contains("Showing 1"));
 	}
 
 }

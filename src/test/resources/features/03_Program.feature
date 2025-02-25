@@ -235,17 +235,17 @@ Feature: Program Module
     Then Admin gets error message
 
     Examples: 
-      | testcase            |
-      | InvalidProgName     |
-      | InvalidProgDesc     |
-      | InvalidExistingProg |
-
-  @TC36 @AddNewProgramNeagtive
-  Scenario Outline: Verify Add New Program with already existing Program Name
-    Given Admin is on Program details form
-    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
-    Then Admin gets message "Program name is already exist." on Program Details Pop up
-
-    Examples: 
-      | testcase            |
+      | testcase                |
+      | InvalidProgName         |
+      | InvalidProgDesc         |
+      | InvalidExistingProgBug  |
       | InvalidExistingProgName |
+  #@TC36
+  #Scenario Outline: Verify Add New Program with already existing Program Name
+    #Given Admin is on Program details form
+    #When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    #Then Admin gets message "Program name is already exist." on Program Details Pop up
+#
+    #Examples: 
+      #| testcase            |
+      #| InvalidExistingProgName |

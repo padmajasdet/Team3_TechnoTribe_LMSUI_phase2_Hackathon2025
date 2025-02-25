@@ -12,6 +12,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -114,7 +115,9 @@ public class ProgramPage extends CommonPage {
 
 	//Tohfa
 	By checkBoxHeader = By.xpath(".//table/thead/tr/th[1]/p-tableheadercheckbox/div/div[2]/span");
-	By searchBox = By.id("filterGlobal");
+	//By searchBox = By.id("filterGlobal");
+	@FindBy(id = "filterGlobal")
+	WebElement searchBox;
 
 	// Pagination
 
@@ -254,8 +257,6 @@ public class ProgramPage extends CommonPage {
 			
 		}
 		
-		
-		
 		System.out.println("Program Name Input :" + programName);
 
 		if (programName != null && !programName.isEmpty()) {
@@ -302,6 +303,7 @@ public class ProgramPage extends CommonPage {
 		search(newProgram);
 		clickEditProgramBtn(newProgram);
 
+		//Use if 
 		Assert.assertEquals(getAddNewProgramPopUpTitle(), "Program Details");
 
 		//programData = ExcelReader.getTestData(filePath, sheetName, testCase);
@@ -467,31 +469,33 @@ public class ProgramPage extends CommonPage {
 
 	public void search(String newProgram) {
 
-		//searchBox.clear();
-		util.getElement(searchBox).clear();		
+		searchBox.clear();
+		//util.getElement(searchBox).clear();		
 		util.doClick(searchBox);
 		//System.out.println("Program to search>>" + getProgramName());
-		//searchBox.sendKeys(getProgramName());
-		util.doSendKeys(searchBox, getProgramName());
+		searchBox.sendKeys(getProgramName());
+		//util.doSendKeys(searchBox, getProgramName());
 
 	}
 
 	public void searchForEditDeleteProgram(String newProgram) {
 		//searchBox.clear();
-		util.getElement(searchBox).clear();	
+		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
+		overlay.click();
+		//util.getElement(searchBox).clear();	
 		util.doClick(searchBox);
-		//searchBox.sendKeys(newProgram);
-		util.doSendKeys(searchBox, newProgram);
+		searchBox.sendKeys(newProgram);
+		//util.doSendKeys(searchBox, newProgram);
 	}
 
 	public void searchUpdatedProgram(String updatedProgram) {
 
 		//searchBox.clear();
-		util.getElement(searchBox).clear();
+		//util.getElement(searchBox).clear();
 		util.doClick(searchBox);
 		//System.out.println("Program to search>>" + getProgramName());
-		//searchBox.sendKeys(getUpdatedProgramName());
-		util.doSendKeys(searchBox, getUpdatedProgramName());
+		searchBox.sendKeys(getUpdatedProgramName());
+	//	util.doSendKeys(searchBox, getUpdatedProgramName());
 
 	}
 
@@ -539,8 +543,8 @@ public class ProgramPage extends CommonPage {
 
 	public void verifySearchBarManageProgram(String searchBarText) {
 
-		//searchBox.isDisplayed();
-		util.isElementDisplayed(searchBox);
+		searchBox.isDisplayed();
+	//	util.isElementDisplayed(searchBox);
 		System.out.println("Search bar text -" + util.getAttributeVal(searchBar, "placeholder"));
 		Assert.assertEquals(util.getAttributeVal(searchBar, "placeholder"), searchBarText);
 
