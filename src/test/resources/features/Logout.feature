@@ -5,7 +5,7 @@ Feature: LogOut
   Background:
   Given Admin is logged in to LMS Portal
 	
-	@smoke
+	@DeleteBatch @try
 	Scenario: Validate delete functionality for batch
 	Given Admin is on the Batch page
 	When Admin enters the batch name in the search and click on delete icon
