@@ -45,7 +45,8 @@ Feature: Class page validation
   Examples:
   | BatchName |ClassTopic |ClassDescription |date        |StaffName |Status |SuccessMsg |
   | SMPO33    |Java       |Core Java        | 02/28/2025 |Sarnaya   |Active |Successful |
-  #@TTLPH2-195
+  
+  #@TTLPH2-195 @unimplemented
   # Scenario Outline: Check if class is created when invalid data is  entered in Class Details form
   #Given clicks add new class under the class menu bar
   # When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
@@ -53,6 +54,7 @@ Feature: Class page validation
   #Examples:
   #  | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status   |  | SuccessMsg   |  |
   #  | SMPO33    |  | @@@@       |  | @#$%^&**         |  | February |  | 03/28/2000 |  | Sarnaya   |  | Inactive |  | Unsuccessful |  |
+  
   @TTLPH2-151
   Scenario Outline: Check if class is created when only optional fields are entered with valid data
     Given clicks add new class under the class menu bar
@@ -157,7 +159,7 @@ Feature: Class page validation
     Then Admin able to delete multiple class by clicking yes to confirm
 
   #Search Box validation
-  @TTLPH2-161 @smoke
+  @TTLPH2-161 
   Scenario Outline: Search class by Batch Name
     When Admin enter the "<field>" "<value>" in search textbox
     Then Admin should see Class details are searched by given fields

@@ -119,7 +119,7 @@ Feature: Program Module
     When Admin searches with newly created Program "Name"
     Then Records of the newly created  program is displayed and match the data entered
 
-  @TC19 @EditProgramValidation @rerun @smoke
+  @TC19 @EditProgramValidation @smoke
   Scenario Outline: Verify Edit option and edited Program Details
     Given Admin is on Program page
     When Admin edits the program name and click on save button for "<testcase>"
@@ -199,7 +199,7 @@ Feature: Program Module
     When Admin clicks on the delete button on the left top of the program page
     Then Admin will get confirm deletion popup
 
-  @TC32 @DeleteMultipleProgram @smoke
+  @TC32 @DeleteMultipleProgram
   Scenario: Verify Admin is able to select multiple programs
     Given Admin is on Program page
     When Admin clicks on the delete button on the left top of the program page
