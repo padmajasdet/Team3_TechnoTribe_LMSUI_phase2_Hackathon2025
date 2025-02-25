@@ -12,8 +12,6 @@ import utilities.ReadConfig;
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
 				tags="@smoke",
-
-
 				dryRun = false, 
 				plugin = { "pretty","html:target/index.html","json:target/cucumber-reports/Cucumber.json",
 						"html:target/cucumber-reports/index.html",

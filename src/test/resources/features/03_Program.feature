@@ -240,7 +240,7 @@ Feature: Program Module
       | InvalidProgDesc        |
       | InvalidExistingProgBug |
   #   | InvalidExistingProgName |
-  @TC36
+  @TC36 @AddNewProgramNeagtive
   Scenario Outline: Verify Add New Program with already existing Program Name
     Given Admin is on Program details form
     When Admin enters details for "<testcase>" for mandatory fields and Click on save button
@@ -250,7 +250,7 @@ Feature: Program Module
       | testcase                |
       | InvalidExistingProgName |
 
-  @TC37
+  @TC37 @AddNewProgramNeagtive
   Scenario Outline: Verify Add New Program with blank Program Name
     Given Admin is on Program details form
     When Admin enters details for "<testcase>" for mandatory fields and Click on save button
@@ -260,7 +260,7 @@ Feature: Program Module
       | testcase                |
       | InvalidBlankProgName|
       
-       @TC38
+       @TC38 @AddNewProgramNeagtive
   Scenario Outline: Verify Add New Program with blank Program Description
     Given Admin is on Program details form
     When Admin enters details for "<testcase>" for mandatory fields and Click on save button
@@ -270,7 +270,7 @@ Feature: Program Module
       | testcase                |
       | InvalidBlankProgDescription|
       
-        @TC39
+        @TC39 @AddNewProgramNeagtive
   Scenario Outline: Verify Add New Program with Program Name for than 26 characters
     Given Admin is on Program details form
     When Admin enters details for "<testcase>" for mandatory fields and Click on save button
@@ -280,7 +280,7 @@ Feature: Program Module
       | testcase                |
       | InvalidProgramNameTooLong|
       
-       @TC40
+       @TC40 @AddNewProgramNeagtive
   Scenario Outline: Verify Add New Program with Program Description starts with special character
     Given Admin is on Program details form
     When Admin enters details for "<testcase>" for mandatory fields and Click on save button
