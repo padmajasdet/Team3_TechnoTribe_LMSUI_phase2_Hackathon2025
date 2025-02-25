@@ -11,7 +11,7 @@ import utilities.ReadConfig;
 @CucumberOptions(features = {"src/test/resources/features/"}, 
 				glue = { "hooks", "stepDefinitions" },
 				monochrome = true, 
-				tags="@try",
+				tags="@AddNewProgramNeagtive",
 
 
 				dryRun = false, 

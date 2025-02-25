@@ -165,7 +165,7 @@ public class ProgramStepDef {
 
 	@Then("Admin sees error message for invalid Program Description on the Program Details Pop up")
 	public void admin_gets_error_message_on_the_ProgramDetails_invalidProgramDesc() {
-		Assert.assertEquals(programPage.getErrorMessage(), "This field should start with an alphabet and min 2 char.");
+		Assert.assertEquals(programPage.getErrorMessage(), "This field should start with an alphabet, no special char and min 2 char.");
 	}
 
 	//
@@ -305,8 +305,8 @@ public class ProgramStepDef {
 	public void admin_is_on_confirm_deletion_form(String programName) throws Exception {
 
 		programPage = (ProgramPage) homePage.selectOptionNavigationMenuBar("Program");
-		programPage.search(programName);
-		programPage.clickDeleteProgramBtn(programName);
+		programPage.searchUpdatedProgram((String) RunTimeData.getData("programNameEdit"));
+		programPage.clickDeleteProgramBtn((String) RunTimeData.getData("programNameEdit"));
 	}
 
 	@When("Admin clicks on Yes button")
