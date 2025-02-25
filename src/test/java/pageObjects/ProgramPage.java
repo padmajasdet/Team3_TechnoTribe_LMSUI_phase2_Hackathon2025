@@ -164,27 +164,27 @@ public class ProgramPage extends CommonPage {
 		return util.getElementText(addNewProgramTitle);
 	}
 
-	public void verifyAddNewProgramPopUpDisplay() {
-		util.isElementDisplayed(addNewProgramPopUp);
+	public boolean isAddNewProgramPopUpDisplayed() {
+		return util.isElementDisplayed(addNewProgramPopUp);
 	}
 
 	/*
 	 * public static char getRandomCharacter() { Random random = new Random();
 	 * return (char) ('b' + random.nextInt(26)); }
 	 */
-	
+
 	public static String generateRandomString(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // You can include lowercase or digits if needed
-        Random random = new Random();
-        StringBuilder result = new StringBuilder(length);
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // You can include lowercase or digits if needed
+		Random random = new Random();
+		StringBuilder result = new StringBuilder(length);
 
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(characters.length());
-            result.append(characters.charAt(index));
-        }
+		for (int i = 0; i < length; i++) {
+			int index = random.nextInt(characters.length());
+			result.append(characters.charAt(index));
+		}
 
-        return result.toString().toLowerCase();
-    }
+		return result.toString().toLowerCase();
+	}
 
 	public void fillProgramForm(String testCase) throws Exception {
 
@@ -198,9 +198,8 @@ public class ProgramPage extends CommonPage {
 		String status = programData.get("ProgramStatus");
 
 		if (testCase.equalsIgnoreCase("validInputData")) {
-			//programName = programName + getRandomCharacter();
+			// programName = programName + getRandomCharacter();
 			programName = programName + generateRandomString(3);
-
 
 		}
 
@@ -224,7 +223,6 @@ public class ProgramPage extends CommonPage {
 
 		util.doClick(saveButton);
 
-		// setProgramName(programName);
 		RunTimeData.setData("programName", programName);
 		RunTimeData.setData("programDesc", programDesc);
 		RunTimeData.setData("programstatus", status);
@@ -235,19 +233,8 @@ public class ProgramPage extends CommonPage {
 		util.doClick(saveButton);
 	}
 
-//	public static void setProgramName(String programName) {
-//		ProgramPage.NewProgramName = programName; // Store the program name in the static variable
-//	}
-//
-//	public static String getProgramName() {
-//		return NewProgramName;
-//	}
-
 	public void editTheProgramAndClickSave(String testCase) throws InterruptedException {
 
-	
-
-		// newProgram = getProgramName();
 		String existingProgram = (String) RunTimeData.getData("programName");
 
 		Log.logInfo("ProgramName at run time received in line 235 in ProgramPage = " + existingProgram);
@@ -260,11 +247,9 @@ public class ProgramPage extends CommonPage {
 
 		// Search for Program and Click Edit
 		searchUpdatedProgram(existingProgram);
-		// search(newProgram);
 		clickEditProgramBtn(existingProgram);
 
-		// Use if
-		Assert.assertEquals(getAddNewProgramPopUpTitle(), "Program Details");
+		getAddNewProgramPopUpTitle().equals("Program Details");
 
 		programData = ExcelReader.getTestData(sheetName, testCase);
 
@@ -288,53 +273,23 @@ public class ProgramPage extends CommonPage {
 
 		util.doClick(saveButton);
 
-		
-		  if (getToast().equalsIgnoreCase("Successful") &&
-		  testCase.equalsIgnoreCase("validInputEditData")) {
-		  Log.logInfo("Program updated successfully");
-		  Log.logInfo("Updated Program Name: " + programNameEdit);
-		  
-		  
-			/*
-			 * setUpdatedProgramName(programNameEdit);
-			 * setUpdatedProgramDesc(programDescEdit);
-			 * setUpdatedProgramStatus(programStatusEdit);
-			 */
-		  
-		  
-		  RunTimeData.setData("programNameEdit", programNameEdit);
-		  RunTimeData.setData("programDescEdit", programDescEdit);
-		  RunTimeData.setData("programStatusEdit", programStatusEdit);
-		  
-		  } else { log.info("Program update failed"); }
-		 
+		if (getToast().equalsIgnoreCase("Successful") && testCase.equalsIgnoreCase("validInputEditData")) {
+			System.out.println("Program updated successfully");
+			System.out.println("Updated Program Name: " + programNameEdit);
 
-		
+			RunTimeData.setData("programNameEdit", programNameEdit);
+			RunTimeData.setData("programDescEdit", programDescEdit);
+			RunTimeData.setData("programStatusEdit", programStatusEdit);
+
+		} else {
+			log.info("Program update failed");
+		}
 
 	}
 
-	/*
-	 * public void deleteTheProgramAndClickSave(String newProgram, String testCase)
-	 * throws InterruptedException {
-	 * 
-	 * newProgram = getProgramName(); search(newProgram);
-	 * clickDeleteProgramBtn(newProgram);
-	 * util.isElementDisplayed(deleteConfirmationPopUp);
-	 * 
-	 * util.doClick(deleteYesBtn);
-	 * 
-	 * if (getToast().equalsIgnoreCase("Successful")) {
-	 * log.info("Program deleted successfully"); log.info("Deleted Program Name: " +
-	 * newProgram);
-	 * 
-	 * } else { log.info("Program deletion failed"); }
-	 * 
-	 * }
-	 */
-	
 	public void deleteTheProgramAndClickSave(String newProgram, String testCase) throws InterruptedException {
 
-		newProgram =(String) RunTimeData.getData("programNameEdit");
+		newProgram = (String) RunTimeData.getData("programNameEdit");
 		search(newProgram);
 		clickDeleteProgramBtn(newProgram);
 		util.isElementDisplayed(deleteConfirmationPopUp);
@@ -350,7 +305,6 @@ public class ProgramPage extends CommonPage {
 		}
 
 	}
-
 
 	public WebElement getProgramRowElement(String programName) {
 		WebElement ele = util.getElement(programTable);
@@ -442,7 +396,7 @@ public class ProgramPage extends CommonPage {
 		searchBox.clear();
 		util.doClick(searchBox);
 		searchBox.sendKeys(newProgram);
-		
+
 	}
 
 	public void searchUpdatedProgram(String updatedProgram) {
@@ -450,6 +404,7 @@ public class ProgramPage extends CommonPage {
 		searchBox.clear();
 		util.doClick(searchBox);
 		searchBox.sendKeys(updatedProgram);
+
 	}
 
 	public String verifySearchResultProgramName() {
@@ -464,21 +419,10 @@ public class ProgramPage extends CommonPage {
 		String resultText = result.getText();
 		log.info("Search result >>" + resultText);
 		log.info("Search result validation passed: " + resultText);
-
-		
 		return resultText;
 	}
 
-	
-	public Map<String, String> verifyUpdatedProgramDetails(/*
-															 * String updatedProgram, String updatedProgramDesc, String
-															 * updatedStatus
-															 */) {
-
-		/*
-		 * String updatedProgram = getUpdatedProgramName(); String updatedProgramDesc =
-		 * getUpdatedProgramDescS(); String updatedStatus = getUpdatedProgramStatus();
-		 */
+	public Map<String, String> verifyUpdatedProgramDetails() {
 
 		String updatedProgram = (String) RunTimeData.getData("programNameEdit");
 		String updatedProgramDesc = (String) RunTimeData.getData("programDescEdit");
@@ -501,32 +445,23 @@ public class ProgramPage extends CommonPage {
 		actualResultMap.put("resultProgramDescText", resultDescText);
 		actualResultMap.put("resultProgramStatusText", resultStatusText);
 
-		/*
-		 * log.info("Search result Name >>" + resultNameText);
-		 * log.info("Search result Desc >>" + resultDescText);
-		 * Assert.assertEquals(resultNameText, updatedProgram,
-		 * "Searched Program Name does not match the result!");
-		 * Assert.assertEquals(resultDescText, updatedProgramDesc,
-		 * "Searched Program Desc does not match the result!");
-		 * Assert.assertEquals(resultStatusText, updatedStatus,
-		 * "Searched Program Status does not match the result!");
-		 * log.info("Search result validation passed: ");
-		 */
+		log.info("Search result Name >>" + resultNameText);
+		log.info("Search result Desc >>" + resultDescText);
+		log.info("Search result validation passed: ");
 
 		return actualResultMap;
 	}
 
-	public void verifySearchBarManageProgram(String searchBarText) {
+	public boolean verifySearchBarManageProgram(String searchBarText) {
 
 		searchBox.isDisplayed();
-		// util.isElementDisplayed(searchBox);
 		log.info("Search bar text -" + util.getAttributeVal(searchBar, "placeholder"));
-		Assert.assertEquals(util.getAttributeVal(searchBar, "placeholder"), searchBarText);
+
+		return util.getAttributeVal(searchBar, "placeholder").equalsIgnoreCase(searchBarText);
 
 	}
 
 	public boolean verifyCheckBoxUnchecked() {
-//		if (!checkBoxHeader.isSelected()) {
 		if (!util.getElement(checkBoxHeader).isSelected()) {
 			log.info("Checkbox is unchecked");
 
@@ -538,13 +473,12 @@ public class ProgramPage extends CommonPage {
 
 	}
 
-	public void verifyFooterOfManageProgram() {
+	public boolean verifyFooterOfManageProgram() {
 
 		WebElement paginationInfo = driver
 				.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"));
 		String text = paginationInfo.getText(); // "Showing 1 to 10 of 50 entries"
 
-		// Split the text and get the second last word (the total count)
 		String[] words = text.split(" ");
 		String totalEntries = words[words.length - 2];
 
@@ -553,7 +487,7 @@ public class ProgramPage extends CommonPage {
 		String actualFooterText = util.getElementText(footerPrograms);
 		String expectedText = "In total there are " + totalPrograms + " programs.";
 
-		Assert.assertEquals(actualFooterText, expectedText);
+		return actualFooterText.equals(expectedText);
 
 	}
 
@@ -603,29 +537,28 @@ public class ProgramPage extends CommonPage {
 		return false;
 	}
 
-	public void verifyRequiredFieldErrorMessage() {
-
-		String expProgNameErrorMsg = "Program name is required.";
-		String expProgDescErrorMsg = "Description is required.";
-		String expStatusErrorMsg = "Status is required.";
+	public Map<String, String> verifyRequiredFieldErrorMessage() {
 
 		List<WebElement> actualMsgs = driver.findElements(requiredFieldErrorMsgs);
 		String progNameErrorMsg = actualMsgs.get(0).getText();
 		String progDescErrorMsg = actualMsgs.get(1).getText();
 		String statusErrorMsg = actualMsgs.get(2).getText();
 
-		Assert.assertEquals(progNameErrorMsg, expProgNameErrorMsg);
-		Assert.assertEquals(progDescErrorMsg, expProgDescErrorMsg);
-		Assert.assertEquals(statusErrorMsg, expStatusErrorMsg);
+		Map<String, String> actualErrorMsgsMap = new HashMap<>();
+		actualErrorMsgsMap.put("progNameErrorMsg", progNameErrorMsg);
+		actualErrorMsgsMap.put("progDescErrorMsg", progDescErrorMsg);
+		actualErrorMsgsMap.put("statusErrorMsg", statusErrorMsg);
+
+		return actualErrorMsgsMap;
 
 	}
 
-	public void verifyProgramNameAlreadyExistsErrorMessage(String expProgNameErrorMsg) {
+	public String verifyProgramNameAlreadyExistsErrorMessage(String expProgNameErrorMsg) {
 
 		List<WebElement> actualMsgs = driver.findElements(requiredFieldErrorMsgs);
 		String progNameExistErrorMsg = actualMsgs.get(0).getText();
 
-		Assert.assertEquals(progNameExistErrorMsg, expProgNameErrorMsg);
+		return progNameExistErrorMsg;
 
 	}
 
@@ -655,7 +588,6 @@ public class ProgramPage extends CommonPage {
 		actions.click(util.getElement(programNameSort)).perform();
 	}
 
-	// convert web element to java string list
 	public List<String> printWebElements(List<WebElement> options) {
 		List<String> texts = new ArrayList<String>();
 		int i = 0;
@@ -672,15 +604,12 @@ public class ProgramPage extends CommonPage {
 		List<String> originalList = null;
 
 		if (type.equals("ProgramName")) {
-			// originalList = printWebElements(BatchNameList);
 			originalList = printWebElements(util.getElements(programNameList));
 
 		} else if (type.equals("ProgramDescription")) {
-			// originalList = printWebElements(classTopicList);
 			originalList = printWebElements(util.getElements(programDescriptionList));
 
 		} else if (type.equals("ProgramStatus")) {
-			// originalList = printWebElements(StatusList);
 			originalList = printWebElements(util.getElements(programStatusList));
 
 		}
