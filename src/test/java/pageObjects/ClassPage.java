@@ -1,25 +1,32 @@
 package pageObjects;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 import java.util.Map;
 import java.text.SimpleDateFormat;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import utilities.ElementUtil;
+
 import utilities.ExcelReader;
 import utilities.ReadConfig;
+
+import utilities.Log;
+import utilities.RunTimeData;
+
 
 public class ClassPage extends CommonPage {
 
@@ -49,16 +56,14 @@ public class ClassPage extends CommonPage {
 
 	// Add new class
 	private By addNewClassBtn = By.xpath("//button[text()='Add New Class']");
-	// private By addNewClassBtn = By.xpath("//button[@role='menuitem']");
+
 
 	private By cancelBtn = By.xpath("//button[@label='Cancel']");
 	private By saveBtn = By.xpath("//button[@label='Save']");
 	private By crossBtn = By.cssSelector(".p-dialog-header-close");
-	// private By footer = By.cssSelector(".p-datatable-footer.ng-star-inserted");
-	// no usage
 	private By batchNamePopup = By.xpath("//label[normalize-space()='Batch Name']");
 
-	// Add new class page
+	// Add new class page  (//span[contains(@class,'p-dropdown-trigger-icon')])[1]
 	private By batchNameDrpdw = By
 			.xpath("//label[text()='Batch Name']//following-sibling::p-dropdown//div[@role='button']");
 	private By batchNameTextArea = By.xpath("//input[@placeholder='Select a Batch Name']");
@@ -93,15 +98,15 @@ public class ClassPage extends CommonPage {
 	private By notes = By.xpath("//input[@id='classNotes']");
 	private By recording = By.xpath("//input[@id='classRecordingPath']");
 
-// class SuccessMessage
+	// class SuccessMessage
 	private By classCreated = By.xpath("//div[text()='Successful']");
 
-// Edit Window
+	// Edit Window
 	private By editBtn = By.xpath("//button[@icon='pi pi-pencil']");
 	private By editPopup = By.xpath(
 			"//div[@class='ng-trigger ng-trigger-animation ng-tns-c81-10 p-fluid p-dialog p-component p-dialog-draggable p-dialog-resizable ng-star-inserted']");
 
-// Delete
+	// Delete
 	private By deletebtn = By.xpath("(//button[@icon='pi pi-trash'])[2]");
 	private By confirmyes = By.xpath("//button//span[text()='Yes']");
 	private By confirmno = By.xpath("//button//span[text()='No']");
@@ -140,10 +145,9 @@ public class ClassPage extends CommonPage {
 
 	// date picker
 	private By datePicker = By.xpath("//input[@id='icon']");
-	private By nextMonth = By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']");
-	private By Currentmonth = By.xpath("//span[@class='p-datepicker-month ng-tns-c92-13 ng-star-inserted']");
+	private By nextMonth = By.xpath("//span[contains(@class,'p-datepicker-next-icon')]");
+	private By Currentmonth = By.xpath("//span[contains(@class,'p-datepicker-month')]");
 
-	private By calendarTextField = By.xpath("//input[@id='icon']");
 	private By selectDateCalenderBtn = By.xpath("//button[@ng-reflect-icon='pi pi-calendar']");
 	private By calenderPop_Up = By.xpath("//div[@class='p-datepicker-group ng-tns-c92-13 ng-star-inserted']");
 
@@ -281,42 +285,86 @@ public class ClassPage extends CommonPage {
 
 	}
 
-	public String addingMandatoryFields(String batchName, String ClassTopic, String ClassDescription, String month,
-			String date, String StaffName, String Status) throws Exception {
+	public String addingMandatoryFields(String batchName, String ClassTopic,
+			String ClassDescription, String date, String StaffName, String Status) throws Exception {
 
+
+
+		String runTimeBatchName = null;
+		
+		//Open Class Details
 		elementUtil.clickElementByJS(classBtn, driver);
 		Thread.sleep(1000);
 		elementUtil.clickElementByJS(addNewClassBtn, driver);
 
 		Thread.sleep(3000);
+		
+		//Click on BatchName DropDown until the dropdown opens
+		do {
+			elementUtil.doClick(batchNameDrpdw);			
+		}while(elementUtil.isElementDisplayed(By.xpath("//div[contains(@class,'p-dropdown-panel')]")));
+		
+		//Check runTime BatchName is available in the dropdown list
+		if(elementUtil.getElementSize(By.xpath("//p-dropdownitem//span"))>1) {
+			
+			for(WebElement optionElement: elementUtil.getElements(By.xpath("//p-dropdownitem//span"))) {
+				
+				String optionText = optionElement.getText();
+				if(optionText.equals((String)RunTimeData.getData("BatchName_Mandatory"))) {
+					
+					runTimeBatchName = (String)RunTimeData.getData("BatchName_Mandatory");
+					System.out.println("run-time Batch Name found in dropdown list");
+					break;
+				}
+			}
+		}
+		
+		//Click on BatchName Text box
+		elementUtil.clickElementByJS(batchNameTextArea, driver);
 		elementUtil.clickElementByJS(batchNameTextArea, driver);
 
 		elementUtil.doSendKeys(batchNameTextArea, batchName);
 
+
+		//Batch Name
+		if(runTimeBatchName == null) { //if runtime batchName is available in list, choose it
+			elementUtil.doSendKeys(batchNameTextArea, batchName);
+		} 
+		//else go with the one defined in scenario Outline
+		else elementUtil.doSendKeys(batchNameTextArea, runTimeBatchName);	
+		
 		// Enter Class Topic
 		elementUtil.clickElementByJS(classTopicTextbox, driver);
-		elementUtil.doSendKeys(classTopicTextbox, ClassTopic);
+		String classTopic = ClassTopic + util.generateRandomString(3);
+		elementUtil.doSendKeys(classTopicTextbox, classTopic);
 
 		// Enter Class Description
 		elementUtil.doClick(ClassDescriptionTextbox);
 		elementUtil.doSendKeys(ClassDescriptionTextbox, ClassDescription);
 
 		// Select Class Dates
-		elementUtil.doClick(datePicker); // clicking on date box. Calendar pops up
+		do {
+			//Keep clicking on date field
+			elementUtil.doClick(datePicker);
+			//as long as the calendar is not displayed
+		}while(!elementUtil.isElementDisplayed(By.xpath("//table[contains(@class,'p-datepicker-calendar')]")));
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions
-				.visibilityOfElementLocated(By.xpath("(//div[contains(@class,'p-datepicker-group')])[1]")));
-
-		while (!elementUtil.getElementText(Currentmonth).contains(month)) {
-			wait.until(ExpectedConditions.visibilityOfElementLocated(
-					By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']")));
+		String month = getMonthNameFromDate(date);
+		
+		while (!elementUtil.getElementText(Currentmonth).equalsIgnoreCase(month)) {
 			elementUtil.clickElementByJS(nextMonth, driver);
 		}
-
-		actions.contextClick(elementUtil.getElement(calendarTextField)).perform();
-		elementUtil.doClick(calendarTextField);
-		elementUtil.doSendKeys(calendarTextField, date);
+		
+		String dateString = date.split("/")[1];
+		
+		//Get Locator of input date
+		By dateLocator = By.xpath("//span[text()='"+dateString+"']");
+		if(elementUtil.getElementSize(dateLocator)>1) {
+			elementUtil.getElements(dateLocator).get(1).click();
+		}else elementUtil.doClick(dateLocator);
+		
+		util.doClick(No_of_Classes);
+		util.doClick(No_of_Classes);
 
 		// Enter Staff Name
 		elementUtil.scrollIntoView(staffName);
@@ -331,10 +379,31 @@ public class ClassPage extends CommonPage {
 		}
 
 		elementUtil.doClick(saveBtn);
-
+		
+		if(elementUtil.isElementDisplayed(classCreated)) {
+			RunTimeData.setData("classTopic", classTopic);
+		}
 		return elementUtil.getElementText(classCreated);
 
 	}
+	
+    // Method to extract month name from the date string
+    public static String getMonthNameFromDate(String date) {
+        // Split the date string by "/"
+        String[] parts = date.split("/");
+
+        // The first part is the month (MM)
+        int monthNumber = Integer.parseInt(parts[0]);
+
+        // Array of month names
+        String[] months = {
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        };
+
+        // Return the corresponding month name (adjusting for 0-indexed array)
+        return months[monthNumber - 1];
+    }
 
 	public boolean isSortingbuttonDisplayed(List<WebElement> elements) {
 		boolean flag = true;
@@ -447,7 +516,7 @@ public class ClassPage extends CommonPage {
 	public void deleteSingleProgram() {
 		elementUtil.doClick(confirmyes);
 		String text1 = elementUtil.getElementText(successdelete);
-		System.out.println(text1);
+		Log.logInfo(text1);
 	}
 
 	public void DropDeleteSingleProgram() {
@@ -482,33 +551,26 @@ public class ClassPage extends CommonPage {
 	public void DeleteSuccess() {
 		elementUtil.doClick(dubdelete_yes);
 		String text2 = elementUtil.getElementText(success_dbdelete);
-		System.out.println(text2);
+		Log.logInfo(text2);
 	}
 
 	public void searhBoxValidation(String field, String value) throws InterruptedException {
 
 		elementUtil.clickElementByJS(searchBox, driver);
-		boolean found = false; // where are we using this?? --> PADMAJA
 		switch (field) {
 		case "Batch Name":
-			// searchBox.sendKeys(value);
 			elementUtil.doSendKeys(searchBox, value);
 			logicForValidatingSearch(elementUtil.getElements(listOfBatchNames), value);
-
 			break;
 
 		case "Class Topic":
-			
 			elementUtil.doSendKeys(searchBox, value);
 			logicForValidatingSearch(elementUtil.getElements(listOfClassTopic), value);
-			// logicForValidatingSearch(listOfClassTopic, value);
 			break;
 
 		case "Staff Name":
-			
 			elementUtil.doSendKeys(searchBox, value);
 			logicForValidatingSearch(elementUtil.getElements(listOfStaffNames), value);
-			// logicForValidatingSearch(listOfStaffNames, value);
 			break;
 		}
 	}
@@ -517,14 +579,14 @@ public class ClassPage extends CommonPage {
 		boolean found = false;
 		for (WebElement v : searchedValues) {
 			if (v.getText().equalsIgnoreCase(value)) {
-				System.out.println("Search is success for value: " + value);
+				Log.logInfo("Search is success for value: " + value);
 				found = true;
 				break;
 			}
 		}
 
 		if (!found) {
-			System.out.println("Search is not success for value: " + value);
+			Log.logInfo("Search is not success for value: " + value);
 		}
 
 	}
@@ -609,6 +671,7 @@ public class ClassPage extends CommonPage {
 		List<String> originalList = null;
 
 		if (type.equals("BatchName")) {
+
 			
 			originalList = printWebElements(elementUtil.getElements(BatchNameList));
 
@@ -625,13 +688,14 @@ public class ClassPage extends CommonPage {
 			originalList = printWebElements(elementUtil.getElements(ClassDateList));
 
 		} else if (type.equals("Staff Name")) {
-			
+
 			originalList = printWebElements(elementUtil.getElements(StaffNameList));
 
 		}
 
 		else {
-			
+
+
 			originalList = printWebElements(elementUtil.getElements(classDescripList));
 
 		}
@@ -644,15 +708,13 @@ public class ClassPage extends CommonPage {
 		List<Date> dates = new ArrayList<>();
 
 		// Define the date format used on the webpage
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
 
-		// Extract dates from elements and convert to Date objects
-		// for (WebElement element : ClassDateList) {
 
 		for (WebElement element : elementUtil.getElements(ClassDateList)) {
-			String dateStr = element.getText(); // Get the text representing the date
+			String dateStr = element.getText(); 
 			try {
-				Date classdates = dateFormat.parse(dateStr); // Parse the string to Date object
+				Date classdates = dateFormat.parse(dateStr); 
 				dates.add(classdates);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -668,15 +730,12 @@ public class ClassPage extends CommonPage {
 		List<Date> dates = new ArrayList<>();
 
 		// Define the date format used on the webpage
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); // Adjust the format accordingly
-
-		// Extract dates from elements and convert to Date objects
-//    for (WebElement element : ClassDateList) {
-
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		
 		for (WebElement element : elementUtil.getElements(ClassDateList)) {
-			String dateStr = element.getText(); // Get the text representing the date
+			String dateStr = element.getText(); 
 			try {
-				Date classdates = dateFormat.parse(dateStr); // Parse the string to Date object
+				Date classdates = dateFormat.parse(dateStr); 
 				dates.add(classdates);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -687,26 +746,26 @@ public class ClassPage extends CommonPage {
 
 	}
 
-// this method will sort the given list
 	public List<String> getSortedList(List<String> originalList) {
-		System.out.println("Original List Before sorting is" + originalList);
+		
+		Log.logInfo("Original List Before sorting is" + originalList);
 		List<String> sortedList = new ArrayList<>(originalList);
 		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
-		System.out.println("Sorted List After sorting is" + sortedList);
+		Log.logInfo("Sorted List After sorting is" + sortedList);
 		return sortedList;
 	}
 
 	public List<String> getSortedListDescending(List<String> originalList) {
 
-		System.out.println("Original List Before sorting is" + originalList);
+		Log.logInfo("Original List Before sorting is" + originalList);
 		List<String> sortedList = new ArrayList<>(originalList);
 
 		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER.reversed());
-		System.out.println("Sorted List After sorting is" + sortedList);
+		Log.logInfo("Sorted List After sorting is" + sortedList);
 		return sortedList;
 	}
 
-// covert web element to java string list	
+	// covert web element to java string list	
 	public List<String> printWebElements(List<WebElement> options) {
 		List<String> texts = new ArrayList<String>();
 		int i = 0;
@@ -714,7 +773,7 @@ public class ClassPage extends CommonPage {
 			texts.add(i, option.getText());
 			i++;
 		}
-		System.out.println("The number of items in the list are: " + texts.size());
+		Log.logInfo("The number of items in the list are: " + texts.size());
 		return texts;
 	}
 
@@ -798,7 +857,6 @@ public class ClassPage extends CommonPage {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -808,7 +866,7 @@ public class ClassPage extends CommonPage {
 				.findElement(By.xpath("//table[@class='p-datepicker-calendar ng-tns-c92-13']"));
 
 		for (WebElement row : calendarTable.findElements(By.tagName("tr"))) {
-			// Get all the days (td elements) in the current row
+			
 			for (WebElement day : row.findElements(By.tagName("td"))) {
 
 				String disabled = day.getDomAttribute("class");
@@ -847,8 +905,8 @@ public class ClassPage extends CommonPage {
 			}
 
 		}
-		System.out.println("counter size = " + counter);
-		System.out.println("numberOfWeekendDates size = " + numberOfWeekendDates);
+		Log.logInfo("counter size = " + counter);
+		Log.logInfo("numberOfWeekendDates size = " + numberOfWeekendDates);
 
 		if (counter == numberOfWeekendDates) {
 			flag = true;

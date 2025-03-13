@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,12 +16,19 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelReader {
+	
+	private static Workbook workbook;
+    private static FileInputStream fis;
 
-    public static List<Map<String, String>> getExcelData(String filePath, String sheetName) {
+	// Method to open the Excel file
+    public static void openExcel(String filePath) throws IOException {
+        fis = new FileInputStream(new File(filePath));  // Open the file
+        workbook = new XSSFWorkbook(fis);                // Create workbook object
+    }
+    
+    public static List<Map<String, String>> getExcelData(String sheetName) {
         List<Map<String, String>> dataList = new ArrayList<>();
-        try (FileInputStream file = new FileInputStream(filePath);
-             Workbook workbook = new XSSFWorkbook(file)) {
-
+       
             Sheet sheet = workbook.getSheet(sheetName);
             Row headerRow = sheet.getRow(0);
             int columnCount = headerRow.getLastCellNum();
@@ -41,18 +49,12 @@ public class ExcelReader {
                
                 
             }
-            workbook.close();
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        
+               
         return dataList;
     }
 
-    public static Map<String, String> getTestData(String filePath, String sheetName, String testCase) {
-        List<Map<String, String>> dataList = getExcelData(filePath, sheetName);
+    public static Map<String, String> getTestData(String sheetName, String testCase) {
+        List<Map<String, String>> dataList = getExcelData(sheetName);
         for (Map<String, String> data : dataList) {
             if (data.get("testcase").equalsIgnoreCase(testCase)) {
                 return data;
@@ -60,11 +62,21 @@ public class ExcelReader {
         }
         return null; // If test case not found
     }
+    
+    // Method to close the workbook and file input stream
+    public static void closeExcel() throws IOException {
+        if (workbook != null) {
+            workbook.close();  // Close workbook
+        }
+        if (fis != null) {
+            fis.close();  // Close file input stream
+        }
+    }
 
-    public static void updateTestData(String filePath, String sheetName, String testCase, String columnName, String newValue) {
-        try {
-            FileInputStream fis = new FileInputStream(filePath);
-            Workbook workbook = new XSSFWorkbook(fis);
+    //public static void updateTestData(String filePath, String sheetName, String testCase, String columnName, String newValue) {
+    public static void updateTestData(String sheetName, String testCase, String columnName, String newValue) {
+  
+    	try {
             Sheet sheet = workbook.getSheet(sheetName);
 
             // Find the column index
@@ -98,11 +110,13 @@ public class ExcelReader {
             }
 
             // Write changes back to the file
+            String filePath = new ReadConfig().getExcelPath();
             FileOutputStream fos = new FileOutputStream(filePath);
             workbook.write(fos);
-            fos.close();
-            workbook.close();
-            fis.close();
+  
+            if (fos != null) {
+            	fos.close();  // Close File Output Stream
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
