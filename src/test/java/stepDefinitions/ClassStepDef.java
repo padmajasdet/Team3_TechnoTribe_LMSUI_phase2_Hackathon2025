@@ -33,7 +33,7 @@ public class ClassStepDef {
 	public ClassStepDef(TestContext context) {
 		this.context = context;
 		driver = context.getDriver();
-		// classPage = new ClassPage(driver, context);
+
 		classPage = new ClassPage(driver);
 		readConfig = new ReadConfig();
 		softAssert = new SoftAssert();
@@ -59,7 +59,6 @@ public class ClassStepDef {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// classPage.clickClassBtn();
 
 	}
 
@@ -111,7 +110,7 @@ public class ClassStepDef {
 	public void clicks_add_new_class_under_the_class_menu_bar() throws InterruptedException {
 
 		do {
-			// Code to be executed
+
 			classPage.clickClassBtn();
 			classPage.clickAddNewClass();
 		} while (!classPage.batchnamedropdownDisplayed());
@@ -124,22 +123,21 @@ public class ClassStepDef {
 		classPage.clickAddNewClass();
 		Thread.sleep(1000);
 	}
-	
 
 	@Then("Admin should see a popup open for class details with empty form along with <SAVE> and <CANCEL> button and Close\\(X) Icon on the top right corner of the window")
 	public void admin_should_see_a_popup_open_for_class_details_with_empty_form_along_with_SAVE_and_CANCEL_button_and_Close_X_Icon_on_the_top_right_corner_of_the_window()
 			throws InterruptedException {
 
 		softAssert.assertTrue(classPage.cancelDisp());
-		// Assert.assertTrue(classPage.cancelDisp());
+
 		Log.logInfo("Cancel button is visible");
 
 		softAssert.assertTrue(classPage.saveDisp());
-		// Assert.assertTrue(classPage.saveDisp());
+
 		Log.logInfo("Save button is visible");
 
 		softAssert.assertTrue(classPage.crossBtnDisp());
-		// Assert.assertTrue(classPage.crossBtnDisp());
+
 		Log.logInfo("Save button is visible");
 
 		softAssert.assertAll();
@@ -180,8 +178,6 @@ public class ClassStepDef {
 							.equals(expectedMsg.trim()));
 		} else
 			System.out.println("Add New Class pop up didnt open");
-			
-		
 
 	}
 
@@ -209,8 +205,8 @@ public class ClassStepDef {
 	@Then("Admin should see the showing entries and enabled pagination controls under the data table")
 	public void admin_should_see_the_and_enabled_pagination_controls_under_the_data_table() {
 		Assert.assertTrue(classPage.validateShowingEnteries());
-	    Log.logInfo("Footer is displayed");
-	    
+		Log.logInfo("Footer is displayed");
+
 	}
 
 	@When("Admin clicks Cancel Icon on class Details form")
@@ -249,19 +245,23 @@ public class ClassStepDef {
 		classPage.selectOptionalFields(comments, notes, recording);
 
 	}
+
 	@Then("Admin should see Class details are searched by given fields")
 	public void admin_should_see_class_details_are_searched_by() {
-		
+
 	}
+
 	@When("Admin clicks date picker")
 	public void admin_clicks_date_picker() {
 		classPage.clickDatePicker();
 	}
+
 	@Then("Admin should see weekends dates are disabled to select")
 	public void admin_should_see_weekends_dates_are_disabled_to_select() {
-		//classPage.weekendDaysDisabled(); 
+		// classPage.weekendDaysDisabled();
 		System.out.println(classPage.areWeekendDatesDisabled());
 	}
+
 	/*------------------------------editpopup------------------------------------------*/
 	@When("Admin clicks on the edit icon")
 	public void admin_clicks_on_the_edit_icon() {
@@ -337,12 +337,10 @@ public class ClassStepDef {
 		classPage.deleteSingleProgram();
 	}
 
-
 	@Then("Admin able to delete by clicking No to confirmation pop up on Class module")
 	public void admin_able_to_delete_by_clicking_No_to_confirmation_pop_up() {
 		classPage.DropDeleteSingleProgram();
 	}
-
 
 	@When("Admin clicks on the multiple checkboxes on class module page")
 	public void admin_clicks_on_the_multiple_checkboxes_on_class_module_page() {
@@ -366,7 +364,17 @@ public class ClassStepDef {
 	public void admin_enter_the_in_search_textbox(String field, String value) throws InterruptedException {
 		classPage.searhBoxValidation(field, value);
 	}
-
+	@When("Admin clicks any checkbox in the data table")
+	public void admin_clicks_any_checkbox_in_the_data_table() {
+	    classPage.SelectSingleCheckBox();
+	}
+	@Then("Admin should see common delete option enabled under header Manage class")
+	public void admin_should_see_common_delete_option_enabled_under_header_manage_class() {
+		 classPage.multipleDeleteEnabled();
+	}
+	
+	
+	//sorting
 
 	@When("Admin clicks on Arrow next to Batch Name of Class module page for sort")
 	public void admin_clicks_on_Arrow_next_to_Batch_Name_of_Class_module_page_for_sort() {
@@ -375,13 +383,12 @@ public class ClassStepDef {
 	}
 
 	@Then("Admin See the Batch Name is sorted Ascending order in Class module page for sort")
-			public void admin_See_the_Batch_Name_is_sorted_Ascending_order_in_Class_module_page_for_sort() {
-				List<String> originalList = classPage.getOriginalList("BatchName");
-				List<String> sortedList = classPage.getSortedList(originalList);
-				System.out.println("sorted name list" + sortedList.toString() );
-				Assert.assertTrue(originalList.equals(sortedList));
+	public void admin_See_the_Batch_Name_is_sorted_Ascending_order_in_Class_module_page_for_sort() {
+		List<String> originalList = classPage.getOriginalList("BatchName");
+		List<String> sortedList = classPage.getSortedList(originalList);
+		System.out.println("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
 	}
-
 
 	@When("Admin clicks on Arrow next to Batch Name of Class module page for sort descend")
 	public void admin_clicks_on_Arrow_next_to_Batch_Name_of_Class_module_page_for_sort_descend() {
@@ -544,37 +551,42 @@ public class ClassStepDef {
 		System.out.println("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
+
 	@When("Admin clicks on Logout link on Manage class page")
 	public void admin_clicks_on_logout_link_on_manage_class_page() {
-	    classPage.clickLogout();
+		classPage.clickLogout();
 	}
+
 	@Then("Admin is redirected to Login page")
 	public void admin_is_redirected_to_login_page() {
-		
+
 		Log.logInfo("Navigated to Dashboard  page ");
 		String current_Title = driver.getTitle();
-		 String Expected="LMS";
+		String Expected = "LMS";
 		Assert.assertEquals(current_Title, Expected);
 	}
+
 	@When("Admin clicks next page link on the class table")
 	public void admin_clicks_next_page_link_on_the_class_table() {
-	    classPage.clickOnNextPage();
+		classPage.clickOnNextPage();
 	}
+
 	@Then("Admin should see the next page record on the table  with Pagination has next active link enabled")
 	public void admin_should_see_the_next_page_record_on_the_table_with_pagination_has_next_active_link_enabled() {
 		String pageText = classPage.nextPageValidation();
 		boolean nextPageActive = classPage.nextPageEnabled();
-	    //Assert.assertTrue(nextPageActive);
-	    Assert.assertTrue(pageText.contains("Showing 11"));
+		// Assert.assertTrue(nextPageActive);
+		Assert.assertTrue(pageText.contains("Showing 11"));
 	}
+
 	@When("Admin clicks Last page link of class data table")
 	public void admin_clicks_last_page_link_of_class_data_table() {
-	    classPage.clickOnLastPage();
+		classPage.clickOnLastPage();
 	}
 
 	@Then("Admin should see the last page record on the table with Next page link are disabled for class data table")
 	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled_for_class_data_table() {
-		boolean nextPageDisabled= classPage.verifyNextPageBtnDisabled();
+		boolean nextPageDisabled = classPage.verifyNextPageBtnDisabled();
 		boolean lastPageDisplayed = classPage.lastPageDisplayed();
 		int lastPageRecord = classPage.lastPageRecord();
 		int lastPageFootCount = classPage.lastPageFootCount();
@@ -582,23 +594,46 @@ public class ClassStepDef {
 		Assert.assertTrue(lastPageDisplayed);
 		Assert.assertEquals(lastPageRecord, lastPageFootCount);
 	}
-	
 
 	@Then("Admin should see the previous page record on the table with pagination has previous page link enabled for class data table")
 	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link_enabled_for_class_data_table() {
-		boolean previousPageEnabled =classPage.verifyPreviousPageBtnEnabled();
+		boolean previousPageEnabled = classPage.verifyPreviousPageBtnEnabled();
 		Assert.assertTrue(previousPageEnabled);
 	}
+
 	@When("Admin clicks Start page link of class data table")
 	public void admin_clicks_start_page_link_of_class_data_table() {
-	    classPage.clickOnFirstPage();
+		classPage.clickOnFirstPage();
 	}
 
 	@Then("Admin should see the very first page record on the table with Previous page link are disabled for class data table")
 	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled_for_class_data_table() {
-	    boolean previousPageDisabled= classPage.verifyPreviousPageBtnDisabled();
-	    Assert.assertTrue(previousPageDisabled);
+		boolean previousPageDisabled = classPage.verifyPreviousPageBtnDisabled();
+		Assert.assertTrue(previousPageDisabled);
 	}
-	
 
+	@When("Admin enters Class details for {string} for mandatory fields and Click on save button")
+	public void admin_enters_class_details_for_for_mandatory_fields_and_click_on_save_button(String testCase) {
+		classPage.fillClassDetailsForm(testCase);
+
+	}
+
+	@Then("Admin gets  the message {string}")
+	public void admin_gets_the_message(String expSuccessMsg) {
+
+		classPage.verifySuccessMessage(expSuccessMsg);
+		Assert.assertTrue(classPage.verifySuccessMessage(expSuccessMsg));
+	}
+
+	@When("Admin enters  in valid Class details for {string}  and Click on save button")
+	public void admin_enters_in_valid_class_details_for_and_click_on_save_button(String testCase) {
+		classPage.fillClassDetailsForm(testCase);
+
+	}
+
+	@Then("Admin should not see {string} message pop up")
+	public void admin_should_not_see_message_pop_up(String expSuccessMsg) {
+		Assert.assertTrue(classPage.verifySuccessMessage(expSuccessMsg));
+
+	}
 }

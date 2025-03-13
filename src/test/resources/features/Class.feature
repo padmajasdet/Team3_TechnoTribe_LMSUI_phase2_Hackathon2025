@@ -39,20 +39,44 @@ Feature: Class page validation
 
   @TTLPH2-108
   Scenario Outline: Check if class is created when only mandatory fields are entered with valid data
-  #Given clicks add new class under the class menu bar
-  When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
-  Then Admin gets message Class added Successfully
-  Examples:
-   | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status |  | SuccessMsg |  |
-  | SMPO33    |  | Java       |  | Core Java        |  | February |  | 02/28/2025 |  | Sarnaya   |  | Active |  | Successful |  |
-  #@TTLPH2-195
-  # Scenario Outline: Check if class is created when invalid data is  entered in Class Details form
-  #Given clicks add new class under the class menu bar
-  # When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
-  # Then Admin gets message Class  is not created
-  #Examples:
-  #  | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status   |  | SuccessMsg   |  |
-  #  | SMPO33    |  | @@@@       |  | @#$%^&**         |  | February |  | 03/28/2000 |  | Sarnaya   |  | Inactive |  | Unsuccessful |  |
+    #Given clicks add new class under the class menu bar
+    When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
+    Then Admin gets message Class added Successfully
+
+    Examples: 
+      | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status |  | SuccessMsg |  |
+      | SMPO33    |  | Java       |  | Core Java        |  | February |  | 02/28/2025 |  | Sarnaya   |  | Active |  | Successful |  |
+
+  @TTLPH2-200
+  Scenario Outline: Verify Admin is able to Create new Class using valid mandatory fields
+    When Admin enters Class details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin gets  the message "Successful"
+
+    Examples: 
+      | testcase       |
+      | validInputData |
+
+  @TTLPH2-201
+  Scenario Outline: Verify Admin is able to Create new Class using invalid data
+    When Admin enters  in valid Class details for "<testcase>"  and Click on save button
+    Then Admin should not see "succesfull" message pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidClassTopic       |
+      | InvalidClassDescription |
+      | InvalidPastDate         |
+
+  @TTLPH2-195
+  Scenario Outline: Check if class is created when invalid data is  entered in Class Details form
+    Given clicks add new class under the class menu bar
+    When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
+    Then Admin should not see "succesfull" message pop up
+
+    Examples: 
+      | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status   |  | SuccessMsg   |  |
+      | SMPO33    |  | @@@@       |  | @#$%^&**         |  | February |  | 03/28/2000 |  | Sarnaya   |  | Inactive |  | Unsuccessful |  |
+
   @TTLPH2-151
   Scenario Outline: Check if class is created when only optional fields are entered with valid data
     Given clicks add new class under the class menu bar
@@ -156,6 +180,11 @@ Feature: Class page validation
     And Admin clicks  on the left delete button on class module page
     Then Admin able to delete multiple class by clicking yes to confirm
 
+  @TTLPH2-202
+  Scenario: Validate Common Delete button enabled after clicking on any checkbox
+    When Admin clicks any checkbox in the data table
+    Then Admin should see common delete option enabled under header Manage class
+
   #Search Box validation
   @TTLPH2-161
   Scenario Outline: Search class by Batch Name
@@ -226,7 +255,6 @@ Feature: Class page validation
     When Admin clicks on Arrow next to ClassDate of Class module page for sort
     Then Admin See the ClassDate is sorted Ascending order in Class module page
 
-  
   #pagination
   @TTLPH2-193
   Scenario: Verify Admin is able to click Next page link

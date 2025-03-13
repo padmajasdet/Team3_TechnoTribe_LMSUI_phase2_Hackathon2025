@@ -1,10 +1,12 @@
 package pageObjects;
 
 import java.time.Duration;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.text.SimpleDateFormat;
 
 import org.openqa.selenium.By;
@@ -16,6 +18,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.ElementUtil;
+import utilities.ExcelReader;
+import utilities.ReadConfig;
 
 public class ClassPage extends CommonPage {
 
@@ -25,7 +29,12 @@ public class ClassPage extends CommonPage {
 
 	ElementUtil elementUtil;
 	JavascriptExecutor js;
+	ReadConfig readConfig;
 	List<WebElement> manageProgramMenuItems = new ArrayList<>();
+	private String filePath; // Excel file location
+	private String sheetName = "Class";
+
+	Map<String, String> classData;
 
 	private By classBtn = By.xpath("//span[text()='Class']");
 
@@ -39,8 +48,8 @@ public class ClassPage extends CommonPage {
 	private By showingEnteries = By.cssSelector(".p-paginator-current.ng-star-inserted");
 
 	// Add new class
-	 private By addNewClassBtn = By.xpath("//button[text()='Add New Class']");
-	//private By addNewClassBtn = By.xpath("//button[@role='menuitem']");
+	private By addNewClassBtn = By.xpath("//button[text()='Add New Class']");
+	// private By addNewClassBtn = By.xpath("//button[@role='menuitem']");
 
 	private By cancelBtn = By.xpath("//button[@label='Cancel']");
 	private By saveBtn = By.xpath("//button[@label='Save']");
@@ -145,10 +154,9 @@ public class ClassPage extends CommonPage {
 	private By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
 	private int lastPageEntryCount;
 	private int lastPageFooterEntryCount;
-	
-	//Class page logout
+
+	// Class page logout
 	private By logoutBtn = By.xpath("//span[text()='Logout']");
-	
 
 	public ClassPage(WebDriver driver) {
 		super(driver);
@@ -157,12 +165,14 @@ public class ClassPage extends CommonPage {
 		actions = new Actions(driver);
 		elementUtil = new ElementUtil(driver);
 		js = (JavascriptExecutor) driver;
+		readConfig = new ReadConfig();
+		filePath = readConfig.getExcelPath();
 	}
 
 	public void clickLogout() {
 		elementUtil.doClick(logoutBtn);
-		}	
-	
+	}
+
 	public void openCalendar() throws Exception {
 		elementUtil.doClick(selectDateCalenderBtn);
 		Thread.sleep(2000);
@@ -274,15 +284,13 @@ public class ClassPage extends CommonPage {
 	public String addingMandatoryFields(String batchName, String ClassTopic, String ClassDescription, String month,
 			String date, String StaffName, String Status) throws Exception {
 
-		
 		elementUtil.clickElementByJS(classBtn, driver);
 		Thread.sleep(1000);
 		elementUtil.clickElementByJS(addNewClassBtn, driver);
-		//js.executeScript("arguments[0].click();", classBtn);
-		//js.executeScript("arguments[0].click();", addNewClassBtn);
+
 		Thread.sleep(3000);
 		elementUtil.clickElementByJS(batchNameTextArea, driver);
-		// elementUtil.doSendKeys(batchNameDrpdw, batchName);
+
 		elementUtil.doSendKeys(batchNameTextArea, batchName);
 
 		// Enter Class Topic
@@ -325,8 +333,7 @@ public class ClassPage extends CommonPage {
 		elementUtil.doClick(saveBtn);
 
 		return elementUtil.getElementText(classCreated);
-		
-		
+
 	}
 
 	public boolean isSortingbuttonDisplayed(List<WebElement> elements) {
@@ -346,17 +353,17 @@ public class ClassPage extends CommonPage {
 	}
 
 	public boolean validateSortingBtn() {
-		// return isSortingbuttonDisplayed(sortingBtn);
+
 		return isSortingbuttonDisplayed(elementUtil.getElements(sortingBtn));
 	}
 
 	public boolean deleteBtnDisplayed() {
-		// return deleteBtnMC.isDisplayed();
+
 		return elementUtil.isElementDisplayed(deleteBtnMC);
 	}
 
 	public boolean validateShowingEnteries() {
-		// return showingEnteries.isDisplayed();
+
 		return elementUtil.isElementDisplayed(showingEnteries);
 	}
 
@@ -452,12 +459,25 @@ public class ClassPage extends CommonPage {
 		actions.doubleClick(elementUtil.getElement(checkbox1)).perform();
 		elementUtil.doClick(checkbox2);
 	}
+	public void SelectSingleCheckBox() {
+		Actions actions = new Actions(driver);
+		actions.click(elementUtil.getElement(checkbox1)).perform();
+		
+	}
+	public boolean multipleDeleteEnabled() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.elementToBeClickable(dubdelete_icon));
+		return elementUtil.isElementEnabled(dubdelete_icon);
+
+	}
+	
 
 	public void MultipleDelete() {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		wait.until(ExpectedConditions.elementToBeClickable(dubdelete_icon)).click();
 
 	}
+	
 
 	public void DeleteSuccess() {
 		elementUtil.doClick(dubdelete_yes);
@@ -466,10 +486,7 @@ public class ClassPage extends CommonPage {
 	}
 
 	public void searhBoxValidation(String field, String value) throws InterruptedException {
-		/*
-		 * JavascriptExecutor js = (JavascriptExecutor) driver;
-		 * js.executeScript("arguments[0].click();", searchBox);
-		 */
+
 		elementUtil.clickElementByJS(searchBox, driver);
 		boolean found = false; // where are we using this?? --> PADMAJA
 		switch (field) {
@@ -477,18 +494,18 @@ public class ClassPage extends CommonPage {
 			// searchBox.sendKeys(value);
 			elementUtil.doSendKeys(searchBox, value);
 			logicForValidatingSearch(elementUtil.getElements(listOfBatchNames), value);
-			// logicForValidatingSearch(listOfBatchNames, value);
+
 			break;
 
 		case "Class Topic":
-			// searchBox.sendKeys(value);
+			
 			elementUtil.doSendKeys(searchBox, value);
 			logicForValidatingSearch(elementUtil.getElements(listOfClassTopic), value);
 			// logicForValidatingSearch(listOfClassTopic, value);
 			break;
 
 		case "Staff Name":
-			// searchBox.sendKeys(value);
+			
 			elementUtil.doSendKeys(searchBox, value);
 			logicForValidatingSearch(elementUtil.getElements(listOfStaffNames), value);
 			// logicForValidatingSearch(listOfStaffNames, value);
@@ -592,29 +609,29 @@ public class ClassPage extends CommonPage {
 		List<String> originalList = null;
 
 		if (type.equals("BatchName")) {
-			// originalList = printWebElements(BatchNameList);
+			
 			originalList = printWebElements(elementUtil.getElements(BatchNameList));
 
 		} else if (type.equals("ClassTopic")) {
-			// originalList = printWebElements(classTopicList);
+			
 			originalList = printWebElements(elementUtil.getElements(classTopicList));
 
 		} else if (type.equals("Status")) {
-			// originalList = printWebElements(StatusList);
+			
 			originalList = printWebElements(elementUtil.getElements(StatusList));
 
 		} else if (type.equals("Class Date")) {
-			// originalList = printWebElements(ClassDateList);
+			
 			originalList = printWebElements(elementUtil.getElements(ClassDateList));
 
 		} else if (type.equals("Staff Name")) {
-			// originalList = printWebElements(StaffNameList);
+			
 			originalList = printWebElements(elementUtil.getElements(StaffNameList));
 
 		}
 
 		else {
-			// originalList = printWebElements(classDescripList);
+			
 			originalList = printWebElements(elementUtil.getElements(classDescripList));
 
 		}
@@ -683,8 +700,7 @@ public class ClassPage extends CommonPage {
 
 		System.out.println("Original List Before sorting is" + originalList);
 		List<String> sortedList = new ArrayList<>(originalList);
-//        Collections.sort(sortedList, (s1, s2) -> s2.compareToIgnoreCase(s1));
-//        Collections.sort(sortedList, Collections.reverseOrder());
+
 		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER.reversed());
 		System.out.println("Sorted List After sorting is" + sortedList);
 		return sortedList;
@@ -795,7 +811,6 @@ public class ClassPage extends CommonPage {
 			// Get all the days (td elements) in the current row
 			for (WebElement day : row.findElements(By.tagName("td"))) {
 
-				
 				String disabled = day.getDomAttribute("class");
 				if (!disabled.contains("p-disabled")) {
 					throw new AssertionError("Weekend date is disabled: " + day.getText());
@@ -815,35 +830,33 @@ public class ClassPage extends CommonPage {
 
 	}
 
-	
 	public boolean areWeekendDatesDisabled() {
-		
+
 		boolean flag = false;
 		List<String> weekendDates = disabledweekend();
-		int numberOfWeekendDates = 	weekendDates.size();
-		
-		int counter=0;
-		
-		for (String date: weekendDates) {
-			//By weekendDate = ;
-			WebElement weekendDate = elementUtil.getElement(By.xpath("(//tbody)[2]//tr//td//span[text()='"+date+"']"));
-			if(weekendDate.getDomAttribute("class").contains("disabled")) {
+		int numberOfWeekendDates = weekendDates.size();
+
+		int counter = 0;
+
+		for (String date : weekendDates) {
+			// By weekendDate = ;
+			WebElement weekendDate = elementUtil
+					.getElement(By.xpath("(//tbody)[2]//tr//td//span[text()='" + date + "']"));
+			if (weekendDate.getDomAttribute("class").contains("disabled")) {
 				counter++;
 			}
-				
+
 		}
 		System.out.println("counter size = " + counter);
 		System.out.println("numberOfWeekendDates size = " + numberOfWeekendDates);
 
-		if(counter == numberOfWeekendDates) {
+		if (counter == numberOfWeekendDates) {
 			flag = true;
 		}
-		
+
 		return flag;
 	}
-	
-	
-	
+
 	public List<String> disabledweekend() {
 
 		List<String> weekendDates = new ArrayList<String>();
@@ -885,4 +898,76 @@ public class ClassPage extends CommonPage {
 		return colNumber;
 	}
 
+	public String fillClassDetailsForm(String testCase) {
+
+		classData = ExcelReader.getTestData(filePath, sheetName, testCase);
+
+		System.out.println("Program data from excel --" + classData);
+
+		String BatchName = classData.get("BatchName");
+		String ClassTopic = classData.get("ClassTopic");
+		String ClassDescription = classData.get("ClassDescription");
+		String month = classData.get("month");
+		String date = classData.get("date");
+		String StaffName = classData.get("StaffName");
+		String Status = classData.get("Status");
+
+		String SuccessMsg = classData.get("SuccessMsg");
+
+		elementUtil.doSendKeys(classTopicTextbox, ClassTopic);
+
+		// Enter Class Description
+		elementUtil.doClick(ClassDescriptionTextbox);
+
+		elementUtil.doSendKeys(ClassDescriptionTextbox, ClassDescription);
+
+		// Select Class Dates
+		elementUtil.doClick(datePicker); // clicking on date box. Calendar pops up
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("(//div[contains(@class,'p-datepicker-group')])[1]")));
+
+		while (!elementUtil.getElementText(Currentmonth).contains(month)) {
+			wait.until(ExpectedConditions.visibilityOfElementLocated(
+					By.xpath("//span[@class='p-datepicker-next-icon pi pi-chevron-right ng-tns-c92-13']")));
+			elementUtil.clickElementByJS(nextMonth, driver);
+		}
+
+		actions.contextClick(elementUtil.getElement(calendarTextField)).perform();
+		elementUtil.doClick(calendarTextField);
+		elementUtil.doSendKeys(calendarTextField, date);
+
+		// Enter Staff Name
+		elementUtil.scrollIntoView(staffName);
+		elementUtil.doClick(staffName);
+		elementUtil.doSendKeys(staffName, StaffName);
+		elementUtil.scrollIntoView(No_of_ClassesTextbox);
+
+		if (Status.equals("Active")) {
+			elementUtil.doClick(statusActive);
+		} else {
+			elementUtil.doClick(statusInActive);
+		}
+
+		elementUtil.doClick(saveBtn);
+
+		return elementUtil.getElementText(classCreated);
+
+	}
+
+	public boolean verifySuccessMessage(String message) {
+
+		// util.isElementDisplayed(successPopupTitle);
+
+		// util.isElementDisplayed(successPopupContent);
+
+		String content = elementUtil.getElementText(classCreated);
+		System.out.println("Message >>>>" + content);
+
+		if (content.equals(message)) {
+			return true;
+		}
+		return false;
+	}
 }
