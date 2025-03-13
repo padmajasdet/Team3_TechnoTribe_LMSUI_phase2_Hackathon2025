@@ -11,8 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.asserts.SoftAssert;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
+
 import hooks.TestContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -20,6 +21,7 @@ import io.cucumber.java.en.When;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import utilities.ExcelReader;
+import utilities.Log;
 import utilities.ReadConfig;
 
 public class LoginStepDef {
@@ -229,7 +231,7 @@ public class LoginStepDef {
 		Map<String, String> testCaseData = ExcelReader.getTestData(sheetName, testCase.trim());
 
 		String invalidLMSURL = testCaseData.get("URL");
-		System.out.println(invalidLMSURL);
+		Log.logInfo(invalidLMSURL);
 
 		try {
 			context.getDriver().get(invalidLMSURL);

@@ -20,10 +20,6 @@ public class TestContext {
 
 	public void setDriver(WebDriver driver) {
 		this.driver = driver;
-		
-		
-		
-
 	}
 
 	public DriverFactory getDriverFactory() {
@@ -39,8 +35,6 @@ public class TestContext {
 	public void closeDriver() {
 		driverFactory.closeDriver();
 	}
-
-	
 
 	public String getApplicationURL() {
 		return readConfig.getApplicationURL(); // Method to get URL

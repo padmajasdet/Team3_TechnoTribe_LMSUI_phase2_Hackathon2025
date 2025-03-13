@@ -37,15 +37,16 @@ Feature: Class page validation
     When clicks add new class under the class menu bar
     Then Admin should see few input fields and their respective text boxes in the class details window
 
-  @TTLPH2-108
+  @TTLPH2-108 @smoke
   Scenario Outline: Check if class is created when only mandatory fields are entered with valid data
-  #Given clicks add new class under the class menu bar
-  When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
-  Then Admin gets message Class added Successfully
+  Given clicks add new class under the class menu bar
+  When Admin enters mandatory fields "<BatchName>", "<ClassTopic>", "<ClassDescription>", "<date>", "<StaffName>" and "<Status>" in the form and clicks on save button
+  Then Admin gets message "<SuccessMsg>" in Manage Class page
   Examples:
-   | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status |  | SuccessMsg |  |
-  | SMPO33    |  | Java       |  | Core Java        |  | February |  | 02/28/2025 |  | Sarnaya   |  | Active |  | Successful |  |
-  #@TTLPH2-195
+  | BatchName |ClassTopic |ClassDescription |date        |StaffName |Status |SuccessMsg |
+  | SMPO33    |Java       |Core Java        | 02/28/2025 |Sarnaya   |Active |Successful |
+  
+  #@TTLPH2-195 @unimplemented
   # Scenario Outline: Check if class is created when invalid data is  entered in Class Details form
   #Given clicks add new class under the class menu bar
   # When Admin enters mandatory fields "<BatchName>" "<ClassTopic>" "<ClassDescription>" "<month>" "<date1>"  "<StaffName>" "<Status>" "<SuccessMsg>" in the form and clicks on save button
@@ -53,6 +54,7 @@ Feature: Class page validation
   #Examples:
   #  | BatchName |  | ClassTopic |  | ClassDescription |  | month    |  | date       |  | StaffName |  | Status   |  | SuccessMsg   |  |
   #  | SMPO33    |  | @@@@       |  | @#$%^&**         |  | February |  | 03/28/2000 |  | Sarnaya   |  | Inactive |  | Unsuccessful |  |
+  
   @TTLPH2-151
   Scenario Outline: Check if class is created when only optional fields are entered with valid data
     Given clicks add new class under the class menu bar
@@ -63,13 +65,13 @@ Feature: Class page validation
       | comments |  | notes      |  | recording |  | batchNameReqText       | classTopicReqText       | classDateReqText       | staffNameReqText       | noOfClassesReqText         |
       | Good     |  | java notes |  | goto link |  | Batch Name is required | Class Topic is required | Class Date is required | Staff Name is required | No. of Classes is required |
 
-  @TTLPH2-188
+  @TTLPH2-188 @smoke
   Scenario: Check weekend dates are disabled in calendar
     Given clicks add new class under the class menu bar
     When Admin clicks date picker
     Then Admin should see weekends dates are disabled to select
 
-  @TTLPH2-100
+  @TTLPH2-100 @smoke
   Scenario: Validate the sort icon of all the field in datatable
     Then Admin should see the Sort icon of all the field in the datatable.
 
@@ -87,8 +89,8 @@ Feature: Class page validation
     When Admin clicks Cancel Icon on class Details form
     Then Class Details popup window should be closed without saving
 
-  @TTLPH2-150
-  Scenario Outline: Empty form submission
+  @TTLPH2-150 @smoke
+  Scenario Outline: Empty form submission 
     Given clicks add new class under the class menu bar
     When Admin clicks on save button without entering data
     Then Admin should see error message below the test field and the field will be highlighed in red color "<batchNameReqText>" "<classTopicReqText>" "<classDateReqText>" "<staffNameReqText>" "<noOfClassesReqText>"
@@ -113,7 +115,7 @@ Feature: Class page validation
     When Admin clicks on the edit icon
     Then Admin should see class topic field is disabled
 
-  @TTLPH2-155
+  @TTLPH2-155 @smoke
   Scenario Outline: Check if the optional fields are updated with valid data
     Given Admin is on the Edit Class Popup window
     When Update the optional fields with valid values "<comments>" "<notes>" "<recording>" and click save
@@ -123,7 +125,7 @@ Feature: Class page validation
       | comments |  | notes      |  | recording |
       | Good     |  | java notes |  | goto link |
 
-  @TTLPH2-157
+  @TTLPH2-157 @smoke
   Scenario Outline: Check if the fields are updated with valid data
     Given Admin is on the Edit Class Popup window
     When Update the fields with valid data "<Class>" and click save
@@ -150,14 +152,14 @@ Feature: Class page validation
     When Admin clicks on the delete icon on class module page
     Then Admin able to delete by clicking No to confirmation pop up on Class module
 
-  @TTLPH2-160
+  @TTLPH2-160 @smoke
   Scenario: Admin validate delete by deleting multiple classes
     When Admin clicks on the multiple checkboxes on class module page
     And Admin clicks  on the left delete button on class module page
     Then Admin able to delete multiple class by clicking yes to confirm
 
   #Search Box validation
-  @TTLPH2-161
+  @TTLPH2-161 
   Scenario Outline: Search class by Batch Name
     When Admin enter the "<field>" "<value>" in search textbox
     Then Admin should see Class details are searched by given fields
@@ -179,12 +181,12 @@ Feature: Class page validation
     When Admin clicks on Arrow next to Batch Name of Class module page for sort descend
     Then Admin See the Batch Name is sorted Descending order in Class module page
 
-  @TTLPH2-165
+  @TTLPH2-165 @smoke
   Scenario: Verify sorting of Class Topic in Ascending order
     When Admin clicks on Arrow next to Class Topic of Class module page for sort
     Then Admin See the Class Topic is sorted Ascending order in Class module page
 
-  @TTLPH2-166
+  @TTLPH2-166 @smoke
   Scenario: Verify sorting of Class Topic in Descending order
     When Admin clicks on Arrow next to Class Topic of Class module page for sort descend
     Then Admin See the Class Topic is sorted Descending order in Class module page

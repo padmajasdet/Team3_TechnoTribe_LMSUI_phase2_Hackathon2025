@@ -5,18 +5,24 @@ Feature: LogOut
   Background:
   Given Admin is logged in to LMS Portal
 	
-	@smoke
+	@DeleteBatch @smoke
 	Scenario: Validate delete functionality for batch
 	Given Admin is on the Batch page
 	When Admin enters the batch name in the search and click on delete icon
 	Then Selected Batch should be deleted
 	
-	@US-TTLPH2-10 @TTLPH2-112 @sanity
+	 @TC26 @DeleteProgram @smoke
+  Scenario: Verify Admin is able to delete program
+    Given Admin is on Confirm deletion form for program "Name"
+    When Admin clicks on Yes button
+    Then Admin can see "Successful Program Deleted" message
+	
+	@US-TTLPH2-10 @TTLPH2-112 @smoke
 	Scenario: Verify logout function
 	When Admin clicks "Logout" on the navigation bar
 	Then Admin should be redirected to login page
 	
-	@US-TTLPH2-10 @TTLPH2-114
+	@US-TTLPH2-10 @TTLPH2-114 @smoke
 	Scenario: Verify back button function 
 	When Admin clicks browser back button
 	Then Admin should receive error message

@@ -1,8 +1,11 @@
 package pageObjects;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -11,11 +14,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
 import utilities.ElementUtil;
 import utilities.ExcelReader;
+import utilities.Log;
 import utilities.ReadConfig;
+import utilities.RunTimeData;
 
-public class BatchPage {
+public class BatchPage extends CommonPage {
 
 	private WebDriver driver;
 	private ElementUtil util;
@@ -31,6 +37,11 @@ public class BatchPage {
 	// Batch page - Table locators
 	private By paginationBotton = By
 			.xpath("//div[@class='p-paginator-bottom p-paginator p-component ng-star-inserted']");
+	private By programNameList = By.xpath("//tbody//td[6]");
+	private By batchNameList = By.xpath("//tbody//td[2]");
+	private By batchDescriptionList = By.xpath("//tbody//td[3]");
+	private By batchStatusList = By.xpath("//tbody//td[4]");
+	private By noOfClassesList = By.xpath("//tbody//td[5]");
 	private By deleteTitle = By.xpath("//span[normalize-space()='Confirm']");
 	private By deleteNoButton = By.xpath("//span[normalize-space()='No']");
 	private By deleteYesButton = By.xpath("//span[normalize-space()='Yes']");
@@ -68,9 +79,10 @@ public class BatchPage {
 	private WebDriverWait wait;
 
 	public BatchPage(WebDriver driver) {
+		super(driver);
 		this.driver = driver;
 		util = new ElementUtil(this.driver);
-		this.readConfig = new ReadConfig();
+		readConfig = new ReadConfig();
 	}
 
 	/**
@@ -96,6 +108,8 @@ public class BatchPage {
 
 	public void addBatchClick() {
 		util.doClick(addNewBatch);
+		System.out.println("Clicked on addNewBatch");
+
 	}
 
 	public void homeMenuClick() {
@@ -104,6 +118,7 @@ public class BatchPage {
 
 	public void batchMenuClick() {
 		util.doClick(batchMenu);
+		System.out.println("Clicked on Batch Menu");
 	}
 
 	public void closeButtonClick() {
@@ -172,15 +187,36 @@ public class BatchPage {
 		util.doClick(addBatchProgramNameDD);
 	}
 
-	public void selectProgramNameListBox(String testcaseName) {
+	public void selectProgramNameListBox(String testcaseName) throws Exception {
+		
 		String excelProgramName = selectDataFromExcel(testcaseName, "ProgramName");
-		// Check if it should be replaced with the chain variable
+		String existingProgram = null;
 		if (excelProgramName.equalsIgnoreCase("chaining")) {
-			excelProgramName = ProgramPage.getProgramName(); // Use chain variable
+
+			existingProgram = (String) RunTimeData.getData("programNameEdit");
+
+			Log.logInfo("ProgramName at run time received in line 193 in EditProgramPage = " + existingProgram);
+
+			while (existingProgram == null) {
+				Thread.sleep(1000);
+				// Then fetch data again
+				existingProgram = (String) RunTimeData.getData("programNameEdit");
+			}
 		}
-		WebElement programNameListBox = driver.findElement(
-				By.xpath("//ul[@role='listbox']/p-dropdownitem/li[@aria-label='" + excelProgramName + "']"));
-		programNameListBox.click();
+
+		By optionList = By.xpath("//ul[@role='listbox']");
+		if (util.isElementDisplayed(optionList)) {
+
+			Log.logInfo("Option Section is visible");
+
+			By option = By.xpath("//li[@role='option' and @aria-label='" + existingProgram + "']");
+			if (util.getElementSize(option) == 1) {
+				Log.logInfo("Option is found");
+
+				util.doClick(option);
+			}
+
+		}
 	}
 
 	public String selectDataFromExcel(String testcaseName, String columnName) {
@@ -188,7 +224,7 @@ public class BatchPage {
 		return testData.get(columnName);
 	}
 
-	public void enterBatchNamePrefix() {
+	public void enterBatchNamePrefix() throws Exception {
 		selectProgramNameDD();
 		selectProgramNameListBox("invalidBatchNamePrefix");
 		util.doSendKeys(addBatchFirstName, selectDataFromExcel("invalidBatchNamePrefix", "BatchNamePrefix"));
@@ -228,25 +264,32 @@ public class BatchPage {
 	}
 
 	public void enterAllDetails(String saveCancel, String testcaseName) {
+		
+		System.out.println("Inside enterAllDetails method in Batch Page");
 		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		selectProgramNameDD();
 		try {
-		selectProgramNameListBox(testcaseName);
+			selectProgramNameListBox(testcaseName);
+		} catch (Exception e) {
+
 		}
-		catch(Exception e) {
-			
-		}
-		String finalBatchNamePrefix = selectDataFromExcel(testcaseName, "ProgramName");
 		// Get the current BatchName value and increment it
 		String batchNameStr = testData.get("BatchName");
 		String newBatchName = "";
 		if (batchNameStr != null && !batchNameStr.trim().isEmpty()) {
 			try {
-				int batchNumber = Integer.parseInt(batchNameStr.split("\\.")[0]); // Convert to integer
-				batchNumber++; // Increment only if it's not empty
-				newBatchName = String.valueOf(batchNumber); // Assign incremented value
+				// Convert to integer
+				int batchNumber = Integer.parseInt(batchNameStr.split("\\.")[0]); 
+				
+				// Increment only if it's not empty
+				batchNumber++; 
+				
+				// Assign incremented value
+				newBatchName = String.valueOf(batchNumber); 
 			} catch (NumberFormatException e) {
-				newBatchName = batchNameStr; // If parsing fails, retain the original value
+				
+				// If parsing fails, retain the original value
+				newBatchName = batchNameStr; 
 			}
 		}
 		// Only enter a value if newBatchName is not empty
@@ -257,65 +300,56 @@ public class BatchPage {
 		}
 		util.doSendKeys(addBatchDesc, testData.get("Description"));
 		getActiveStatusRadioButton();
-		
+
 		String noOfClassesStr = testData.get("NoOfClasses");
-		
-		 if (noOfClassesStr == null || noOfClassesStr.trim().isEmpty()) {
-		        System.out.println("NoOfClasses is missing or empty. Skipping input.");
-		    } else {
-		        try {
-		            int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]);
-		            String newNoOfClasses = String.valueOf(noOfClasses);
-		            util.doSendKeys(addBatchNoOfClasses, newNoOfClasses);
-		        } catch (NumberFormatException e) {
-		            System.out.println("Invalid number format for NoOfClasses: " + noOfClassesStr);
-		        }
-		    }
-		
+
+		if (noOfClassesStr == null || noOfClassesStr.trim().isEmpty()) {
+			Log.logInfo("NoOfClasses is missing or empty. Skipping input.");
+		} else {
+			try {
+				int noOfClasses = Integer.parseInt(noOfClassesStr.split("\\.")[0]);
+				String newNoOfClasses = String.valueOf(noOfClasses);
+				util.doSendKeys(addBatchNoOfClasses, newNoOfClasses);
+			} catch (NumberFormatException e) {
+				Log.logInfo("Invalid number format for NoOfClasses: " + noOfClassesStr);
+			}
+		}
+
 		if (saveCancel.equalsIgnoreCase("Save")) {
 			saveButtonClick();
 			String toastMessage = getToast();
 			if (!toastMessage.isEmpty()) { // If toast appears, process it
 				if (toastMessage.equalsIgnoreCase("Successful")) {
 					if (testcaseName.equalsIgnoreCase("validAll")) {
-						System.out.println("Batch created successfully - chaining");
-						String finalBatchName = ProgramPage.getProgramName() + newBatchName;
-						System.out.println("Batch Name: " + finalBatchName);
-						setBatchName(finalBatchName);
+						Log.logInfo("Batch created successfully - chaining");
+						String finalBatchName = (String) RunTimeData.getData("programNameEdit") + newBatchName;
+						Log.logInfo("BatchName_All: " + finalBatchName);
+						RunTimeData.setData("BatchName_All", finalBatchName);
 					} else {
 
-						System.out.println("Batch created successfully - " + toastMessage);
-						String finalBatchName1 = finalBatchNamePrefix + newBatchName;
-						System.out.println("Batch Name: " + finalBatchName1);
-						setBatchName1(finalBatchName1);
+						Log.logInfo("Batch created successfully - " + toastMessage);
+						String finalBatchName1 = (String) RunTimeData.getData("programNameEdit") + newBatchName;
+
+						Log.logInfo("BatchName_Mandatory: " + finalBatchName1);
+						RunTimeData.setData("BatchName_Mandatory", finalBatchName1);
 
 					}
 				} else {
-					System.out.println("Unexpected Toast Message: " + toastMessage);
+					Log.logInfo("Unexpected Toast Message: " + toastMessage);
 				}
 			} else {
 				// If no toast message appears, fetch the error message
 				String errorMessage = getErrorMessage();
 				if (!errorMessage.isEmpty()) {
-					System.out.println("Error: " + errorMessage);
+					Log.logInfo("Error: " + errorMessage);
 				} else {
-					System.out.println("No toast or error message found.");
+					Log.logInfo("No toast or error message found.");
 				}
 			}
 
 		} else {
 			cancelButtonClick();
 		}
-	}
-
-	// Setter method to set the batch name
-	public static void setBatchName(String batchName) {
-		BatchPage.BatchName = batchName; // Store the batch name in the static variable
-	}
-
-	// Getter method to get the batch name
-	public static String getBatchName() {
-		return BatchName; // Return the stored batch name
 	}
 
 	public String getToast() {
@@ -341,7 +375,6 @@ public class BatchPage {
 
 	public void clickAction(String actionType) {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		// Wait for the overlay to disappear
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".cdk-overlay-backdrop")));
 		WebElement actionIcon = null;
 		if (actionType.equalsIgnoreCase("edit")) {
@@ -362,7 +395,9 @@ public class BatchPage {
 		testData = ExcelReader.getTestData(sheetName, testcaseName);
 		String descriptionStr = testData.get("Description");
 		String descFinal;
-		if (descriptionStr.matches("\\d+(\\.\\d+)?")) { // Check if it's numeric
+		
+		// Check if it's numeric
+		if (descriptionStr.matches("\\d+(\\.\\d+)?")) { 
 			int desc = Integer.parseInt(descriptionStr.split("\\.")[0]);
 			descFinal = String.valueOf(desc);
 		} else {
@@ -388,18 +423,17 @@ public class BatchPage {
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
 
 			if (getToast().equalsIgnoreCase("Successful")) {
-				System.out.println("Batch updated successfully");
+				Log.logInfo("Batch updated successfully");
 			} else {
 				String errorMessage = getErrorMessage();
 				if (!errorMessage.isEmpty()) {
-					System.out.println("Error: " + errorMessage);
+					Log.logInfo("Error: " + errorMessage);
 				} else {
-					System.out.println("No toast or error message found.");
+					Log.logInfo("No toast or error message found.");
 				}
 			}
 
 		} else {
-			// Wait for the overlay to disappear before clicking Cancel
 			WebElement CancelBtn = driver.findElement(cancelButton);
 			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", CancelBtn);
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", CancelBtn);
@@ -430,7 +464,6 @@ public class BatchPage {
 
 	public void isElementIntercepted() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		
 		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("cdk-overlay-backdrop")));
 		overlay.click();
@@ -511,7 +544,8 @@ public class BatchPage {
 		js.executeScript("document.elementFromPoint(0, 0).click();");
 		WebElement Searchtext = wait.until(ExpectedConditions.presenceOfElementLocated(searchBox));
 		util.doClick(Searchtext);
-		System.out.println("Batch name is: " + search);
+		Searchtext.clear();
+		Log.logInfo("Batch name is: " + search);
 		Searchtext.sendKeys(search);
 	}
 
@@ -529,26 +563,73 @@ public class BatchPage {
 				if (batchRows.size() > 0) {
 					for (WebElement row : batchRows) {
 						String rowText = row.getText();
-						System.out.println("search text is: " + getBatchName1());
-						if (rowText.contains(getBatchName1())) {
+						Log.logInfo("search text is: " + (String) RunTimeData.getData("BatchName_All"));
+						if (rowText.contains((String) RunTimeData.getData("BatchName_All"))) {
 							flag = true;
 							break;
 						}
 					}
 				} else {
-					System.out.println("No results found in the data table.");
+					Log.logInfo("No results found in the data table.");
 				}
 				break;
 			} catch (StaleElementReferenceException e) {
 				retryCount++;
-				System.out.println("StaleElementReferenceException encountered. Retrying... " + retryCount);
+				Log.logInfo("StaleElementReferenceException encountered. Retrying... " + retryCount);
 			}
 		}
 		if (retryCount >= 3) {
-			System.out.println("Failed to validate search due to stale elements after multiple retries.");
+			Log.logInfo("Failed to validate search due to stale elements after multiple retries.");
 		}
 		return flag;
 	}
 
-}
+	public void columnNameSorting(String columnName, int noOfTimesClick) {
+		isElementIntercepted();
+		WebElement columnNameSort = driver.findElement(By.xpath("//th[normalize-space()='" + columnName
+				+ "']//i[@class='p-sortable-column-icon pi pi-fw pi-sort-alt']"));
+		for (int i = 1; i <= noOfTimesClick; i++) {
+			columnNameSort.click();
+		}
+	}
 
+	// convert web element to java string list
+	public List<String> printWebElements(List<WebElement> options) {
+		List<String> texts = new ArrayList<String>();
+		int i = 0;
+		for (WebElement option : options) {
+			texts.add(i, option.getText());
+			i++;
+		}
+		return texts;
+	}
+
+	public List<String> getOriginalList(String type) {
+		List<String> originalList = null;
+
+		if (type.equals("Program Name")) {
+			originalList = printWebElements(util.getElements(programNameList));
+
+		} else if (type.equals("Batch Name")) {
+			originalList = printWebElements(util.getElements(batchNameList));
+
+		} else if (type.equals("Batch Description")) {
+			originalList = printWebElements(util.getElements(batchDescriptionList));
+
+		} else if (type.equals("Batch Status")) {
+			originalList = printWebElements(util.getElements(batchStatusList));
+
+		} else if (type.equals("No Of Classes")) {
+			originalList = printWebElements(util.getElements(noOfClassesList));
+
+		}
+		return originalList;
+	}
+
+	public List<String> getSortedList(List<String> originalList) {
+		List<String> sortedList = new ArrayList<>(originalList);
+		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
+		return sortedList;
+	}
+
+}

@@ -5,6 +5,8 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import utilities.Log;
 import utilities.ReadConfig;
+import utilities.RunTimeData;
+
 import java.io.ByteArrayInputStream;
 
 import org.openqa.selenium.OutputType;
@@ -35,7 +37,7 @@ public class BaseClass {
         
 		String excelPath = new ReadConfig().getExcelPath();
         System.out.println("Excel file path = " + excelPath); 
-        if(excelPath != null ||!(excelPath.isEmpty())) {
+        if(excelPath != null) {
         	
         	ExcelReader.openExcel(excelPath);
     	    System.out.println("Excel file opened successfully.");
@@ -48,7 +50,15 @@ public class BaseClass {
 	public void setUp() {
 		
 		Log.logInfo("Initializing WebDriver");
-		String browserName = readConfig.getbrowser();
+		
+		String browserName = null;
+		if(readConfig.getBrowserFromTestNG() != null ) {
+			browserName = readConfig.getBrowserFromTestNG();
+		}
+		else {
+			browserName = readConfig.getbrowser();
+		}
+			
 		WebDriver driver = context.getDriverFactory().initialiseBrowser(browserName);
 		context.setDriver(driver);
 		Log.logInfo("Navigating to: " + readConfig.getApplicationURL());
@@ -75,6 +85,10 @@ public class BaseClass {
 	@AfterAll
 	public static void externalFIleOrAppTearDown() {
 		try {
+			
+			//empty dataMap
+			RunTimeData.emptyDataMap();
+			
 			// Close the Excel file
 			ExcelReader.closeExcel();
 			System.out.println("Excel file closed successfully.");
@@ -82,12 +96,15 @@ public class BaseClass {
 			e.printStackTrace();
 		}
 	}
-
+	
 	// to attach screeshots in allure
-	@Attachment(value = "Screenshot", type = "image/png")
-	public byte[] attachScreenshot(WebDriver driver) {
-		// Capture the screenshot and return it as bytes
-		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-	}
+		@Attachment(value = "Screenshot", type = "image/png")
+		public byte[] attachScreenshot(WebDriver driver) {
+			// Capture the screenshot and return it as bytes
+			return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+		}
+
+
+	
 
 }

@@ -10,7 +10,7 @@ Feature: Program Module
     When Admin clicks "Program" on the navigation bar
     Then Admin should be navigated to Program page
 
-  @TC2 @MenuBar
+  @TC2 @MenuBar @smoke
   Scenario: Verify Logout displayed in menu bar
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -34,7 +34,7 @@ Feature: Program Module
     When Admin clicks "Program" on the navigation bar
     Then Admin should see the Manage Program "Manage Program" Heading
 
-  @TC6 @ManageProgramPageValidation
+  @TC6 @ManageProgramPageValidation @smoke
   Scenario: Verify view details of programs
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -100,8 +100,8 @@ Feature: Program Module
     Given Admin is on Program page
     When Admin clicks "Program" on the navigation bar
     Then Admin should see sub menu in menu bar as "Add New Program"
-    
-  @TC17 @AddNewProgram @smoke @try
+
+  @TC17 @AddNewProgram @smoke
   Scenario Outline: Verify Admin is able to save the new program details and search validation
     Given Admin is on home page after Login
     When Admin clicks "Program" on the navigation bar
@@ -113,17 +113,17 @@ Feature: Program Module
       | testcase       |
       | validInputData |
 
-  @TC18 @SearchProgramValidation
+  @TC18 @SearchProgramValidation @smoke
   Scenario: Verify created Program details
     Given Admin is on Program page
     When Admin searches with newly created Program "Name"
-    Then Records of the newly created  "Program Name" is displayed and match the data entered
+    Then Records of the newly created  program is displayed and match the data entered
 
-  @TC19 @EditProgramValidation @rerun @try
+  @TC19 @EditProgramValidation @smoke
   Scenario Outline: Verify Edit option and edited Program Details
     Given Admin is on Program page
-    When Admin edits the program "Name" and click on save button for "<testcase>"
-    Then Updated program "Name" and "Desc" and "Status" is seen by the Admin
+    When Admin edits the program name and click on save button for "<testcase>"
+    Then Updated program Name and Desc and Status is seen by the Admin
 
     Examples: 
       | testcase           |
@@ -163,16 +163,11 @@ Feature: Program Module
   @TC25 @EditProgram
   Scenario: Verify Edit option
     Given Admin is on Program page
-    When Admin clicks on Edit option for particular program name "LMSUI"
+    When Admin clicks on Edit option for particular program name "technoTribejve"
     And Admin clicks Cancel button
     Then Admin can see Program Details form disappears
 
   #----------------------------Delete Program-----------------------------
-  @TC26 @DeleteProgram
-  Scenario: Verify Admin is able to delete program
-    Given Admin is on Confirm deletion form for program "Name"
-    When Admin clicks on Yes button
-    Then Admin can see "Successful Program Deleted" message
 
   @TC27 @DeleteProgram
   Scenario: Verify Admin is able to click 'No'
@@ -235,17 +230,129 @@ Feature: Program Module
     Then Admin gets error message
 
     Examples: 
+      | testcase               |
+      | InvalidProgName        |
+      | InvalidProgDesc        |
+      | InvalidExistingProgBug |
+  #   | InvalidExistingProgName |
+  @TC36 @AddNewProgramNeagtive
+  Scenario Outline: Verify Add New Program with already existing Program Name
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+   Then Admin gets error message for existing Program name on the Program Details Pop up
+
+    Examples: 
       | testcase                |
-      | InvalidProgName         |
-      | InvalidProgDesc         |
-      | InvalidExistingProgBug  |
       | InvalidExistingProgName |
-  #@TC36
-  #Scenario Outline: Verify Add New Program with already existing Program Name
-    #Given Admin is on Program details form
-    #When Admin enters details for "<testcase>" for mandatory fields and Click on save button
-    #Then Admin gets message "Program name is already exist." on Program Details Pop up
-#
-    #Examples: 
-      #| testcase            |
-      #| InvalidExistingProgName |
+
+  @TC37 @AddNewProgramNeagtive
+  Scenario Outline: Verify Add New Program with blank Program Name
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin gets error message for blank Program Name on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidBlankProgName|
+      
+       @TC38 @AddNewProgramNeagtive
+  Scenario Outline: Verify Add New Program with blank Program Description
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin gets error message on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidBlankProgDescription|
+      
+        @TC39 @AddNewProgramNeagtive
+  Scenario Outline: Verify Add New Program with Program Name for than 26 characters
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin sees error message for invalid Program Name on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidProgramNameTooLong|
+      
+       @TC40 @AddNewProgramNeagtive
+  Scenario Outline: Verify Add New Program with Program Description starts with special character
+    Given Admin is on Program details form
+    When Admin enters details for "<testcase>" for mandatory fields and Click on save button
+    Then Admin sees error message for invalid Program Description on the Program Details Pop up
+
+    Examples: 
+      | testcase                |
+      | InvalidProgDescStartsWithSpecialChar|
+      
+ #----------------------------Program Pagination Scenarios Programs-----------------------------
+        
+   
+
+  @TC41 @ProgramPagination
+  Scenario: Verify Admin is able to click Next page link
+    Given Admin is on Program page
+    When Admin clicks Next page link on the program table
+    Then Admin should see the Pagination has "Next" active link
+
+  @TC42 @ProgramPagination
+  Scenario: Verify Admin is able to click  Last page link
+    Given Admin is on Program page
+    When Admin clicks Last page link
+    Then Admin should see the last page record on the table with Next page link are disabled
+
+  @TC43 @ProgramPagination @smoke
+  Scenario: Verify Admin is able to click Previous page link
+    Given Admin is on last page of Program page table
+    When Admin clicks Previous page link
+    Then Admin should see the previous page record on the table with pagination has previous page link
+
+  @TC44 @ProgramPagination @smoke
+  Scenario: Verify Admin is able to click  First page link
+    Given Admin is on Previous Program page
+    When Admin clicks First page link
+    Then Admin should see the very first page record on the table with Previous page link are disabled
+    
+     #----------------------------Program Sorting Scenarios Programs-----------------------------
+     
+     
+
+  @TC45 @ProgramSorting  @smoke
+  Scenario: Verify sorting of  Program name in ascending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to Program Name of Program module page for sort ascending
+    Then Admin See the Program Name is sorted in ascending order
+
+  @TC46 @ProgramSorting @smoke
+  Scenario: Verify sorting of Program name in Descending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to Program Name of Program module page for sort descend
+    Then Admin See the Program Name is sorted in descending order
+
+  @TC47 @ProgramSorting
+  Scenario: Verify sorting of Program Description in Ascending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program description of Program module page for sort ascending
+    Then Admin See the program description is sorted Ascending order in Program module page
+
+  @TC48 @ProgramSorting
+  Scenario: Verify sorting of Program Description in Descending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program description of Program module page for sort descending
+    Then Admin See the program description is sorted Descending order in Program module page
+
+  @TC49 @ProgramSorting
+  Scenario: Verify sorting of Program Status in Ascending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program Status of Program module page for sort ascending
+    Then Admin See the program Status is sorted Ascending order in Program module page
+
+  @TC50 @ProgramSorting
+  Scenario: Verify sorting of Program Status in Descending order
+    Given Admin is on Program page
+    When Admin clicks on Arrow next to program Status of Program module page for sort descending
+    Then Admin See the program Status is sorted descending order in Program module page
+     
+        
+
+   

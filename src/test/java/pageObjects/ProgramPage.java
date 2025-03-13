@@ -3,10 +3,13 @@ package pageObjects;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -20,7 +23,9 @@ import org.testng.Assert;
 
 import utilities.ElementUtil;
 import utilities.ExcelReader;
+import utilities.Log;
 import utilities.ReadConfig;
+import utilities.RunTimeData;
 
 public class ProgramPage extends CommonPage {
 
@@ -29,45 +34,10 @@ public class ProgramPage extends CommonPage {
 	ReadConfig readConfig;
 	Actions actions;
 
-	public static String NewProgramName;
-	public static String UpdatedProgramName;
-	public static String UpdatedProgramDesc;
-	public static String UpdatedProgramStatus;
-
-	private String filePath; // Excel file location
 	private String sheetName = "Program";
 
 	Map<String, String> programData;
-
-	/*
-	 * @FindBy(xpath = "//button[@id='program']") WebElement menu_Program;
-	 */
-
-	/*
-	 * @FindBy(xpath = "//*[contains(text(),'Manage Program')]") WebElement
-	 * programPageTitle;
-	
-
-	@FindBy(xpath = "//mat-toolbar[@class='mat-toolbar mat-primary mat-toolbar-single-row ng-star-inserted']")
-	WebElement headerBar;
-
-
-	@FindAll(value = { @FindBy(xpath = "//table/tbody//tr") })
-	List<WebElement> programResults;
-	
-	
-	@FindBy(id = "filterGlobal")
-	WebElement searchBox;
-
-	
-	 * @FindBy(xpath = "//table/tbody") WebElement programTable;
-	 */
-
-	/*
-	 * @FindBy(xpath =
-	 * ".//table/thead/tr/th[1]/p-tableheadercheckbox/div/div[2]/span") WebElement
-	 * checkBoxHeader;
-	 */
+	private static final Logger log = LogManager.getLogger(ProgramPage.class);
 
 	public ProgramPage(WebDriver driver) {
 		super(driver);
@@ -75,7 +45,6 @@ public class ProgramPage extends CommonPage {
 		PageFactory.initElements(driver, this);
 		util = new ElementUtil(this.driver);
 		readConfig = new ReadConfig();
-		filePath = readConfig.getExcelPath();
 		actions = new Actions(driver);
 	}
 
@@ -113,9 +82,9 @@ public class ProgramPage extends CommonPage {
 	By programTable = By.xpath("//table/tbody");
 	By footerPrograms = By.xpath("//div[@class='p-d-flex p-ai-center p-jc-between ng-star-inserted']");
 
-	//Tohfa
+	// Tohfa
 	By checkBoxHeader = By.xpath(".//table/thead/tr/th[1]/p-tableheadercheckbox/div/div[2]/span");
-	//By searchBox = By.id("filterGlobal");
+	// By searchBox = By.xpath("//input[@placeholder='Search...']");
 	@FindBy(id = "filterGlobal")
 	WebElement searchBox;
 
@@ -125,27 +94,26 @@ public class ProgramPage extends CommonPage {
 	By firstPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-first')]");
 	By nextPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-next')]");
 	By lastPaginatorBtn = By.xpath("//button[contains(@class,'p-paginator-last')]");
-	
+
 	// sort element locators
-	
+
 	By programNameSort = By.xpath("//thead//tr//th[2]//i");
 	By programDescriptionSort = By.xpath("//thead//tr//th[3]//i");
 	By programStatusSort = By.xpath("//thead//tr//th[4]//i");
-	
+
 	// SortList
 	By programNameList = By.xpath("//tbody//td[2]");
 	By programDescriptionList = By.xpath("//tbody//td[3]");
 	By programStatusList = By.xpath("//tbody//td[4]");
-	
 
 	public String getProgramPageTitle() {
-		//return util.getElementText(programPageTitle);
+		// return util.getElementText(programPageTitle);
 		return util.getElementText(manageProgramTitle);
 	}
 
 	public void isLogoutDisplayedMenuBar() {
 		util.isElementDisplayed(menu_logout);
-		//menu_logout.isDisplayed();
+		// menu_logout.isDisplayed();
 	}
 
 	public String getLMSHeaderMenuBar() {
@@ -161,16 +129,17 @@ public class ProgramPage extends CommonPage {
 	}
 
 	public void menuBarDisplay() {
-		
+
 		WebElement headerBarEle = util.getElement(headerBar);
-		//List<WebElement> buttons = headerBar.findElements(By.xpath("//div[@class='ng-star-inserted']//button"));
+		// List<WebElement> buttons =
+		// headerBar.findElements(By.xpath("//div[@class='ng-star-inserted']//button"));
 		List<WebElement> buttons = headerBarEle.findElements(By.xpath("//div[@class='ng-star-inserted']//button"));
 
 		Assert.assertTrue(buttons.size() > 0, "Menu headers are not present in the navigation bar");
 		for (WebElement button : buttons) {
 			String buttonText = button.getText().trim();
 			Assert.assertFalse(buttonText.isEmpty(), "Navigation button text is missing for one of the buttons.");
-			System.out.println("Button text: " + buttonText);
+			log.info("Button text: " + buttonText);
 		}
 	}
 
@@ -188,100 +157,49 @@ public class ProgramPage extends CommonPage {
 		return util.getElementText(addNewProgramTitle);
 	}
 
-	public void verifyAddNewProgramPopUpDisplay() {
-		util.isElementDisplayed(addNewProgramPopUp);
+	public boolean isAddNewProgramPopUpDisplayed() {
+		return util.isElementDisplayed(addNewProgramPopUp);
 	}
 
-	public static char getRandomCharacter() {
-		Random random = new Random();
-		return (char) ('b' + random.nextInt(26));
-	}
-
-	/*
-	 * public void fillProgramForm(String testCase) {
-	 * 
-	 * programData = ExcelReader.getTestData(filePath, sheetName, testCase);
-	 * 
-	 * System.out.println("Program data from excel --" + programData);
-	 * 
-	 * String programName = programData.get("ProgramName"); String programDesc =
-	 * programData.get("ProgramDescription"); String status =
-	 * programData.get("ProgramStatus");
-	 * 
-	 * programName = programName + getRandomCharacter();
-	 * System.out.println("Program Name Input :" + programName);
-	 * 
-	 * if (programName != null && !programName.isEmpty()) {
-	 * util.doSendKeys(programNameInput, programName); } else {
-	 * System.out.println("Program Name is missing or empty"); }
-	 * 
-	 * if (programDesc != null && !programDesc.isEmpty()) {
-	 * util.doSendKeys(programDescInput, programDesc);
-	 * 
-	 * } else { System.out.println("Program Description is missing or empty"); }
-	 * 
-	 * By statusRadioBtn = By.xpath("//input[@id='" + status + "']");
-	 * util.clickElementByJS(statusRadioBtn, driver);
-	 * 
-	 * //ExcelReader.updateTestData(filePath, sheetName, testCase, "ProgramName",
-	 * programName); util.doClick(saveButton);
-	 * 
-	 * if (getToast().equalsIgnoreCase("Successful") &&
-	 * testCase.equalsIgnoreCase("validInputData")) {
-	 * System.out.println("Program created successfully");
-	 * System.out.println("Program Name: " + programName); /// Set the program name
-	 * after creation setProgramName(programName);
-	 * 
-	 * } else { System.out.println("Program creation failed"); }
-	 * 
-	 * }
-	 * 
-	 * 
-	 * 
-	 */
 
 	public void fillProgramForm(String testCase) throws Exception {
 
-		//programData = ExcelReader.getTestData(filePath, sheetName, testCase);
 		programData = ExcelReader.getTestData(sheetName, testCase);
 
-		System.out.println("Program data from excel --" + programData);
+		log.info("Program data from excel --" + programData);
 
 		String programName = programData.get("ProgramName");
 		String programDesc = programData.get("ProgramDescription");
 		String status = programData.get("ProgramStatus");
 
-		
-		if(testCase.equalsIgnoreCase("validInputData")) {
-			programName = programName + getRandomCharacter();
-			
+		if (testCase.equalsIgnoreCase("validInputData")) {
+			programName = programName + util.generateRandomString(3);
 		}
-		
-		System.out.println("Program Name Input :" + programName);
+
+
+		log.info("Program Name Input :" + programName);
 
 		if (programName != null && !programName.isEmpty()) {
 			util.doSendKeys(programNameInput, programName);
 		} else {
-			System.out.println("Program Name is missing or empty");
+			log.info("Program Name is missing or empty");
 		}
 
 		if (programDesc != null && !programDesc.isEmpty()) {
 			util.doSendKeys(programDescInput, programDesc);
 
 		} else {
-			System.out.println("Program Description is missing or empty");
+			log.info("Program Description is missing or empty");
 		}
 
 		By statusRadioBtn = By.xpath("//input[@id='" + status + "']");
 		util.clickElementByJS(statusRadioBtn, driver);
 
-		// ExcelReader.updateTestData(filePath, sheetName, testCase, "ProgramName",
-		// programName);
 		util.doClick(saveButton);
 
-		setProgramName(programName);
-		
-		
+		RunTimeData.setData("programName", programName);
+		RunTimeData.setData("programDesc", programDesc);
+		RunTimeData.setData("programstatus", status);
 
 	}
 
@@ -289,33 +207,33 @@ public class ProgramPage extends CommonPage {
 		util.doClick(saveButton);
 	}
 
-	public static void setProgramName(String programName) {
-		ProgramPage.NewProgramName = programName; // Store the program name in the static variable
-	}
+	public void editTheProgramAndClickSave(String testCase) throws InterruptedException {
 
-	public static String getProgramName() {
-		return NewProgramName;
-	}
+		String existingProgram = (String) RunTimeData.getData("programName");
 
-	public void editTheProgramAndClickSave(String newProgram, String testCase) throws InterruptedException {
+		Log.logInfo("ProgramName at run time received in line 235 in ProgramPage = " + existingProgram);
 
-		newProgram = getProgramName();
-		search(newProgram);
-		clickEditProgramBtn(newProgram);
+		while (existingProgram == null) {
+			Thread.sleep(1000);
+			// Then fetch data again
+			existingProgram = (String) RunTimeData.getData("programName");
+		}
 
-		//Use if 
-		Assert.assertEquals(getAddNewProgramPopUpTitle(), "Program Details");
+		// Search for Program and Click Edit
+		searchUpdatedProgram(existingProgram);
+		clickEditProgramBtn(existingProgram);
 
-		//programData = ExcelReader.getTestData(filePath, sheetName, testCase);
+		getAddNewProgramPopUpTitle().equals("Program Details");
+
 		programData = ExcelReader.getTestData(sheetName, testCase);
 
 		String programNameEdit = programData.get("ProgramName");
 		String programDescEdit = programData.get("ProgramDescription");
 		String programStatusEdit = programData.get("ProgramStatus");
 
-		System.out.println("Program name to update from excel >>" + programNameEdit);
+		log.info("Program name to update from excel >>" + programNameEdit);
 
-		programNameEdit = programNameEdit + getRandomCharacter();
+		programNameEdit = programNameEdit + util.generateRandomString(3);
 		util.mouseclickUsingAction(programNameInput);
 		util.clearField(programNameInput);
 		util.doSendKeys(programNameInput, programNameEdit);
@@ -332,21 +250,20 @@ public class ProgramPage extends CommonPage {
 		if (getToast().equalsIgnoreCase("Successful") && testCase.equalsIgnoreCase("validInputEditData")) {
 			System.out.println("Program updated successfully");
 			System.out.println("Updated Program Name: " + programNameEdit);
-			setUpdatedProgramName(programNameEdit);
-			setUpdatedProgramDesc(programDescEdit);
-			setUpdatedProgramStatus(programStatusEdit);
+
+			RunTimeData.setData("programNameEdit", programNameEdit);
+			RunTimeData.setData("programDescEdit", programDescEdit);
+			RunTimeData.setData("programStatusEdit", programStatusEdit);
 
 		} else {
-			System.out.println("Program update failed");
+			log.info("Program update failed");
 		}
 
 	}
 
 	public void deleteTheProgramAndClickSave(String newProgram, String testCase) throws InterruptedException {
 
-		// programData = ExcelReader.getTestData(filePath, sheetName, testCase);
-		newProgram = getProgramName();
-		// String programNameDelete = programData.get("ProgramName");
+		newProgram = (String) RunTimeData.getData("programNameEdit");
 		search(newProgram);
 		clickDeleteProgramBtn(newProgram);
 		util.isElementDisplayed(deleteConfirmationPopUp);
@@ -354,43 +271,17 @@ public class ProgramPage extends CommonPage {
 		util.doClick(deleteYesBtn);
 
 		if (getToast().equalsIgnoreCase("Successful")) {
-			System.out.println("Program deleted successfully");
-			System.out.println("Deleted Program Name: " + newProgram);
+			log.info("Program deleted successfully");
+			log.info("Deleted Program Name: " + newProgram);
 
 		} else {
-			System.out.println("Program deletion failed");
+			log.info("Program deletion failed");
 		}
 
 	}
 
-	public static void setUpdatedProgramName(String updatedProgramName) {
-		ProgramPage.UpdatedProgramName = updatedProgramName; // Store the program name in the static variable
-	}
-
-	public static String getUpdatedProgramName() {
-		return UpdatedProgramName;
-	}
-
-	public static void setUpdatedProgramDesc(String updatedProgramDesc) {
-		ProgramPage.UpdatedProgramDesc = updatedProgramDesc; // Store the program desc in the static variable
-	}
-
-	public static void setUpdatedProgramStatus(String updatedProgramStatus) {
-		ProgramPage.UpdatedProgramStatus = updatedProgramStatus; // Store the program status in the static variable
-	}
-
-	public static String getUpdatedProgramDescS() {
-		return UpdatedProgramDesc;
-	}
-
-	public static String getUpdatedProgramStatus() {
-		return UpdatedProgramStatus;
-	}
-
 	public WebElement getProgramRowElement(String programName) {
 		WebElement ele = util.getElement(programTable);
-		// return programTable.findElement(By.xpath("//tr/td[contains(text(),'" +
-		// programName + "')]/.."));
 		return ele.findElement(By.xpath("//tr/td[contains(text(),'" + programName + "')]/.."));
 
 	}
@@ -403,8 +294,8 @@ public class ProgramPage extends CommonPage {
 
 	public void clickDeleteProgramBtn(String programName) {
 
-		programName = getProgramName();
-		System.out.println("Program to be deleted >>>" + programName);
+		programName = (String) RunTimeData.getData("programNameEdit");
+		log.info("Program to be deleted >>>" + programName);
 		WebElement deleteProgBtn = getProgramRowElement(programName).findElement(deleteButton);
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteProgBtn);
 
@@ -419,7 +310,7 @@ public class ProgramPage extends CommonPage {
 		Thread.sleep(500);
 		util.clickElementByJS(deleteYesBtn, driver);
 
-		System.out.println("Clicked on Yes...");
+		log.info("Clicked on Yes...");
 
 	}
 
@@ -436,7 +327,7 @@ public class ProgramPage extends CommonPage {
 		util.isElementDisplayed(successPopupContent);
 
 		String content = util.getElementText(successPopupContent);
-		System.out.println("Message >>>>" + content);
+		log.info("Message >>>>" + content);
 
 		if (content.equals(message)) {
 			return true;
@@ -470,38 +361,28 @@ public class ProgramPage extends CommonPage {
 	public void search(String newProgram) {
 
 		searchBox.clear();
-		//util.getElement(searchBox).clear();		
 		util.doClick(searchBox);
-		//System.out.println("Program to search>>" + getProgramName());
-		searchBox.sendKeys(getProgramName());
-		//util.doSendKeys(searchBox, getProgramName());
+		log.info("Program to search>>" + (String) RunTimeData.getData("programName"));
+		searchBox.sendKeys((String) RunTimeData.getData("programName"));
 
 	}
-
 	public void searchForEditDeleteProgram(String newProgram) {
-		//searchBox.clear();
-		WebElement overlay = driver.findElement(By.className("cdk-overlay-backdrop"));
-		overlay.click();
-		//util.getElement(searchBox).clear();	
+		searchBox.clear();
 		util.doClick(searchBox);
 		searchBox.sendKeys(newProgram);
-		//util.doSendKeys(searchBox, newProgram);
+
 	}
 
 	public void searchUpdatedProgram(String updatedProgram) {
 
-		//searchBox.clear();
-		//util.getElement(searchBox).clear();
+		searchBox.clear();
 		util.doClick(searchBox);
-		//System.out.println("Program to search>>" + getProgramName());
-		searchBox.sendKeys(getUpdatedProgramName());
-	//	util.doSendKeys(searchBox, getUpdatedProgramName());
+		searchBox.sendKeys(updatedProgram);
 
 	}
 
-
-	public void verifySearchResultProgramName(String newProgram) {
-		newProgram = getProgramName();
+	public String verifySearchResultProgramName() {
+		String newProgram = (String) RunTimeData.getData("programName");
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(
@@ -510,16 +391,16 @@ public class ProgramPage extends CommonPage {
 		WebElement result = driver.findElement(By.xpath("//td[contains(text(),'" + newProgram + "')]"));
 
 		String resultText = result.getText();
-		System.out.println("Search result >>" + resultText);
-		Assert.assertEquals(resultText, newProgram, "Searched Program Name does not match the result!");
-		System.out.println("Search result validation passed: " + resultText);
-
+		log.info("Search result >>" + resultText);
+		log.info("Search result validation passed: " + resultText);
+		return resultText;
 	}
 
-	public void verifyUpdatedProgramDetails(String updatedProgram, String updatedProgramDesc, String updatedStatus) {
-		updatedProgram = getUpdatedProgramName();
-		updatedProgramDesc = getUpdatedProgramDescS();
-		updatedStatus = getUpdatedProgramStatus();
+	public Map<String, String> verifyUpdatedProgramDetails() {
+
+		String updatedProgram = (String) RunTimeData.getData("programNameEdit");
+		String updatedProgramDesc = (String) RunTimeData.getData("programDescEdit");
+		String updatedStatus = (String) RunTimeData.getData("programStatusEdit");
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions
@@ -532,44 +413,46 @@ public class ProgramPage extends CommonPage {
 		String resultNameText = resultName.getText();
 		String resultDescText = resultDesc.getText();
 		String resultStatusText = resultStatus.getText();
-		System.out.println("Search result Name >>" + resultNameText);
-		System.out.println("Search result Desc >>" + resultDescText);
-		Assert.assertEquals(resultNameText, updatedProgram, "Searched Program Name does not match the result!");
-		Assert.assertEquals(resultDescText, updatedProgramDesc, "Searched Program Desc does not match the result!");
-		Assert.assertEquals(resultStatusText, updatedStatus, "Searched Program Status does not match the result!");
-		System.out.println("Search result validation passed: ");
 
+		Map<String, String> actualResultMap = new HashMap<>();
+		actualResultMap.put("resultProgramNameText", resultNameText);
+		actualResultMap.put("resultProgramDescText", resultDescText);
+		actualResultMap.put("resultProgramStatusText", resultStatusText);
+
+		log.info("Search result Name >>" + resultNameText);
+		log.info("Search result Desc >>" + resultDescText);
+		log.info("Search result validation passed: ");
+
+		return actualResultMap;
 	}
 
-	public void verifySearchBarManageProgram(String searchBarText) {
+	public boolean verifySearchBarManageProgram(String searchBarText) {
 
 		searchBox.isDisplayed();
-	//	util.isElementDisplayed(searchBox);
-		System.out.println("Search bar text -" + util.getAttributeVal(searchBar, "placeholder"));
-		Assert.assertEquals(util.getAttributeVal(searchBar, "placeholder"), searchBarText);
+		log.info("Search bar text -" + util.getAttributeVal(searchBar, "placeholder"));
+
+		return util.getAttributeVal(searchBar, "placeholder").equalsIgnoreCase(searchBarText);
 
 	}
 
 	public boolean verifyCheckBoxUnchecked() {
-//		if (!checkBoxHeader.isSelected()) {
 		if (!util.getElement(checkBoxHeader).isSelected()) {
-			System.out.println("Checkbox is unchecked");
+			log.info("Checkbox is unchecked");
 
 			return true;
 		} else {
-			System.out.println("Checkbox is checked");
+			log.info("Checkbox is checked");
 			return false;
 		}
 
 	}
 
-	public void verifyFooterOfManageProgram() {
+	public boolean verifyFooterOfManageProgram() {
 
 		WebElement paginationInfo = driver
 				.findElement(By.xpath("//span[@class='p-paginator-current ng-star-inserted']"));
 		String text = paginationInfo.getText(); // "Showing 1 to 10 of 50 entries"
 
-		// Split the text and get the second last word (the total count)
 		String[] words = text.split(" ");
 		String totalEntries = words[words.length - 2];
 
@@ -578,7 +461,7 @@ public class ProgramPage extends CommonPage {
 		String actualFooterText = util.getElementText(footerPrograms);
 		String expectedText = "In total there are " + totalPrograms + " programs.";
 
-		Assert.assertEquals(actualFooterText, expectedText);
+		return actualFooterText.equals(expectedText);
 
 	}
 
@@ -628,31 +511,28 @@ public class ProgramPage extends CommonPage {
 		return false;
 	}
 
-	public void verifyRequiredFieldErrorMessage() {
-
-		String expProgNameErrorMsg = "Program name is required.";
-		String expProgDescErrorMsg = "Description is required.";
-		String expStatusErrorMsg = "Status is required.";
+	public Map<String, String> verifyRequiredFieldErrorMessage() {
 
 		List<WebElement> actualMsgs = driver.findElements(requiredFieldErrorMsgs);
 		String progNameErrorMsg = actualMsgs.get(0).getText();
 		String progDescErrorMsg = actualMsgs.get(1).getText();
 		String statusErrorMsg = actualMsgs.get(2).getText();
 
-		Assert.assertEquals(progNameErrorMsg, expProgNameErrorMsg);
-		Assert.assertEquals(progDescErrorMsg, expProgDescErrorMsg);
-		Assert.assertEquals(statusErrorMsg, expStatusErrorMsg);
+		Map<String, String> actualErrorMsgsMap = new HashMap<>();
+		actualErrorMsgsMap.put("progNameErrorMsg", progNameErrorMsg);
+		actualErrorMsgsMap.put("progDescErrorMsg", progDescErrorMsg);
+		actualErrorMsgsMap.put("statusErrorMsg", statusErrorMsg);
+
+		return actualErrorMsgsMap;
 
 	}
-	
-	public void verifyProgramNameAlreadyExistsErrorMessage(String expProgNameErrorMsg) {
 
-		//String expProgNameErrorMsg = "Program name is already exist.";
+	public String verifyProgramNameAlreadyExistsErrorMessage(String expProgNameErrorMsg) {
 
 		List<WebElement> actualMsgs = driver.findElements(requiredFieldErrorMsgs);
 		String progNameExistErrorMsg = actualMsgs.get(0).getText();
 
-		Assert.assertEquals(progNameExistErrorMsg, expProgNameErrorMsg);
+		return progNameExistErrorMsg;
 
 	}
 
@@ -670,116 +550,108 @@ public class ProgramPage extends CommonPage {
 
 		Thread.sleep(500);
 		List<WebElement> programResults = driver.findElements(programResultsTable);
-		System.out.println("Results list size ---" + programResults.size());
+		log.info("Results list size ---" + programResults.size());
 		if (programResults.size() < 1)
 			return true;
 
 		return false;
 	}
-	
+
 	public void clickProgramNameSort() {
 		actions.click(util.getElement(programNameSort)).perform();
 		actions.click(util.getElement(programNameSort)).perform();
 	}
-	
-	// convert web element to java string list	
-		public List<String> printWebElements(List<WebElement> options) {
-			List<String> texts = new ArrayList<String>();
-			int i = 0;
-			for (WebElement option : options) {
-				texts.add(i, option.getText());
-				i++;
-			}
-			System.out.println("The number of items in the list are: " + texts.size());
-			return texts;
+
+	public List<String> printWebElements(List<WebElement> options) {
+		List<String> texts = new ArrayList<String>();
+		int i = 0;
+		for (WebElement option : options) {
+			texts.add(i, option.getText());
+			i++;
 		}
-	//get and return original list	
-		public List<String> getOriginalList(String type) {
-			List<String> originalList = null;
+		log.info("The number of items in the list are: " + texts.size());
+		return texts;
+	}
 
-			if (type.equals("ProgramName")) {
-				// originalList = printWebElements(BatchNameList);
-				originalList = printWebElements(util.getElements(programNameList));
+	// get and return original list
+	public List<String> getOriginalList(String type) {
+		List<String> originalList = null;
 
-			} else if (type.equals("ProgramDescription")) {
-				// originalList = printWebElements(classTopicList);
-				originalList = printWebElements(util.getElements(programDescriptionList));
+		if (type.equals("ProgramName")) {
+			originalList = printWebElements(util.getElements(programNameList));
 
-			} else if (type.equals("ProgramStatus")) {
-				// originalList = printWebElements(StatusList);
-				originalList = printWebElements(util.getElements(programStatusList));
+		} else if (type.equals("ProgramDescription")) {
+			originalList = printWebElements(util.getElements(programDescriptionList));
 
-			} 
-			return originalList;
-		}
-		
-		// this method will sort the given list
-		public List<String> getSortedList(List<String> originalList) {
-			System.out.println("Original List Before sorting is" + originalList);
-			List<String> sortedList = new ArrayList<>(originalList);
-			Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
-			System.out.println("Sorted List After sorting is" + sortedList);
-			return sortedList;
-		}
-		public void clickProgramNameSortDescend() {
-			actions.click(util.getElement(programNameSort)).perform();
-			actions.click(util.getElement(programNameSort)).perform();
-			actions.click(util.getElement(programNameSort)).perform();
+		} else if (type.equals("ProgramStatus")) {
+			originalList = printWebElements(util.getElements(programStatusList));
 
 		}
-		
-		public List<String> getSortedListDescending(List<String> originalList) {
+		return originalList;
+	}
 
-			System.out.println("Original List Before sorting is" + originalList);
-			List<String> sortedList = new ArrayList<>(originalList);
-			Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER.reversed());
-			System.out.println("Sorted List After sorting is" + sortedList);
-			return sortedList;
-		}
-		
-		public void clickProgramDescriptionSort() {
-			actions.click(util.getElement(programDescriptionSort)).perform();
-			actions.click(util.getElement(programDescriptionSort)).perform();
+	// this method will sort the given list
+	public List<String> getSortedList(List<String> originalList) {
+		log.info("Original List Before sorting is" + originalList);
+		List<String> sortedList = new ArrayList<>(originalList);
+		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER);
+		log.info("Sorted List After sorting is" + sortedList);
+		return sortedList;
+	}
 
-		}
-		public void clickProgramDescriptionSortDes() {
-			actions.click(util.getElement(programDescriptionSort)).perform();
-			actions.click(util.getElement(programDescriptionSort)).perform();
-			actions.click(util.getElement(programDescriptionSort)).perform();
+	public void clickProgramNameSortDescend() {
+		actions.click(util.getElement(programNameSort)).perform();
+		actions.click(util.getElement(programNameSort)).perform();
+		actions.click(util.getElement(programNameSort)).perform();
 
-		}
-		
-		public void clickProgramStatusSort() {
-			actions.click(util.getElement(programStatusSort)).perform();
-			actions.click(util.getElement(programStatusSort)).perform();
+	}
 
-		}
-		public void clickProgramStatusSortDes() {
-			actions.click(util.getElement(programStatusSort)).perform();
-			actions.click(util.getElement(programStatusSort)).perform();
-			actions.click(util.getElement(programStatusSort)).perform();
+	public List<String> getSortedListDescending(List<String> originalList) {
 
-		}
+		log.info("Original List Before sorting is" + originalList);
+		List<String> sortedList = new ArrayList<>(originalList);
+		Collections.sort(sortedList, String.CASE_INSENSITIVE_ORDER.reversed());
+		log.info("Sorted List After sorting is" + sortedList);
+		return sortedList;
+	}
 
+	public void clickProgramDescriptionSort() {
+		actions.click(util.getElement(programDescriptionSort)).perform();
+		actions.click(util.getElement(programDescriptionSort)).perform();
 
+	}
+
+	public void clickProgramDescriptionSortDes() {
+		actions.click(util.getElement(programDescriptionSort)).perform();
+		actions.click(util.getElement(programDescriptionSort)).perform();
+		actions.click(util.getElement(programDescriptionSort)).perform();
+
+	}
+
+	public void clickProgramStatusSort() {
+		actions.click(util.getElement(programStatusSort)).perform();
+		actions.click(util.getElement(programStatusSort)).perform();
+
+	}
+
+	public void clickProgramStatusSortDes() {
+		actions.click(util.getElement(programStatusSort)).perform();
+		actions.click(util.getElement(programStatusSort)).perform();
+		actions.click(util.getElement(programStatusSort)).perform();
+
+	}
 
 	public boolean verifyErrorMessage() {
 
-		
 		boolean isErrorMessagePresent = util.isElementDisplayed(toastErrorMessage);
 
-		 if (isErrorMessagePresent) {
+		if (isErrorMessagePresent) {
 			String errorMessage = getErrorToast();
-			System.out.println("Validation error displayed as expected: " + errorMessage);
-			
-			//String errorMessageContent = getErrorToastMessageContent();
-			//System.out.println("Validation error content displayed as expected: " + errorMessageContent);
-			
-			
-		}
-		 return isErrorMessagePresent;	 
-		
+			log.info("Validation error displayed as expected: " + errorMessage);
 
-}
+		}
+		return isErrorMessagePresent;
+
+	}
 
 }

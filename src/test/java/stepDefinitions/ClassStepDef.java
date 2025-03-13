@@ -29,6 +29,7 @@ public class ClassStepDef {
 	HomePage homePage;
 
 	boolean status;
+	String actualSuccessMsg_CreateClass;
 
 	public ClassStepDef(TestContext context) {
 		this.context = context;
@@ -46,7 +47,7 @@ public class ClassStepDef {
 		loginPage = new LoginPage(driver);
 		homePage = (HomePage) loginPage.doLoginWithValidCredentials(readConfig.getUsername(), readConfig.getPassword(),
 				"Admin");
-		System.out.println("DashBoard Url is " + driver.getCurrentUrl());
+		Log.logInfo("DashBoard Url is " + driver.getCurrentUrl());
 
 	}
 
@@ -111,7 +112,6 @@ public class ClassStepDef {
 	public void clicks_add_new_class_under_the_class_menu_bar() throws InterruptedException {
 
 		do {
-			// Code to be executed
 			classPage.clickClassBtn();
 			classPage.clickAddNewClass();
 		} while (!classPage.batchnamedropdownDisplayed());
@@ -124,7 +124,6 @@ public class ClassStepDef {
 		classPage.clickAddNewClass();
 		Thread.sleep(1000);
 	}
-	
 
 	@Then("Admin should see a popup open for class details with empty form along with <SAVE> and <CANCEL> button and Close\\(X) Icon on the top right corner of the window")
 	public void admin_should_see_a_popup_open_for_class_details_with_empty_form_along_with_SAVE_and_CANCEL_button_and_Close_X_Icon_on_the_top_right_corner_of_the_window()
@@ -163,31 +162,23 @@ public class ClassStepDef {
 
 	}
 
-	@When("Admin enters mandatory fields {string} {string} {string} {string} {string}  {string} {string} {string} in the form and clicks on save button")
-	public void admin_enters_mandatory_fields_in_the_form_and_clicks_on_save_button(String batchName, String classTopic,
-			String classDescription, String month, String date, String staffName, String Status, String expectedMsg)
-			throws Exception {
 
-		if (classPage.batchnamedropdownDisplayed()) {
-			System.out.println("batch name displayed:     " + classPage.batchnamedropdownDisplayed());
-
-			classPage.addingMandatoryFields(batchName.trim(), classTopic.trim(), classDescription.trim(), month.trim(),
-					date.trim(), staffName.trim(), Status.trim());
-			Assert.assertTrue(
-					classPage
-							.addingMandatoryFields(batchName.trim(), classTopic.trim(), classDescription.trim(),
-									month.trim(), date.trim(), staffName.trim(), Status.trim())
-							.equals(expectedMsg.trim()));
-		} else
-			System.out.println("Add New Class pop up didnt open");
-			
+	@When("Admin enters mandatory fields {string}, {string}, {string}, {string}, {string} and {string} in the form and clicks on save button")
+	public void admin_enters_mandatory_fields_and_in_the_form_and_clicks_on_save_button(String batchName, String classTopic, 
+			String classDescription, String date, String staffName, String status) throws Exception {
 		
+		if (classPage.batchnamedropdownDisplayed()) {
+			Log.logInfo("batch name displayed:     " + classPage.batchnamedropdownDisplayed());
 
+			actualSuccessMsg_CreateClass = classPage.addingMandatoryFields(batchName.trim(), classTopic.trim(),
+					classDescription.trim(), date.trim(), staffName.trim(), status.trim());
+		} else
+			Log.logInfo("Add New Class pop up didnt open");
 	}
 
-	@Then("Admin gets message Class added Successfully")
-	public void admin_gets_message_Class_added_Successfully() {
-		Log.logInfo("Class created successfully");
+	@Then("Admin gets message {string} in Manage Class page")
+	public void admin_gets_message_in_manage_class_page(String successMsg) {
+	    Assert.assertEquals(actualSuccessMsg_CreateClass, successMsg.trim());
 	}
 
 	@Then("Admin should see the Sort icon of all the field in the datatable.")
@@ -209,8 +200,8 @@ public class ClassStepDef {
 	@Then("Admin should see the showing entries and enabled pagination controls under the data table")
 	public void admin_should_see_the_and_enabled_pagination_controls_under_the_data_table() {
 		Assert.assertTrue(classPage.validateShowingEnteries());
-	    Log.logInfo("Footer is displayed");
-	    
+		Log.logInfo("Footer is displayed");
+
 	}
 
 	@When("Admin clicks Cancel Icon on class Details form")
@@ -249,19 +240,23 @@ public class ClassStepDef {
 		classPage.selectOptionalFields(comments, notes, recording);
 
 	}
+
 	@Then("Admin should see Class details are searched by given fields")
 	public void admin_should_see_class_details_are_searched_by() {
-		
+
 	}
+
 	@When("Admin clicks date picker")
 	public void admin_clicks_date_picker() {
 		classPage.clickDatePicker();
 	}
+
 	@Then("Admin should see weekends dates are disabled to select")
 	public void admin_should_see_weekends_dates_are_disabled_to_select() {
-		//classPage.weekendDaysDisabled(); 
-		System.out.println(classPage.areWeekendDatesDisabled());
+		// classPage.weekendDaysDisabled();
+		Log.logInfo(String.valueOf(classPage.areWeekendDatesDisabled()));
 	}
+
 	/*------------------------------editpopup------------------------------------------*/
 	@When("Admin clicks on the edit icon")
 	public void admin_clicks_on_the_edit_icon() {
@@ -337,12 +332,10 @@ public class ClassStepDef {
 		classPage.deleteSingleProgram();
 	}
 
-
 	@Then("Admin able to delete by clicking No to confirmation pop up on Class module")
 	public void admin_able_to_delete_by_clicking_No_to_confirmation_pop_up() {
 		classPage.DropDeleteSingleProgram();
 	}
-
 
 	@When("Admin clicks on the multiple checkboxes on class module page")
 	public void admin_clicks_on_the_multiple_checkboxes_on_class_module_page() {
@@ -367,7 +360,6 @@ public class ClassStepDef {
 		classPage.searhBoxValidation(field, value);
 	}
 
-
 	@When("Admin clicks on Arrow next to Batch Name of Class module page for sort")
 	public void admin_clicks_on_Arrow_next_to_Batch_Name_of_Class_module_page_for_sort() {
 		classPage.clickBatchNameSort();
@@ -375,13 +367,12 @@ public class ClassStepDef {
 	}
 
 	@Then("Admin See the Batch Name is sorted Ascending order in Class module page for sort")
-			public void admin_See_the_Batch_Name_is_sorted_Ascending_order_in_Class_module_page_for_sort() {
-				List<String> originalList = classPage.getOriginalList("BatchName");
-				List<String> sortedList = classPage.getSortedList(originalList);
-				System.out.println("sorted name list" + sortedList.toString() );
-				Assert.assertTrue(originalList.equals(sortedList));
+	public void admin_See_the_Batch_Name_is_sorted_Ascending_order_in_Class_module_page_for_sort() {
+		List<String> originalList = classPage.getOriginalList("BatchName");
+		List<String> sortedList = classPage.getSortedList(originalList);
+		Log.logInfo("sorted name list" + sortedList.toString());
+		Assert.assertTrue(originalList.equals(sortedList));
 	}
-
 
 	@When("Admin clicks on Arrow next to Batch Name of Class module page for sort descend")
 	public void admin_clicks_on_Arrow_next_to_Batch_Name_of_Class_module_page_for_sort_descend() {
@@ -393,7 +384,7 @@ public class ClassStepDef {
 	public void admin_See_the_Batch_Name_is_sorted_Descending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("BatchName");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -407,7 +398,7 @@ public class ClassStepDef {
 	public void admin_See_the_Class_Topic_is_sorted_Ascending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("ClassTopic");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -422,7 +413,7 @@ public class ClassStepDef {
 
 		List<String> originalList = classPage.getOriginalList("ClassTopic");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -437,7 +428,7 @@ public class ClassStepDef {
 	public void admin_See_the_Class_Description_is_sorted_Ascending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("Classdescription");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -452,7 +443,7 @@ public class ClassStepDef {
 	public void admin_See_the_Class_Description_is_sorted_Descending_order_in_Class_module_page() {
 		List<String> originalList = classPage.getOriginalList("ClassDescription");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -466,7 +457,7 @@ public class ClassStepDef {
 	public void admin_see_the_status_is_sorted_ascending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("Status");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
 
@@ -479,7 +470,7 @@ public class ClassStepDef {
 	public void admin_see_the_status_is_sorted_descending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("Status");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -494,7 +485,7 @@ public class ClassStepDef {
 	public void admin_see_the_staff_name_is_sorted_ascending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("StaffName");
 		List<String> sortedList = classPage.getSortedList(originalList);
-		System.out.println("sorted name list" + sortedList.toString());
+		Log.logInfo("sorted name list" + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
 
@@ -507,7 +498,7 @@ public class ClassStepDef {
 	public void admin_see_the_StaffName_is_sorted_descending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("StaffName");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 
 	}
@@ -522,13 +513,13 @@ public class ClassStepDef {
 	public void admin_see_the_ClassDate_is_sorted_ascending_order_in_class_module_page() {
 		List<Date> originalList = classPage.getClassDatesOriginalList();
 		List<Date> sortedList = classPage.getClassDatesSortedList();
-		System.out.println("sorted name list" + sortedList);
-		System.out.println("original list name list" + originalList);
+		Log.logInfo("sorted name list" + sortedList);
+		Log.logInfo("original list name list" + originalList);
 		Assert.assertTrue(originalList.equals(sortedList));
 		// if ((originalList.get(0)).equals(sortedList.get(0))) {
-		// System.out.println("The lists are identical.");
+		// Log.logInfo("The lists are identical.");
 		// } else {
-		// System.out.println("The lists are different.");
+		// Log.logInfo("The lists are different.");
 		// }
 	}
 
@@ -541,40 +532,45 @@ public class ClassStepDef {
 	public void admin_see_the_ClassDate_is_sorted_descending_order_in_class_module_page() {
 		List<String> originalList = classPage.getOriginalList("ClassDate");
 		List<String> sortedList = classPage.getSortedListDescending(originalList);
-		System.out.println("Descending sorted name list " + sortedList.toString());
+		Log.logInfo("Descending sorted name list " + sortedList.toString());
 		Assert.assertTrue(originalList.equals(sortedList));
 	}
+
 	@When("Admin clicks on Logout link on Manage class page")
 	public void admin_clicks_on_logout_link_on_manage_class_page() {
-	    classPage.clickLogout();
+		classPage.clickLogout();
 	}
+
 	@Then("Admin is redirected to Login page")
 	public void admin_is_redirected_to_login_page() {
-		
+
 		Log.logInfo("Navigated to Dashboard  page ");
 		String current_Title = driver.getTitle();
-		 String Expected="LMS";
+		String Expected = "LMS";
 		Assert.assertEquals(current_Title, Expected);
 	}
+
 	@When("Admin clicks next page link on the class table")
 	public void admin_clicks_next_page_link_on_the_class_table() {
-	    classPage.clickOnNextPage();
+		classPage.clickOnNextPage();
 	}
+
 	@Then("Admin should see the next page record on the table  with Pagination has next active link enabled")
 	public void admin_should_see_the_next_page_record_on_the_table_with_pagination_has_next_active_link_enabled() {
 		String pageText = classPage.nextPageValidation();
 		boolean nextPageActive = classPage.nextPageEnabled();
-	    //Assert.assertTrue(nextPageActive);
-	    Assert.assertTrue(pageText.contains("Showing 11"));
+		// Assert.assertTrue(nextPageActive);
+		Assert.assertTrue(pageText.contains("Showing 11"));
 	}
+
 	@When("Admin clicks Last page link of class data table")
 	public void admin_clicks_last_page_link_of_class_data_table() {
-	    classPage.clickOnLastPage();
+		classPage.clickOnLastPage();
 	}
 
 	@Then("Admin should see the last page record on the table with Next page link are disabled for class data table")
 	public void admin_should_see_the_last_page_record_on_the_table_with_next_page_link_are_disabled_for_class_data_table() {
-		boolean nextPageDisabled= classPage.verifyNextPageBtnDisabled();
+		boolean nextPageDisabled = classPage.verifyNextPageBtnDisabled();
 		boolean lastPageDisplayed = classPage.lastPageDisplayed();
 		int lastPageRecord = classPage.lastPageRecord();
 		int lastPageFootCount = classPage.lastPageFootCount();
@@ -582,23 +578,22 @@ public class ClassStepDef {
 		Assert.assertTrue(lastPageDisplayed);
 		Assert.assertEquals(lastPageRecord, lastPageFootCount);
 	}
-	
 
 	@Then("Admin should see the previous page record on the table with pagination has previous page link enabled for class data table")
 	public void admin_should_see_the_previous_page_record_on_the_table_with_pagination_has_previous_page_link_enabled_for_class_data_table() {
-		boolean previousPageEnabled =classPage.verifyPreviousPageBtnEnabled();
+		boolean previousPageEnabled = classPage.verifyPreviousPageBtnEnabled();
 		Assert.assertTrue(previousPageEnabled);
 	}
+
 	@When("Admin clicks Start page link of class data table")
 	public void admin_clicks_start_page_link_of_class_data_table() {
-	    classPage.clickOnFirstPage();
+		classPage.clickOnFirstPage();
 	}
 
 	@Then("Admin should see the very first page record on the table with Previous page link are disabled for class data table")
 	public void admin_should_see_the_very_first_page_record_on_the_table_with_previous_page_link_are_disabled_for_class_data_table() {
-	    boolean previousPageDisabled= classPage.verifyPreviousPageBtnDisabled();
-	    Assert.assertTrue(previousPageDisabled);
+		boolean previousPageDisabled = classPage.verifyPreviousPageBtnDisabled();
+		Assert.assertTrue(previousPageDisabled);
 	}
-	
 
 }
